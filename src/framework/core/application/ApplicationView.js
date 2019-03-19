@@ -1,19 +1,45 @@
 export default class ApplicationView {
 
-    constructor( div ) {
+    constructor( htmlElement ) {
 
-        this.div = div;
-        this.view = null;
+        this.htmlElement = htmlElement;
 
         this.createView();
 
     }
 
-    createView( options = {} ) {
-        if ( this.view ) return;
-        const view = document.createElement('canvas');
-        this._appendToDiv( view );
-        this.view = view;
+    get htmlElement() { return this._htmlElement; }
+    set htmlElement( value ) {
+        this._htmlElement = value;
+        this._mergeViewElements();
+    }
+
+    /**
+     * Модуль результата рендерера Canvas | WebGL
+     */
+    get view() { return this._view; }
+    set view( value ) {
+        this._view = value;
+        this._mergeViewElements();
+    }
+
+    createView() {
+        this._createCanvasDefault();
+        this._mergeViewElements();
+    }
+
+    _createCanvasDefault() {
+        const canvas = document.createElement('canvas');
+        this.view = canvas;
+    }
+
+    _mergeViewElements() {
+        if ( this.htmlElement &&
+             this.view &&
+             !this.htmlElement.contains( this.view ) )
+        {
+            this._appendToDiv( this.view );
+        }
     }
 
     /**
@@ -22,7 +48,7 @@ export default class ApplicationView {
      */
     _appendToDiv( view ) {
         this._clearAllFromDiv();
-        this.div.appendChild( view );
+        this.htmlElement.appendChild( view );
     }
     _clearAllFromDiv() {
         while ( this.div && this.div.firstChild ) {

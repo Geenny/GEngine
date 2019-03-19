@@ -9,6 +9,7 @@ export default class StateMachine extends EventDispatcher {
      * @param {StateMachineVO} vo 
      */
     constructor( vo ) {
+        super();
         this.init( vo );
     }
 
@@ -17,8 +18,8 @@ export default class StateMachine extends EventDispatcher {
      * @param {StateMachineVO} vo 
      */
     init( vo ) {
-        this.initVO( vo );
         this.initVars();
+        this.initVO( vo );
     }
 
     /**
@@ -27,10 +28,11 @@ export default class StateMachine extends EventDispatcher {
      */
     initVO( vo ) {
         this.vo = vo;
+        this._statesCreateFromVO();
     }
 
     initVars() {
-        this._stateList = [];
+        this._stateList = {};
     }
 
     //
@@ -81,6 +83,7 @@ export default class StateMachine extends EventDispatcher {
         this._stateStart( state );
     }
 
+
     
 
     isState( value ) {
@@ -92,12 +95,20 @@ export default class StateMachine extends EventDispatcher {
 
     hasState( value ) {
         if ( this.isState( value ) ) {
-            return this.stateList.hasOwnProperty( value.name );
+            return this.stateList[ value.name ];
         } else if ( this.isStateName( value ) ) {
             const state = this.stateByNameGet( value );
             return state && state.name === value;
         }
         return false;
+    }
+    stateCorrection( value ) {
+        if ( this.isState( value ) ) {
+            return value;
+        } else if ( this.isStateName( value ) ) {
+            return this.stateByNameGet( value );
+        }
+        return null;
     }
 
     /**
@@ -149,6 +160,17 @@ export default class StateMachine extends EventDispatcher {
         return !this.chained ||
             !this.state ||
             ( this.state && this.state.input.indexOf( stateName ) != -1 );
+    }
+
+    _statesCreateFromVO() {
+        if ( this.vo && this.vo.states ) {
+            for ( const key in this.vo.states ) {
+                const stateName = this.vo.states[ key ];
+                if ( stateName ) {
+                    this._stateAdd( new State( stateName ) );
+                }
+            }
+        }
     }
 
 }

@@ -26,22 +26,3 @@ module.exports = {
   ]
 }
 
-// mode: 'development',
-//     devtool: 'source-map',
-//     plugins: [
-//         new HtmlWebpackPlugin({
-//             template: 'src/index.hbs',
-//             inject: false,
-//             test: { devBundlePostfix }
-//         }),
-//         new webpack.DefinePlugin({
-//             'process.env.NODE_ENV': JSON.stringify('development'),
-//             devStartOptions: JSON.stringify(devStartOptions)
-//         }),
-//         new CopyWebpackPlugin([
-//             { from: './src/assets', to: 'assets' },
-//             { from: './node_modules/pandora/modules/pandora-webtrekk-plugins/', to: 'assets/webtrekk-plugins/' }
-//         ]),
-//         new MiniCssExtractPlugin({ filename: '[name].css', chunkFilename: '[id].css' }),
-//         new HtmlWebpackPluginIncludeInline({ css: ['game-development.css'] })
-//     ]

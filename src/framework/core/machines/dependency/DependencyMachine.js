@@ -6,6 +6,7 @@ import Event from "../event/Event";
 import DependencyStates from "./states/DependencyState";
 import DependencyAbstract from "./DependencyAbstract";
 import DependencyVO from "./vo/DependencyVO";
+import ArrayUtils from "../../../utils/tech/ArrayUtils";
 
 export default class DependencyMachine extends EventDispathcer {
 
@@ -38,15 +39,18 @@ export default class DependencyMachine extends EventDispathcer {
     //
 
     dependencyStartAll() {
-        let starting = false;
-        for ( const key in this.dependencyStructList ) {
-            const dependencyStruct = this.dependencyStructList[ key ];
-            if ( this.dependencyStartByStruct( dependencyStruct ) )
-                starting = true;
-        }
-        if ( !starting ) {
-            this._dispatch( new DependencyMachineEvent( DependencyMachineEvent.DEPENDENCY_STARTED_ALL ) );
-        }
+        this._dependencyCreateAll();
+        this._dependencyStartAll();
+
+        // let starting = true;
+        // for ( const key in this.dependencyStructList ) {
+        //     const dependencyStruct = this.dependencyStructList[ key ];
+        //     if ( this.dependencyStartByStruct( dependencyStruct ) )
+        //         starting = false;
+        // }
+        // if ( !starting ) {
+        //     this._dispatch( new DependencyMachineEvent( DependencyMachineEvent.DEPENDENCY_STARTED_ALL ) );
+        // }
     }
 
     dependencyStopAll() {
@@ -128,20 +132,22 @@ export default class DependencyMachine extends EventDispathcer {
     }
 
     dependencyUpdateWorkDependence() {
+
         for ( const key in this.dependencyStructList ) {
+
             const dependencyStruct = this.dependencyStructList[ key ];
             const dependency =  dependencyStruct.dependency;
-            if ( this._dependencyCanStart( dependency ) ) {
+            const linksIsOK = this.dependencyLinksOK( dependency );
+            const isWorking = this.isDependencyWorking( dependency );
+
+            if ( isWorking && !linksIsOK ) {
+                this.dependencyStop( dependency );
+            } else if ( !isWorking && linksIsOK ) {
                 this.dependencyStart( dependency );
             }
-            if ( dependency.isWorking && !this.dependencyLinksOK( dependency ) ) {
-                this.dependencyStop( dependency );
-                break;
-            }
-            if ( !dependency.isWorking && this.dependencyLinksOK( dependency ) ) {
-                
-            }
+
         }
+
     }
 
     /**
@@ -150,19 +156,33 @@ export default class DependencyMachine extends EventDispathcer {
      */
     dependencyLinksOK( dependency ) {
         if ( dependency ) {
+
             const list = [];
-            for ( const key in this.dependencyStructList ) {
-                const dependencyStruct = this.dependencyStructList[ key ];
-                if ( dependency.dependenceNameList.indexOf( dependencyStruct.name ) != -1 &&
-                     dependencyStruct.dependency.isWorking )
+            const dependenceNameList = dependency.dependenceNameList;
+
+            for ( const key in this.dependencyList ) {
+
+                const dependencyStruct = this.dependencyList[ key ];
+                const dependencyInstance = dependencyStruct.dependency;
+
+                if ( dependenceNameList.indexOf( dependencyStruct.name ) != -1 &&
+                    dependencyInstance.state === DependencyStates.WORKING )
                 {
                     list.push( dependencyStruct.name );
                 }
-            }
 
-            return list.length === dependency.dependenceNameList.length;
+                if ( list.length >= dependenceNameList.length )
+                    return true;
+            }
         }
+
         return false;
+    }
+
+    isDependencyWorking( dependency ) {
+        if ( !dependency ) return;
+        const list = [ DependencyStates.WORKING, DependencyStates.STARTING, DependencyStates.STARTED ];
+        return ArrayUtils.inArray( dependency.state, list );
     }
 
     _dependencyCreate( dependencyStruct ) {
@@ -175,7 +195,8 @@ export default class DependencyMachine extends EventDispathcer {
 
         const dependency = new DependecyClass( dependencyVO );
         dependency.init();
-        dependency.addEventListener( Event.ANY, this._onDependencyEvent );
+
+        dependency.addEventListener( Event.ANY, this._onDependencyEvent, this );
 
         dependencyStruct.dependency = dependency;
         dependencyStruct.dependencyVO = dependencyVO;
@@ -183,28 +204,57 @@ export default class DependencyMachine extends EventDispathcer {
         return dependency;
     }
 
+    /**
+     * Создание всем @Dependency из списка @dependencyStructList
+     * Те экземпляры по которым @Dependency уже созданы будут проигнорированы
+     */
+    _dependencyCreateAll() {
+        for ( const key in this.dependencyStructList ) {
+            const dependencyStruct = this.dependencyStructList[ key ];
+            const dependency = this.dependencyCreate( dependencyStruct );
+            if ( dependency) 
+                this.dependencyAdd( dependencyStruct );
+        }
+    }
+    _dependencyStartAll() {
+        for ( let i = 0; i < this.dependencyList.length; i++ ) {
+            const dependencyStruct = this.dependencyList[ i ];
+            this.dependencyStart( dependencyStruct.dependency );
+        }
+    }
+
     _dependencyStart( dependency ) {
         dependency.start();
         this._dispatch( new DependencyMachineEvent( DependencyMachineEvent.DEPENDENCY_STARTING, dependency ) );
     }
     
-    _dependencyStart( dependency ) {
+    _dependencyStop( dependency ) {
         dependency.stop();
         this._dispatch( new DependencyMachineEvent( DependencyMachineEvent.DEPENDENCY_STOPPING, dependency ) );
     }
 
     _dependencyCanStart( dependency ) {
         return dependency &&
-            dependency.state === DependencyStates.WORKING &&
-            this.dependencyLinksOK( dependency )
+            dependency.state === DependencyStates.STOPPED &&
+            this.dependencyLinksOK( dependency );
     }
-    _dependencyNeedStop( dependency ) {
-        return ( dependency.isStarting || dependency.isWorking ) &&
+    _dependencyCanStop( dependency ) {
+        return this.isDependencyWorking( dependency ) &&
             this.dependencyLinksOK( dependency );
     }
 
     _dispatch( dependencyMachineEvent, dependency = null ) {
         this.dispatchEvent( dependencyMachineEvent, this, dependency );
+    }
+
+    _dependencyIsStarted( dependency ) { }
+    _dependencyIsWorking( dependency ) {
+        this._dispatch( new DependencyMachineEvent( DependencyMachineEvent.DEPENDENCY_STARTED, this, dependency ) );
+        this.dependencyUpdateWorkDependence();
+    }
+    _dependencyIsStopped( dependency ) {
+        this._dispatch( new DependencyMachineEvent( DependencyMachineEvent.DEPENDENCY_STOPPED, this, dependency ) );
+        this.dependencyUpdateWorkDependence();
     }
 
     /**
@@ -213,8 +263,13 @@ export default class DependencyMachine extends EventDispathcer {
      */
     _onDependencyEvent( event ) {
         switch( event.type ) {
+            case DependencyEvent.STARTING: break;
             case DependencyEvent.STARTED:
                 this._dependencyIsStarted( event.target );
+                break;
+                
+            case DependencyEvent.WORKING:
+                this._dependencyIsWorking( event.target );
                 break;
             
             case DependencyEvent.STOPPED:
@@ -222,8 +277,6 @@ export default class DependencyMachine extends EventDispathcer {
                 this._dependencyIsStopped( event.target );
                 break;
         }
-        debugger;
-        
     }
 
     _setVO( vo ) {

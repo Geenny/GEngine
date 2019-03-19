@@ -9,7 +9,7 @@ export default class DependencyVO extends VO {
     init() {
         this.ID = 0;
         this.name = null;
-        this.dependenceNamesList = [];
+        this.dependenceNameList = [];
     }
 
 }

@@ -56,28 +56,36 @@ export default class Application extends EventDispathcer {
             ID: 1,
             name: "a",
             class: DependencyAbstract,
-            options: { dependenceNamesList: [] }
+            options: { dependenceNameList: ["d"] }
         }
         const dependency2 = {
             ... DependencyStruct,
             ID: 2,
             name: "b",
             class: DependencyAbstract,
-            options: { dependenceNamesList: ["a"] }
+            options: { dependenceNameList: ["a"] }
         }
         const dependency3 = {
             ... DependencyStruct,
             ID: 3,
             name: "c",
             class: DependencyAbstract,
-            options: { dependenceNamesList: ["a","b"] }
+            options: { dependenceNameList: ["a","b"] }
+        }
+        const dependency4 = {
+            ... DependencyStruct,
+            ID: 4,
+            name: "d",
+            class: DependencyAbstract,
+            options: { dependenceNameList: [] }
         }
 
         data = {
             dependencyStructList: [
                 dependency1,
                 dependency2,
-                dependency3
+                dependency3,
+                dependency4
             ]
         }
 

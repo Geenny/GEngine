@@ -18,7 +18,9 @@ export default class EventDispathcer {
             if ( this._stop ) return;
             if ( target ) {
                 if ( target.type === event.type || target.type === Event.ANY ) {
-                    Log.l( target );
+                    Log.l( event );
+                    event.target = this;
+                    target.handler = target.handler.bind( target.context );
                     target.handler( event );
                 }
             }
@@ -51,11 +53,12 @@ export default class EventDispathcer {
      * @param {Boolean} useCapture 
      * @param {Number} priority 
      */
-    addEventListener( type, handler, useCapture = false, priority = 0 ) {
+    addEventListener( type, handler, context = null, useCapture = false, priority = 0 ) {
         if ( !type || !handler ) return;
         const event = new EventVO( {
             type,
             handler,
+            context,
             useCapture,
             priority
         } )
@@ -128,6 +131,7 @@ class EventVO {
         if ( !data ) return;
         this.type = data.type
         this.handler = data.handler
+        this.context = data.context
         this.useCapture = data.useCapture || false
         this.priority = data.priority || 0
     }

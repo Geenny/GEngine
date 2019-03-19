@@ -20,8 +20,10 @@ export default class DependencyAbstract extends EventDispathcer {
     // GET/SET
     //
 
-    get state() { return this.sm.state || DependencyStates.STOPPED; }
+    get state() { return this.sm.state ? this.sm.state.name : DependencyStates.STOPPED; }
     set state( value ) { return this.sm.stateSet( value ); }
+
+    get dependenceNameList() { return this.vo.dependenceNameList; }
 
 
     //

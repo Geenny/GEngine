@@ -1,12 +1,12 @@
-export default class Log() {
+export default class Log {
 
-    l(... args) {
+    static l(... args) {
         args.forEach(object => {
-            __l(object)
+            Log.__l(object)
         })
     }
 
-    __l(object) {
+    static __l(object) {
         console.log(object)
     }
 

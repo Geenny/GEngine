@@ -7,7 +7,7 @@ const open = require('open')
 // const host = process.argv[1] || 'localhost'
 // const port = (process.argv[2]) || 8098;
 const link = { host: 'localhost', port: 8900 }
-const compiler = webpack(config)
+const compiler = webpack( config );
 const options = {
   disableHostCheck: true,
   publicPath: config.output.publicPath,
@@ -15,9 +15,9 @@ const options = {
   historyApiFallback: true
 }
 
-const server = new WebpackDevServer(compiler, options);
-server.listen(link.port, link.host, function() {
-  open(`http://${link.host}:${link.port}/index.html`)
+const server = new WebpackDevServer( compiler, options );
+server.listen(link.port, link.host, () => {
+  open( `http://${link.host}:${link.port}/index.html` );
 });
 
 // const params = {
