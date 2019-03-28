@@ -1,9 +1,10 @@
-import Event from "../../machines/event/Event";
+import Event from "../../../machines/event/Event";
 
 export default class SystemEvent extends Event {
 
-    constructor( type ) {
+    constructor( type, system = null ) {
         super( type );
+        this.system = system;
     }
     
 }

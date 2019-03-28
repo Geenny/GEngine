@@ -8,6 +8,7 @@ export default class DependencyMachineVO extends VO {
 
     init() {
         this.dependencyStructList = [];
+        this.application = null;            // @Application
     }
 
 }

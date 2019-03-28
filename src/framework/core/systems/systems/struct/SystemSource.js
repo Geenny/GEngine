@@ -1,6 +1,6 @@
-const systemSource = {
+const SystemSource = {
     class: null,
     options: { }
 }
 
-export default systemSource;
+export default SystemSource;

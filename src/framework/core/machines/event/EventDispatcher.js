@@ -14,12 +14,12 @@ export default class EventDispathcer {
      */
     dispatchEvent( event ) {
         this._dispatching = true;
+        if ( !event.target ) event.target = this;
+        Log.l( event );
         this._dispatcher.forEach( target => {
             if ( this._stop ) return;
             if ( target ) {
                 if ( target.type === event.type || target.type === Event.ANY ) {
-                    Log.l( event );
-                    event.target = this;
                     target.handler = target.handler.bind( target.context );
                     target.handler( event );
                 }

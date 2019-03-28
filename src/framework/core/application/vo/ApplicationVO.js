@@ -9,7 +9,7 @@ export default class ApplicationVO extends VO {
     init() {
         
         this.configPath = '';
-        this.dependencyMachineVO = null;
+        this.dependencyMachineVO = null; // DependencyMachineVO instance
 
     }
 

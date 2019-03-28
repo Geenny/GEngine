@@ -1,6 +1,6 @@
-import VO from "../../../../data/vo/VO";
+import DependencyVO from "../../../machines/dependency/vo/DependencyVO";
 
-export default class SystemsVO extends VO {
+export default class SystemsVO extends DependencyVO {
 
     constructor( data ) {
         super( data );
@@ -8,7 +8,11 @@ export default class SystemsVO extends VO {
 
     init() {
         
+        super.init();
+
+        this.name = null;
         this.systems = [];
+        this.systemsStartList = [];
 
     }
 

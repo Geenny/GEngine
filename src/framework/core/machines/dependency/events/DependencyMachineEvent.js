@@ -2,8 +2,10 @@ import Event from "../../event/Event";
 
 export default class DependencyMachineEvent extends Event {
 
-    constructor( type ) {
+    constructor( type, dependencyMachine = null, dependency = null ) {
         super( type );
+        this.dependencyMachine = dependencyMachine
+        this.dependency = dependency
     }
     
 }

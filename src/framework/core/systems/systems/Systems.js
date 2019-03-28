@@ -1,45 +1,41 @@
-import EventDispathcer from "../../machines/event/EventDispatcher";
 import SystemsVO from "./vo/SystemsVO";
+import DependencyAbstract from "../../machines/dependency/DependencyAbstract";
+import SystemVO from "./vo/SystemVO";
+import SystemManagerEvent from "./event/SystemManagerEvent";
+import SystemEvent from "./event/SystemEvent";
 
-export default class Systems extends EventDispathcer {
+export default class Systems extends DependencyAbstract {
 
-    static init( systemsVO = new SystemsVO() ) {
-        if ( !Systems._instance ) {
-            Systems._instance = new Systems( systemsVO );
-        }
-        return Systems._instance;
-    }
-
-    static get instance() {
-        if ( !Systems._instance ) {
-            Systems._instance = new Systems()
-        }
-    }
-
+    /**
+     * 
+     * @param {SystemsVO} systemsVO Наследник @DependencyVO
+     */
     constructor( systemsVO = new SystemsVO() ) {
-
         super();
-
-        // this.initVars();
         this.initVO( systemsVO );
-
     }
 
     //
     // GET/SET
     //
 
-    get systems() { return this.vo.systems; }
-    get systemsSourceList() { return this.vo.systemsSourceList; }
-
+    get systems() { 
+        if ( !this._systems ) this._systems = [];
+        return this._systems;
+    }
+    get systemsSourceList() {
+        if ( !this._systemsSourceList ) this._systemsSourceList = [];
+        return this._systemsSourceList;
+    }
+    get systemsStartList() { return this.vo.systemsStartList; }
+    get application() { return this.vo.application; }
 
     //
     // INIT
     //
 
     init() {
-        this.systemsStop();
-        this.systemsStart();
+        super.init();
     }
     initVO( vo ) {
         this.vo = vo;
@@ -53,17 +49,20 @@ export default class Systems extends EventDispathcer {
     /**
      * 
      */
-    systemsStart() {
-        for ( const source in this.systemsSourceList ) {
-            const system = this.systemAddFromSource( source );
+    startProcess() {
+        for ( const key in this.systemsStartList ) {
+            const systemData = this.systemsStartList[ key ];
+            const system = this.systemAddFromVOData( systemData );
             this._systemStart( system );
         }
+        this.startComplete();
     }
 
-    systemsStop() {
+    stopProcess() {
         for ( const system in this.systems ) {
             this._systemStop( system );
         }
+        this.stopComplete();
     }
 
 
@@ -76,15 +75,14 @@ export default class Systems extends EventDispathcer {
      * 
      * @param {System} systemSource 
      */
-    systemAddFromSource( systemSource ) {
+    systemAddFromVOData( systemData ) {
 
-        const system = this._systemCreate( systemSource );
+        const system = this._systemCreate( systemData );
 
         if ( system ) {
-            this.vo.systems.push( system );
-            this.vo.systemsSourceList.push( {
+            this.systemsSourceList.push( {
                 system,
-                systemSource
+                systemData
             } );
             return system;
         }
@@ -94,11 +92,24 @@ export default class Systems extends EventDispathcer {
     }
 
     /**
-     * 
+     * Содержится определенный @SystemAbstract в списке
      * @param {System} system 
      */
     systemInList( system ) {
         return system && this.systems.indexOf( system ) != -1;
+    }
+
+    /**
+     * Вернуть экземпляр @System по имени
+     * @param {string} name 
+     */
+    systemGetByName( name ) {
+        for ( const key in this.systems ) {
+            const system = this.systems[ key ];
+            if ( system && system.name === name )
+                return system;
+        }
+        return null;
     }
 
     _systemStart( system ) {
@@ -106,9 +117,11 @@ export default class Systems extends EventDispathcer {
         if ( !system ) return;
         if ( system.isStarted ) return;
         if ( !this.systemInList( system ) )
-            this.systemAdd( system );
+            this._systemAdd( system );
         
         system.start();
+
+        this.dispatchEvent( new SystemManagerEvent( SystemManagerEvent.SYSTEM_START, this, system ) );
     }
 
     _systemStop( system ) {
@@ -118,28 +131,32 @@ export default class Systems extends EventDispathcer {
         if ( !this.systemInList( system ) ) return;
 
         system.stop();
+
+        this.dispatchEvent( new SystemManagerEvent( SystemManagerEvent.SYSTEM_STOP, this, system ) );
         
     }
 
     _systemAdd( system ) {
 
-        system.addEventListsner( Event.ANY, this._onSystemEvent );
+        system.addEventListener( Event.ANY, this._onSystemEvent, this );
         this.systems.push( system );
 
     }
 
     _systemCreate( systemSource ) {
-
-        if ( !systemSource.class ) return null;
         
         try {
             const SystemClass = systemSource.class;
             const systemVO = new SystemVO( systemSource.options );
-            const system = new SystemClass( systemVO );
-            return system;
-        } catch ( error ) {}
+            systemVO.target = this.application;
+            systemVO.name = systemVO.name ? systemVO.name : SystemClass.name;
 
-        return null;
+            const system = new SystemClass( systemVO );
+
+            return system;
+        } catch ( error ) {
+            return null;
+        }
 
     }
 
@@ -168,7 +185,7 @@ export default class Systems extends EventDispathcer {
     //
 
     _onSystemEvent( event ) {
-
+        this.dispatchEvent( new SystemEvent( event.type, event.target ) );
     }
 
 }

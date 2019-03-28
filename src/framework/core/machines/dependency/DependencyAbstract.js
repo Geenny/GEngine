@@ -4,15 +4,15 @@ import StateMachine from "../state/StateMachine";
 import StateMachineVO from "../state/vo/StateMachineVO";
 import DependencyStates from "./states/DependencyState";
 import DependencyEvent from "./events/DependencyEvent";
-import { ERRORS } from "./../../../config/CONFIG";
+import ERRORS from "../../../config/ERRORS";
 
 export default class DependencyAbstract extends EventDispathcer {
 
     constructor( vo = new DependencyVO() ) {
         super();
-        // if ( new.target === DependencyAbstract ) {
-        //     throw new TypeError( ERRORS.E1000 );
-        // }
+        if ( new.target === DependencyAbstract ) {
+            throw new TypeError( ERRORS.E1000 );
+        }
         this._setVO( vo );
     }
 

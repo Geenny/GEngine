@@ -10,6 +10,8 @@ import DependencyMachineVO from "../machines/dependency/vo/DependencyMachineVO";
 import DependencyAbstract from "../machines/dependency/DependencyAbstract";
 import DependencyVO from "../machines/dependency/vo/DependencyVO";
 import DependencyStruct from "../machines/dependency/struct/DependencyStruct";
+import Event from "../machines/event/Event";
+import DependencyMachineEvent from "../machines/dependency/events/DependencyMachineEvent";
 
 export default class Application extends EventDispathcer {
 
@@ -46,61 +48,78 @@ export default class Application extends EventDispathcer {
     initDependencyMachine() {
         const dependencyMachineVO = this.dependencyMachineVOGet();
         const dependencyMachine = new DependencyMachine( dependencyMachineVO );
+        dependencyMachine.addEventListener( Event.ANY, this.onDependencyMachineEvent, this );
         dependencyMachine.init();
+
+        this.dependencyMachine = dependencyMachine;
+    }
+    onDependencyMachineEvent( event ) {
+        const dependency = event.dependency;
+        if ( dependency ) {
+            if ( dependency instanceof Systems ) {
+                this.systems = dependency;
+            }
+        }
+        this.dispatchEvent( new DependencyMachineEvent( event.type, event.dependencyMachine, event.dependency ) );
     }
 
     dependencyMachineVOGet( data = {} ) {
 
-        const dependency1 = {
-            ... DependencyStruct,
-            ID: 1,
-            name: "a",
-            class: DependencyAbstract,
-            options: { dependenceNameList: ["d"] }
-        }
-        const dependency2 = {
-            ... DependencyStruct,
-            ID: 2,
-            name: "b",
-            class: DependencyAbstract,
-            options: { dependenceNameList: ["a"] }
-        }
-        const dependency3 = {
-            ... DependencyStruct,
-            ID: 3,
-            name: "c",
-            class: DependencyAbstract,
-            options: { dependenceNameList: ["a","b"] }
-        }
-        const dependency4 = {
-            ... DependencyStruct,
-            ID: 4,
-            name: "d",
-            class: DependencyAbstract,
-            options: { dependenceNameList: [] }
+        // const dependency1 = {
+        //     ... DependencyStruct,
+        //     ID: 1,
+        //     name: "a",
+        //     class: DependencyAbstract,
+        //     options: { dependenceNameList: ["d"] }
+        // }
+        // const dependency2 = {
+        //     ... DependencyStruct,
+        //     ID: 2,
+        //     name: "b",
+        //     class: DependencyAbstract,
+        //     options: { dependenceNameList: ["a"] }
+        // }
+        // const dependency3 = {
+        //     ... DependencyStruct,
+        //     ID: 3,
+        //     name: "c",
+        //     class: DependencyAbstract,
+        //     options: { dependenceNameList: ["a","b"] }
+        // }
+        // const dependency4 = {
+        //     ... DependencyStruct,
+        //     ID: 4,
+        //     name: "d",
+        //     class: DependencyAbstract,
+        //     options: { dependenceNameList: [] }
+        // }
+
+        // data = {
+        //     dependencyStructList: [
+        //         dependency1,
+        //         dependency2,
+        //         dependency3,
+        //         dependency4
+        //     ]
+        // }
+
+        let dependencyMachineVO = null;
+
+        if ( this.vo.dependencyMachineVO instanceof DependencyMachineVO ) {
+            dependencyMachineVO = this.vo.dependencyMachineVO;
+        } else if ( this.vo.dependencyMachineVO ) {
+            dependencyMachineVO = new DependencyMachineVO( this.vo.dependencyMachineVO );
+        } else {
+            dependencyMachineVO = new DependencyMachineVO( data );
         }
 
-        data = {
-            dependencyStructList: [
-                dependency1,
-                dependency2,
-                dependency3,
-                dependency4
-            ]
-        }
+        dependencyMachineVO.application = this;
 
-        const dependencyMachineVO = new DependencyMachineVO( data );
         return dependencyMachineVO;
     }
 
-    initSystems() {
-        // Systems.init( this.vo.systems );
-    }
-    // initDependency() {
-    //     DependencyManager.init( this.vo.dependency );
-    // }
-    // initLauncher() {
-    //     Launcher.init( this.vo.systems );
+    // initSystems() {
+    //     this.
     // }
 
 
@@ -113,7 +132,7 @@ export default class Application extends EventDispathcer {
     }
 
     setHTMLElement( HTMLElement ) {
-        const applicationView = new ApplicationView( HTMLElement );
+        this.applicationView = new ApplicationView( HTMLElement );
         // applicationView.addEventListener(  )
     } 
 

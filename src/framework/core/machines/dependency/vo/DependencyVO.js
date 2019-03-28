@@ -10,6 +10,7 @@ export default class DependencyVO extends VO {
         this.ID = 0;
         this.name = null;
         this.dependenceNameList = [];
+        this.application = null;
     }
 
 }

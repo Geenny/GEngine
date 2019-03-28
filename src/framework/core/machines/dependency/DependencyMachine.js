@@ -7,6 +7,7 @@ import DependencyStates from "./states/DependencyState";
 import DependencyAbstract from "./DependencyAbstract";
 import DependencyVO from "./vo/DependencyVO";
 import ArrayUtils from "../../../utils/tech/ArrayUtils";
+import DependencyStruct from "./struct/DependencyStruct";
 
 export default class DependencyMachine extends EventDispathcer {
 
@@ -20,7 +21,13 @@ export default class DependencyMachine extends EventDispathcer {
     // GET/SET
     //
 
+    get application() { return this.vo.application; }
     get dependencyStructList() { return this.vo.dependencyStructList; }
+
+    /**
+     * Создание списка @dependency
+     */
+    get dependencyCreating() { return this._dependencyCreating; }
 
     //
     // INIT
@@ -41,16 +48,6 @@ export default class DependencyMachine extends EventDispathcer {
     dependencyStartAll() {
         this._dependencyCreateAll();
         this._dependencyStartAll();
-
-        // let starting = true;
-        // for ( const key in this.dependencyStructList ) {
-        //     const dependencyStruct = this.dependencyStructList[ key ];
-        //     if ( this.dependencyStartByStruct( dependencyStruct ) )
-        //         starting = false;
-        // }
-        // if ( !starting ) {
-        //     this._dispatch( new DependencyMachineEvent( DependencyMachineEvent.DEPENDENCY_STARTED_ALL ) );
-        // }
     }
 
     dependencyStopAll() {
@@ -77,24 +74,22 @@ export default class DependencyMachine extends EventDispathcer {
         }
     }
 
-    dependencyStartByStruct( dependencyStruct ) {
-        const dependency = this.dependencyCreate( dependencyStruct );
-        if ( dependency) {
-            this.dependencyAdd( dependencyStruct );
-            return this.dependencyStart( dependency );
-        }
-        return false;
-    }
+    // dependencyStartByStruct( dependencyStruct ) {
+    //     const dependency = this.dependencyCreate( dependencyStruct );
+    //     if ( dependency) {
+    //         this.dependencyAdd( dependency );
+    //         return this.dependencyStart( dependency );
+    //     }
+    //     return false;
+    // }
 
     /**
      * 
      * @param {DependencyStruct} dependencyStruct 
      */
     dependencyStructCheck( dependencyStruct ) {
-        const a = dependencyStruct.ID > 0;
-        const b = dependencyStruct.name;
-        // const c = dependencyStruct.class.prototype instanceof DependencyAbstract;
-        return a && b;
+        return dependencyStruct.ID > 0 &&
+            dependencyStruct.name;
     }
 
     /**
@@ -107,14 +102,26 @@ export default class DependencyMachine extends EventDispathcer {
     }
 
     /**
-     * 
-     * @param {DependencyAbstarct} dependency 
+     * Добавить экземпляр созданного @DependencyAbstract наследника
+     * Запускает работу зависимости если это не цыклическое создание из конфигурации
+     * @DependencyMachine
+     * @param {DependencyAbstarct} dependency
+     * @return {DependencyMachine}
      */
     dependencyAdd( dependency ) {
+
         if ( !this.dependencyInList( dependency ) ) {
-            this.dependencyList.push( dependency );
+            const dependencyStruct = this._createDependencyStructByInstance( dependency );
+            if ( this.dependencyStructCheck( dependencyStruct ) ) {
+                this._dependencyStructRegister( dependencyStruct );
+            }
         }
+
+        // this.dependencyStart( dependency );
+        this.dependencyUpdateWorkDependence();
+
         return this;
+
     }
 
     /**
@@ -123,9 +130,17 @@ export default class DependencyMachine extends EventDispathcer {
      * @param { DependencyAbstarct } dependency 
      */
     dependencyInList( dependency ) {
-        for (const key in this.dependencyList) {
+        for ( const key in this.dependencyList ) {
             const dependencyStruct = this.dependencyList[ key ];
             if ( dependencyStruct.dependency === dependency )
+                return true;
+        }
+        return false;
+    }
+
+    dependencyStructInList( dependencyStruct ) {
+        for (const key in this.dependencyList) {
+            if ( this.dependencyList[ key ] === dependencyStruct )
                 return true;
         }
         return false;
@@ -148,6 +163,20 @@ export default class DependencyMachine extends EventDispathcer {
 
         }
 
+    }
+
+    /**
+     * Вернуть @DependencyAbstract по имени @dependency
+     * @param {DependencyAbstract} name 
+     */
+    dependencyByNameGet( name ) {
+        for ( const key in this.dependencyList ) {
+            const dependencyStruct = this.dependencyList[ key ];
+            const dependency = dependencyStruct.dependency;
+            if ( dependency && dependency.name === name )
+                return dependency;
+        }
+        return null;
     }
 
     /**
@@ -179,19 +208,30 @@ export default class DependencyMachine extends EventDispathcer {
         return false;
     }
 
+    /**
+     * 
+     * @param {DependencyAbstruct} dependency 
+     */
     isDependencyWorking( dependency ) {
         if ( !dependency ) return;
         const list = [ DependencyStates.WORKING, DependencyStates.STARTING, DependencyStates.STARTED ];
         return ArrayUtils.inArray( dependency.state, list );
     }
 
+    /**
+     * Создать @dependecy по данным из @DependencyStruct
+     * @param {DependencyStruct} dependencyStruct 
+     * @return {DependencyAbstract}
+     */
     _dependencyCreate( dependencyStruct ) {
+        
         if ( !this.dependencyStructCheck( dependencyStruct ) ) return null;
 
         const DependecyClass = dependencyStruct.class;
         const dependencyVO = new DependencyVO( dependencyStruct.options );
         dependencyVO.ID = dependencyStruct.ID;
         dependencyVO.name = dependencyStruct.name;
+        dependencyVO.application = this.application;
 
         const dependency = new DependecyClass( dependencyVO );
         dependency.init();
@@ -205,16 +245,54 @@ export default class DependencyMachine extends EventDispathcer {
     }
 
     /**
+     * Просто воссоздание @DependencyStruct по экземпляру @DependencyAbstract
+     * @param {DependencyAbstract} dependency 
+     * @return {DependencyStruct}
+     */
+    _createDependencyStructByInstance( dependency ) {
+        if ( !dependency ) return null;
+
+        const dependencyVO = dependency.vo;
+        dependencyVO.application = this.application;
+
+        const dependencyStruct = {
+            ... DependencyStruct,
+            ID: dependency.ID,
+            name: dependency.name,
+            class: dependency.constructor,
+            dependency,
+            dependecyVO,
+            options: dependency.vo.source
+        }
+        return dependencyStruct;
+    }
+
+    /**
+     * Добавить @DependencyStruct в список dependencyList. 
+     * Эквивалент добавления самого @DependencyAbstract в список @DependencyMachine
+     * @param {*} dependencyStruct 
+     */
+    _dependencyStructRegister( dependencyStruct ) {
+        if ( !this.dependencyStructInList( dependencyStruct ) ) {
+            this.dependencyList.push( dependencyStruct );
+            this._dispatch( new DependencyMachineEvent( DependencyMachineEvent.DEPENDENCY_ADD, this, dependencyStruct.dependency ) );
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Создание всем @Dependency из списка @dependencyStructList
      * Те экземпляры по которым @Dependency уже созданы будут проигнорированы
      */
     _dependencyCreateAll() {
+        this._dependencyCreating = true;
         for ( const key in this.dependencyStructList ) {
             const dependencyStruct = this.dependencyStructList[ key ];
             const dependency = this.dependencyCreate( dependencyStruct );
-            if ( dependency) 
-                this.dependencyAdd( dependencyStruct );
+            this._dependencyStructRegister( dependencyStruct );
         }
+        this._dependencyCreating = false;
     }
     _dependencyStartAll() {
         for ( let i = 0; i < this.dependencyList.length; i++ ) {
@@ -225,16 +303,16 @@ export default class DependencyMachine extends EventDispathcer {
 
     _dependencyStart( dependency ) {
         dependency.start();
-        this._dispatch( new DependencyMachineEvent( DependencyMachineEvent.DEPENDENCY_STARTING, dependency ) );
     }
     
     _dependencyStop( dependency ) {
         dependency.stop();
-        this._dispatch( new DependencyMachineEvent( DependencyMachineEvent.DEPENDENCY_STOPPING, dependency ) );
+        this._dispatch( new DependencyMachineEvent( DependencyMachineEvent.DEPENDENCY_STOPPING, this, dependency ) );
     }
 
     _dependencyCanStart( dependency ) {
-        return dependency &&
+        return !this.dependencyCreating &&
+            dependency &&
             dependency.state === DependencyStates.STOPPED &&
             this.dependencyLinksOK( dependency );
     }
