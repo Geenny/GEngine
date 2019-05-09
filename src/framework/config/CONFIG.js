@@ -1,9 +1,11 @@
 import DependencyStruct from "../core/machines/dependency/struct/DependencyStruct";
 import Systems from "../core/systems/systems/Systems";
+import Network from "../core/network/network/Network";
 import SystemSource from "../core/systems/systems/struct/SystemSource";
 import DisplaySystem from "../core/systems/display/DisplaySystem";
 import KeyboardSystem from "../core/systems/keyboard/KeyboardSystem";
 import DeviceSystem from "../core/systems/device/DeviceSystem";
+import NetworkVO from "../core/network/network/vo/NetworkVO";
 
 const VIEW_SYSTEM = {
     ... SystemSource,
@@ -30,10 +32,9 @@ const MAIN = {
                     {
                         ... DependencyStruct,
                         ID: 1,
-                        name: "Systems",
                         class: Systems,
+                        dependenceNameList: [],
                         options: {
-                            dependenceNameList: [],
                             systemsStartList: [
                                 VIEW_SYSTEM,
                                 DEVICE_SYSTEM,
@@ -43,6 +44,13 @@ const MAIN = {
                     },
 
                     // Network
+                    {
+                        ... DependencyStruct,
+                        ID: 2,
+                        class: Network,
+                        classVO: NetworkVO,
+                        dependenceNameList: []
+                    }
                     // 
                     // Launcher
                     // 

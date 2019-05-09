@@ -87,16 +87,8 @@ export default class DependencyMachine extends EventDispathcer {
      * 
      * @param {DependencyStruct} dependencyStruct 
      */
-    dependencyStructCheck( dependencyStruct ) {
-        return dependencyStruct.ID > 0 &&
-            dependencyStruct.name;
-    }
-
-    /**
-     * 
-     * @param {DependencyStruct} dependencyStruct 
-     */
     dependencyCreate( dependencyStruct ) {
+        this.dependencyStructAutofix( dependencyStruct );
         const dependency = this._dependencyCreate( dependencyStruct );
         return dependency;
     }
@@ -138,12 +130,51 @@ export default class DependencyMachine extends EventDispathcer {
         return false;
     }
 
+    /**
+     * Проверить на наличие всех необходимых входящий параметров для управдения @DependencyAbstract
+     * @param {DependencyStruct} dependencyStruct 
+     */
+    dependencyStructCheck( dependencyStruct ) {
+        return dependencyStruct.ID > 0 &&
+            dependencyStruct.name;
+    }
+
     dependencyStructInList( dependencyStruct ) {
         for (const key in this.dependencyList) {
             if ( this.dependencyList[ key ] === dependencyStruct )
                 return true;
         }
         return false;
+    }
+
+    /**
+     * Автозаполнение полей которые могут быть значениями исходя из присутствующих данных
+     * @param {*} dependencyStruct 
+     */
+    dependencyStructAutofix( dependencyStruct ) {
+        if ( dependencyStruct ) {
+            if ( !dependencyStruct.name )
+                dependencyStruct.name = dependencyStruct.class.name;
+        }
+    }
+
+    /**
+     * 
+     * @param {DependencyAbstract} dependency 
+     */
+    _dependencyStructByInstanceGet( dependency ) {
+
+        for ( const key in this.dependencyStructList ) {
+
+            const dependencyStruct = this.dependencyStructList[ key ];
+            if ( dependencyStruct.dependency === dependency ) {
+                return dependencyStruct;
+            }
+
+        }
+
+        return null;
+
     }
 
     dependencyUpdateWorkDependence() {
@@ -187,7 +218,8 @@ export default class DependencyMachine extends EventDispathcer {
         if ( dependency ) {
 
             const list = [];
-            const dependenceNameList = dependency.dependenceNameList;
+            const dependenceStruct = this._dependencyStructByInstanceGet( dependency );
+            const dependenceNameList = dependenceStruct.dependenceNameList;
 
             for ( const key in this.dependencyList ) {
 
@@ -227,13 +259,12 @@ export default class DependencyMachine extends EventDispathcer {
         
         if ( !this.dependencyStructCheck( dependencyStruct ) ) return null;
 
-        const DependecyClass = dependencyStruct.class;
-        const dependencyVO = new DependencyVO( dependencyStruct.options );
-        dependencyVO.ID = dependencyStruct.ID;
-        dependencyVO.name = dependencyStruct.name;
+        const DependencyClass = dependencyStruct.class || DependencyAbstract;
+        const DependencyVOClass = dependencyStruct.classVO || DependencyVO;
+        const dependencyVO = new DependencyVOClass( dependencyStruct.options );
         dependencyVO.application = this.application;
 
-        const dependency = new DependecyClass( dependencyVO );
+        const dependency = new DependencyClass( dependencyVO );
         dependency.init();
 
         dependency.addEventListener( Event.ANY, this._onDependencyEvent, this );

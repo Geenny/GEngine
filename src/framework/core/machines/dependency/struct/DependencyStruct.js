@@ -4,6 +4,7 @@ const DependencyStruct = {
     class: null,
     dependency: null,
     dependencyVO: null,
+    dependenceNameList: [],
     options: {}
 }
 

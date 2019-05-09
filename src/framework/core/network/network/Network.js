@@ -4,16 +4,19 @@ export default class Network extends DependencyAbstract {
 
     /**
      * 
-     * @param {NetworkVO} systemsVO Наследник @DependencyVO
+     * @param {NetworkVO} networkVO Наследник @DependencyVO
      */
     constructor( networkVO = new NetworkVO() ) {
         super();
         this.initVO( networkVO );
+        this.initVars();
     }
 
     //
     // GET/SET
     //
+
+    get servers() { return this._servers; }
 
     get application() { return this.vo.application; }
 
@@ -23,15 +26,18 @@ export default class Network extends DependencyAbstract {
 
     init() {
         super.init();
+        this.initServers();
     }
     initVO( vo ) {
         this.vo = vo;
     }
+    initVars() {
 
+    }
+    initServers() {
+        debugger;
+    }
 
-    //
-    // SYSTEMS
-    //
 
     /**
      * 
@@ -43,5 +49,7 @@ export default class Network extends DependencyAbstract {
     stopProcess() {
         this.stopComplete();
     }
+
+
 
 }
