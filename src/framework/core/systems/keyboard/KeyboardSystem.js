@@ -23,7 +23,7 @@ export default class KeyboardSystem extends SystemAbstract {
     //
 
     init() {
-        // 
+        this.setListeners();
     }
     initVO( vo ) {
         this.vo = vo;
@@ -35,30 +35,45 @@ export default class KeyboardSystem extends SystemAbstract {
     //
 
     start() {
+        this.listenersSet();
         super.start();
     }
 
     stop() {
-        window.onresize = null;
+        this.listenersUnset();
         super.stop();
     }
 
 
     //
-    //
+    // Listeners set/unset
     //
 
-    viewSet() {
+    listenersSet() {
         if ( this.isStarted ) return;
-        this._viewResizeSet();
+        document.addEventListener( "keydown", this.onDown );
+        document.addEventListener( "keyup", this.onUp );
     }
 
-    _viewResizeSet() {
-        this.dispatch( new ResizeEvent( ResizeEvent.SET, this.width, this.height, this.widthPage, this.heightPage ) );
-        window.addEventListener( "resize", ( event ) => {
-            this.sizeUpdate();
-            this.dispatch( new ResizeEvent( ResizeEvent.RESIZE, this.width, this.height, this.widthPage, this.heightPage ) );
-        });
+    listenersUnset() {
+        if ( !this.onDown || !this.onUp ) return;
+        document.removeEventListener( "keydown", this.onDown );
+        document.removeEventListener( "keyup", this.onUp );
+        this.onDown = null;
+        this.onUp = null;
     }
 
+
+    //
+    // LISTENERS
+    // 
+
+    setListeners() {
+        this.onDown = ( event ) => {
+            this.dispatch( new KeyboardEvent( KeyboardEvent.DOWN, event.key, event.location, event.keyCode ) );
+        };
+        this.onUp = ( event ) => {
+            this.dispatch( new KeyboardEvent( KeyboardEvent.UP, event.key, event.location, event.keyCode ) );
+        };
+    }
 }

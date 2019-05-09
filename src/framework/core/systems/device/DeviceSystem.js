@@ -1,8 +1,7 @@
 import SystemAbstract from "../systems/SystemAbstract";
-import ResizeEvent from "./ResizeEvent";
-import VisibilityEvent from "./VisibilityEvent";
+import DeviceEvent from "./DeviceEvent";
 
-export default class DisplaySystem extends SystemAbstract {
+export default class DeviceSystem extends SystemAbstract {
 
     constructor( vo ) {
         super( vo );
@@ -14,10 +13,6 @@ export default class DisplaySystem extends SystemAbstract {
     // GET/SET
     //
 
-    get widthPage() { return this._widthPage || 0; }
-    get heightPage() { return this._heightPage || 0; }
-    get width() { return this._width || 0; }
-    get height() { return this._height || 0; }
     get application() { return this.target; }
     get applicationView() { return this.application.applicationView; }
     get htmlElement() { return this.applicationView.htmlElement; }
@@ -29,7 +24,6 @@ export default class DisplaySystem extends SystemAbstract {
     //
 
     init() {
-        this.sizeUpdate();
         this.setListeners();
     }
     initVO( vo ) {
@@ -50,7 +44,6 @@ export default class DisplaySystem extends SystemAbstract {
 
     start() {
         this.viewSet();
-        this.onResize();
         super.start();
     }
 
@@ -66,15 +59,12 @@ export default class DisplaySystem extends SystemAbstract {
 
     viewSet() {
         if ( this.isStarted ) return;
-        window.addEventListener( "resize", this.onResize );
-        document.addEventListener( "visibilitychange", this.onVisibilityChange );
+        window.addEventListener( "orientationchange", this.onOrientationChange );
     }
     viewUnset() {
-        if ( !this.onResize || !this.onVisibilityChange ) return;
-        window.removeEventListener( "resize", this.onResize );
-        document.removeEventListener( "visibilitychange", this.onVisibilityChange );
-        this.onResize = null;
-        this.onVisibilityChange = null;
+        if ( !this.onOrientationChange ) return;
+        window.removeEventListener( "orientationchange", this.onOrientationChange );
+        this.onOrientationChange = null;
     }
 
 
@@ -83,12 +73,9 @@ export default class DisplaySystem extends SystemAbstract {
     // 
 
     setListeners() {
-        this.onResize = ( event ) => {
-            this.sizeUpdate();
-            this.dispatch( new ResizeEvent( ResizeEvent.RESIZE, this.width, this.height, this.widthPage, this.heightPage ) );
-        };
-        this.onVisibilityChange = ( event ) => {
-            this.dispatch( new VisibilityEvent( VisibilityEvent.CHANGE, document.visibilityState ) );
+        this.onOrientationChange = ( event ) => {
+            this.dispatch( new DeviceEvent( DeviceEvent.ORIENTATION_CHANGE, event.orientation.angle ) );
+            screen;
         };
     }
 
