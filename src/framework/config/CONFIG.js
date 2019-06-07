@@ -1,11 +1,11 @@
 import DependencyStruct from "../core/machines/dependency/struct/DependencyStruct";
 import Systems from "../core/systems/systems/Systems";
-import Network from "../core/network/network/Network";
 import SystemSource from "../core/systems/systems/struct/SystemSource";
 import DisplaySystem from "../core/systems/display/DisplaySystem";
 import KeyboardSystem from "../core/systems/keyboard/KeyboardSystem";
 import DeviceSystem from "../core/systems/device/DeviceSystem";
-import NetworkVO from "../core/network/network/vo/NetworkVO";
+import Net from "../core/network/network/Net";
+import NetVO from "../core/network/network/vo/NetVO";
 
 const VIEW_SYSTEM = {
     ... SystemSource,
@@ -47,8 +47,8 @@ const MAIN = {
                     {
                         ... DependencyStruct,
                         ID: 2,
-                        class: Network,
-                        classVO: NetworkVO,
+                        class: Net,
+                        classVO: NetVO,
                         dependenceNameList: []
                     }
                     // 
