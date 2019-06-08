@@ -5,9 +5,9 @@ const ServerStruct = {
     servers: null,
     port: 0,
     ping: 0,
-    sender: null,
-    type: null,         // NetworkSenderType
-    senderClass: null, 
+    loader: null,
+    type: null,         // NetworkLoaderType
+    loaderClass: null, 
     timeoutMaximum: -1,
     requestTries: 1,
     requestQueueCount: 5,

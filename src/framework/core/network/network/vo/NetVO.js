@@ -1,7 +1,7 @@
 import VO from "../../../../data/vo/VO";
 import NetworkHTTPMethod from "../constants/NetworkHTTPMethod";
-import HTTPSender from "../senders/HTTPSender";
-import NetworkSenderType from "../constants/NetworkSenderType";
+import HTTPLoader from "../loaders/HTTPLoader";
+import NetworkLoaderType from "../constants/NetworkLoaderType";
 
 
 export default class NetVO extends VO {
@@ -18,8 +18,7 @@ export default class NetVO extends VO {
             requestTries: 1,
             requestQueueCount: 5,
             method: NetworkHTTPMethod.GET,
-            type: NetworkSenderType.HTTP,
-            handler: HTTPSender,
+            type: NetworkLoaderType.HTTP,
             requiredParameters: [],
             requiredHeaders: [],
         } ];

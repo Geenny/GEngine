@@ -1,14 +1,14 @@
 import DependencyAbstract from "../../machines/dependency/DependencyAbstract";
 import ServerStruct from "./struct/ServerStruct";
 import ObjectUtils from "../../../utils/tech/ObjectUtils";
-import AbstractSender from "./senders/AbstractSender";
+import AbstractLoader from "./loaders/AbstractLoader";
 import Log from "../../../utils/log/Log";
 import DependencyStates from "../../machines/dependency/states/DependencyState";
-import NetworkSenderType from "./constants/NetworkSenderType";
+import NetworkLoaderType from "./constants/NetworkLoaderType";
 import ArrayUtils from "../../../utils/tech/ArrayUtils";
 import ContentMapper from "../../../data/content/ContentMapper";
-import HTTPSender from "./senders/HTTPSender";
-import ConnectionSender from "./senders/ConnectionSender";
+import HTTPLoader from "./loaders/HTTPLoader";
+import ConnectionLoader from "./loaders/ConnectionLoader";
 
 export default class Net extends DependencyAbstract {
 
@@ -33,7 +33,7 @@ export default class Net extends DependencyAbstract {
 
     get application() { return this.vo.application; }
 
-    get senderMapper() { return this._sendersMapper; }
+    get loaderMapper() { return this._loadersMapper; }
 
     //
     // INIT
@@ -44,7 +44,6 @@ export default class Net extends DependencyAbstract {
         this.initVars();
         this.initContentMappers();
         this.initServers();
-        // this.initSenders();
         Net.instance = this;
     }
 
@@ -55,14 +54,14 @@ export default class Net extends DependencyAbstract {
     initVO( vo ) { this.vo = vo; }
     initVars() {
         this._servers = [];
-        this._senders = [];
-        this._sendersMapper = {};
+        this._loaders = [];
+        this._loadersMapper = {};
     }
     initContentMappers() {
         const mapper = { };
-        mapper[ NetworkSenderType.HTTP ] = HTTPSender;
-        mapper[ NetworkSenderType.CONNECTION ] = ConnectionSender;
-        this._sendersMapper = new ContentMapper( { ...mapper, ...this.vo.sendersMapper } );
+        mapper[ NetworkLoaderType.HTTP ] = HTTPLoader;
+        mapper[ NetworkLoaderType.CONNECTION ] = ConnectionLoader;
+        this._loadersMapper = new ContentMapper( { ...mapper, ...this.vo.loadersMapper } );
     }
 
 
@@ -88,7 +87,7 @@ export default class Net extends DependencyAbstract {
     send( data, options = null ) {
         if ( this.state !== DependencyStates.WORKING ) return;
         const serverStruct = this.serverStructGet( options );
-        return serverStruct.sender ? sender.send( data ) : null;
+        return serverStruct.loader ? serverStruct.loader.send( data ) : null;
     }
 
 
@@ -116,7 +115,7 @@ export default class Net extends DependencyAbstract {
     serverAddBySourceData( serverData = {} ) {
         const serverStruct = this._createServerStruct( serverData );
         if ( this._serverDataCheck( serverData ) ) {
-            serverStruct.sender = this.findServerSender( serverStruct );
+            serverStruct.loader = this.findServerLoader( serverStruct );
             serverStruct.ID = ArrayUtils.getUniqueNumericValue( "ID", this._servers );
 
             this._serverStructAdd( serverStruct );
@@ -124,23 +123,23 @@ export default class Net extends DependencyAbstract {
     }
 
     /**
-     * Возвращает сервер по его @name или @ID или по типу его @sender
+     * Возвращает сервер по его @name или @ID или по типу его @loader
      * Если не один из параметров не удовлетворяет поиски, возвращается
-     * сервер по умолчанию с @HTTPSender .
+     * сервер по умолчанию с @HTTPLoader .
      * @param {*} options 
      */
     serverStructGet( options = {} ) {
         let http = null;
         for ( let i = 0; i < this._servers.length; i++ ) {
             const server = this._servers[ i ];
-            if ( !http && server.sender && server.sender.type === NetworkSenderType.HTTP ) {
+            if ( !http && server.loader && server.loader.type === NetworkLoaderType.HTTP ) {
                 http = server;
             }
-            if ( options.ID && server.ID === options.ID )
+            if ( options && options.ID && server.ID === options.ID )
                 return server;
-            if ( options.name && server.name === options.name )
+            if ( options && options.name && server.name === options.name )
                 return server;
-            if ( options.type && server.sender && server.sender.type === options.type )
+            if ( options && options.type && server.loader && server.loader.type === options.type )
                 return server;
         }
         return http;
@@ -159,79 +158,80 @@ export default class Net extends DependencyAbstract {
 
 
     //
-    // SENDER
+    // LOADER
     //
 
     /**
-     * Определить является ли @AbstractSender посыльным для данного @Net
-     * @param { AbstractSender } sender 
+     * Определить является ли @AbstractLoader посыльным для данного @Net
+     * @param { AbstractLoader } loader 
      */
-    inSender( sender ) { return this._senders.indexOf( sender ) !== -1; }
+    inLoader( loader ) { return this._loaders.indexOf( loader ) !== -1; }
 
     /**
-     * Определить является ли @AbstractSender по его типу посыльным для данного @Net
-     * @param {string} senderType 
+     * Определить является ли @AbstractLoader по его типу посыльным для данного @Net
+     * @param {string} loaderType 
      */
-    inSenderByType( senderType ) {
-        return this.inSender( this.senderByTypeGet( senderType ) )
+    inLoaderByType( loaderType ) {
+        return this.inLoader( this.loaderByTypeGet( loaderType ) )
     }
 
     /**
      * 
      * @param { ServerStruct } serverStruct 
      */
-    findServerSender( serverStruct ) {
-        const sender = this._findSenderFromExists( serverStruct );
-        return sender || this._senderCreate( serverStruct );
+    findServerLoader( serverStruct ) {
+        const loader = this._findLoaderFromExists( serverStruct );
+        return loader || this._loaderCreate( serverStruct );
     }
 
     /**
-     * Вернуть @AbstractSender по его типу
-     * @param { string } senderType 
+     * Вернуть @AbstractLoader по его типу
+     * @param { string } loaderType 
      */
-    senderByTypeGet( senderType ) {
-        return ArrayUtils.findAsObject( this._senders, "type", senderType );
+    loaderByTypeGet( loaderType ) {
+        return ArrayUtils.findAsObject( this._loaders, "type", loaderType );
     }
 
     /**
      * 
-     * @param { AbstractSender } senderClass 
+     * @param { AbstractLoader } loaderClass 
      */
-    senderByClassGet( senderClass ) {
-        return ArrayUtils.findAsObject( this._senders, "senderClass", senderClass );
+    loaderByClassGet( loaderClass ) {
+        return ArrayUtils.findAsObject( this._loaders, "loaderClass", loaderClass );
     }
 
     /**
-     * Вернуть класс сендера по его @senderType из @senderMapper
-     * @param { string } senderType 
+     * Вернуть класс сендера по его @loaderType из @loaderMapper
+     * @param { string } loaderType 
      */
-    _senderClassByTypeGet( senderType ) {
-        return this.senderMapper.get( senderType );
+    _loaderClassByTypeGet( loaderType ) {
+        return this.loaderMapper.get( loaderType );
     }
 
-    _senderCreate( serverStruct ) {
-        const sender = this._senderByClassCreate( serverStruct.senderClass ) ||
-            this._senderByTypeCreate( serverStruct.type );
-        this._senderAdd( sender );
-        return sender;
+    _loaderCreate( serverStruct ) {
+        const loader = this._loaderByClassCreate( serverStruct.loaderClass ) ||
+            this._loaderByTypeCreate( serverStruct.type );
+        loader.init( serverStruct );
+        this._loaderAdd( loader );
+        return loader;
     }
 
-    _findSenderFromExists( serverStruct ) {
-        let sender = this.senderByClassGet( serverStruct.senderClass );
-        sender = sender || this.senderByTypeGet( serverStruct.type );
-        return sender;
+    _findLoaderFromExists( serverStruct ) {
+        let loader = this.loaderByClassGet( serverStruct.loaderClass );
+        loader = loader || this.loaderByTypeGet( serverStruct.type );
+        return loader;
     }
 
-    _senderByClassCreate( SenderClass ) {
-        return ( SenderClass instanceof AbstractSender ) ?
-            new SenderClass() : null;
+    _loaderByClassCreate( LoaderClass ) {
+        return ( LoaderClass instanceof AbstractLoader ) ?
+            new LoaderClass() : null;
     }
 
-    _senderByTypeCreate( senderType ) {
-        if ( !this.inSenderByType( senderType ) ) {
+    _loaderByTypeCreate( loaderType ) {
+        if ( !this.inLoaderByType( loaderType ) ) {
             try {
-                const SenderClass = this._senderClassByTypeGet( senderType );
-                return new SenderClass();
+                const LoaderClass = this._loaderClassByTypeGet( loaderType );
+                return new LoaderClass();
             } catch ( error ) {
                 Log.log( error.toString() );
             }
@@ -239,9 +239,9 @@ export default class Net extends DependencyAbstract {
         return null;
     }
 
-    _senderAdd( sender ) {
-        if ( this.inSender( sender ) ) return;
-        return this._senders.push( sender );
+    _loaderAdd( loader ) {
+        if ( this.inLoader( loader ) ) return;
+        return this._loaders.push( loader );
     }
 
 }

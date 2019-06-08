@@ -26,7 +26,7 @@ export default class DependencyAbstract extends EventDispathcer {
     get name() { return this.vo.name || this.constructor.name; }
 
     get state() { return this.sm.state ? this.sm.state.name : DependencyStates.STOPPED; }
-    set state( value ) { return this.sm.stateSet( value ); }
+    set state( value ) { this.sm.stateSet( value ); }
 
     get dependenceNameList() { return this.vo.dependenceNameList; }
 

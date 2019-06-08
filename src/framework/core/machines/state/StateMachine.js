@@ -15,7 +15,7 @@ export default class StateMachine extends EventDispatcher {
 
     /**
      * 
-     * @param {StateMachineVO} vo 
+     * @param { StateMachineVO } vo 
      */
     init( vo ) {
         this.initVars();
@@ -24,7 +24,7 @@ export default class StateMachine extends EventDispatcher {
 
     /**
      * 
-     * @param {StateMachineVO} vo 
+     * @param { StateMachineVO } vo 
      */
     initVO( vo ) {
         this.vo = vo;

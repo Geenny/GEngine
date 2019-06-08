@@ -2,7 +2,7 @@ import Event from "../../event/Event";
 
 export default class NetEvent extends Event {
 
-    constructor( type,  ) {
+    constructor( type ) {
         super( type );
     }
     
