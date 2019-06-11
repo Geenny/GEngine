@@ -1,5 +1,7 @@
 import AbstractLoader from "./AbstractLoader";
 import LoaderEvent from "./events/LoaderEvent";
+import NetworkHTTPMethod from "../constants/NetworkHTTPMethod";
+import HTTPRequestResponseType from "../constants/HTTPRequestResponseType";
 
 export default class HTTPLoader extends AbstractLoader {
 
@@ -12,11 +14,20 @@ export default class HTTPLoader extends AbstractLoader {
     // SET/GET
     //
 
+    get requestQueueCount() { return this.serverStruct.requestQueueCount; }
     set requestQueueCount( value ) {
         if ( this.requestQueueCount === value ) return;
         this.serverStruct.requestQueueCount = value;
         this.connectorListCreate()
     }
+
+    get url() { return this.server; }
+    get method() { return this.serverStruct.method || NetworkHTTPMethod.GET; }
+    get responseType() {
+        return this.serverStruct.responseType || HTTPRequestResponseType.TEXT;
+    }
+
+    get proxy() { return this.serverStruct.proxy; }
 
 
     //
@@ -39,7 +50,20 @@ export default class HTTPLoader extends AbstractLoader {
     //
 
     requestSendProcess( request ) {
-        // TODO
+        const connector = request.connector;
+        const xhr = connector.xhr;
+
+        connector.ready = true;
+        xhr.request = request;
+        xhr.responseType = this.responseType;
+        // xhr.open( this.method, this.url );
+        xhr.open( this.method, `https://cors-anywhere.herokuapp.com/${this.url}/@shalvah/posts`);
+        // xhr.setRequestHeader("Origin", 'maximum.blog');
+        xhr.send( request.data );
+    }
+
+    requestByXHRGet( xhr ) {
+        return this.queue.find( request => request.connector && request.connector.xhr === xhr );
     }
 
     
@@ -77,24 +101,28 @@ export default class HTTPLoader extends AbstractLoader {
     }
 
     onInit( event ) {
-        debugger;
-        this.dispatchEvent( new LoaderEvent( LoaderEvent.INIT ) );
+        const request = event.currentTarget.request;
+        this.dispatchEvent( new LoaderEvent( LoaderEvent.INIT ), request, event );
     }
     onProgress( event ) {
-        this.dispatchEvent( new LoaderEvent( LoaderEvent.PROGRESS ) );
+        const request = event.currentTarget.request;
+        this.dispatchEvent( new LoaderEvent( LoaderEvent.PROGRESS ), request, event );
     }
     onReadyStateChange( event ) {
-        debugger;
-        this.dispatchEvent( new LoaderEvent( LoaderEvent.PROGRESS ) );
+        const request = event.currentTarget.request;
+        this.dispatchEvent( new LoaderEvent( LoaderEvent.COMPLETE ), request, event );
     }
     onTimeout( event ) {
-        this.dispatchEvent( new LoaderEvent( LoaderEvent.ERROR ) );
+        const request = event.currentTarget.request;
+        this.dispatchEvent( new LoaderEvent( LoaderEvent.ERROR ), request, event );
     }
     onAbort( event ) {
-        this.dispatchEvent( new LoaderEvent( LoaderEvent.ERROR ) );
+        const request = event.currentTarget.request;
+        this.dispatchEvent( new LoaderEvent( LoaderEvent.ERROR ), request, event );
     }
     onError( event ) {
-        this.dispatchEvent( new LoaderEvent( LoaderEvent.ERROR ) );
+        const request = event.currentTarget.request;
+        this.dispatchEvent( new LoaderEvent( LoaderEvent.ERROR ), request, event );
     }
 
 }

@@ -233,7 +233,7 @@ export default class Net extends DependencyAbstract {
                 const LoaderClass = this._loaderClassByTypeGet( loaderType );
                 return new LoaderClass();
             } catch ( error ) {
-                Log.log( error.toString() );
+                Log.l( error.toString() );
             }
         }
         return null;

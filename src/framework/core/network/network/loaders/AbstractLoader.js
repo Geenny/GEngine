@@ -29,6 +29,8 @@ export default class AbstractLoader extends EventDispathcer {
             this.state !== LoaderStates.DISCONNECTED;
     }
 
+    get server() { return this._server; }
+
     get requestQueueLimit() { return this.requestQueueCount <= 0 ||
         this._sended.length >= this.requestQueueCount }
 
@@ -59,6 +61,7 @@ export default class AbstractLoader extends EventDispathcer {
 
     initServerStruct( serverStruct ) {
         this.serverStruct = serverStruct;
+        this._server = this.serverStruct.server || this.serverStruct.servers[0];
     }
 
     //

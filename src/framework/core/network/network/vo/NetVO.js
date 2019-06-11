@@ -13,7 +13,7 @@ export default class NetVO extends VO {
     init() {
         this.application = null;
         this.serverList = [ {
-            servers: [ 'google.com' ],
+            servers: [ 'https://google.com' ],
             maximumTimeout: -1,
             requestTries: 1,
             requestQueueCount: 5,

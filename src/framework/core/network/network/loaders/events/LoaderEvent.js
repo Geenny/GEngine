@@ -2,9 +2,10 @@ import Event from "../../../../machines/event/Event";
 
 export default class LoaderEvent extends Event {
 
-    constructor( type, request ) {
+    constructor( type, request, event ) {
         super( type );
         this.request = request;
+        this.event = event;
     }
     
 }
@@ -18,5 +19,5 @@ LoaderEvent.PROGRESS = "loaderProgress";
 LoaderEvent.COMPLETE = "loaderComplete";
 LoaderEvent.ERROR = "loaderError";
 
-LoaderEvent.ERROR = "loaderTestStart";
-LoaderEvent.ERROR = "loaderTestComplete";
+LoaderEvent.TEST_START = "loaderTestStart";
+LoaderEvent.TEST_COMPLETE = "loaderTestComplete";
