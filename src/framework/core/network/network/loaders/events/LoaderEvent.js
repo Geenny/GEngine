@@ -2,10 +2,9 @@ import Event from "../../../../machines/event/Event";
 
 export default class LoaderEvent extends Event {
 
-    constructor( type, request, event ) {
+    constructor( type, request ) {
         super( type );
         this.request = request;
-        this.event = event;
     }
     
 }

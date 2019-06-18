@@ -1,7 +1,7 @@
-const LoaderStates = {
+const RequestStates = {
     NONE: 'none',
     SEND: 'send',
     PENDING: 'pending'
 };
 
-export default LoaderStates;
+export default RequestStates;

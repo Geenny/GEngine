@@ -15,7 +15,7 @@ export default class NetVO extends VO {
         this.serverList = [ {
             servers: [ 'https://google.com' ],
             maximumTimeout: -1,
-            requestTries: 1,
+            requestTries: 3,
             requestQueueCount: 5,
             method: NetworkHTTPMethod.GET,
             type: NetworkLoaderType.HTTP,

@@ -74,21 +74,21 @@ export default class AbstractLoader extends EventDispathcer {
      */
     send( data ) {
         if ( !this.sendable ) return;
-        this.sendProcess( this.sendDataParse( data ) );
-    }
-
-    sendProcess( data ) {
-        this.state = LoaderStates.WORKING;
-        this.requestCreate( data );
-        this.sendQueueHandle();
+        this._sendProcess( this.sendDataParse( data ) );
     }
 
     sendDataParse( data ) { return data; }
 
-    sendQueueHandle() {
+    _sendProcess( data ) {
+        this.state = LoaderStates.WORKING;
+        this._requestCreate( data );
+        this._sendQueueHandle();
+    }
+
+    _sendQueueHandle() {
         if ( !this.sendable ) return;
         if ( !this.queue.length ) return;
-        this.requestSend( this.queue.shift() );
+        this._requestSend( this.queue.shift() );
     }
 
 
@@ -97,37 +97,52 @@ export default class AbstractLoader extends EventDispathcer {
     // REQUEST
     //
 
-    requestCreate( data ) {
+    _requestCreate( data ) {
         const request = new RequestLoader( data );
-        return this.requestAdd( request );
+        return this._requestAdd( request );
     }
 
-    requestSend( request ) {
+    _requestSend( request ) {
         if ( this._sended.indexOf( request) >= 0 ) return;
         this._requestToSend( request );
         this._requestConnectorAdd( request );
-        this.requestSendProcess( request );
+        this._requestSendProcess( request );
+    }
+
+    _requestResend( request ) {
+        this._requestRemoveFromSended( request );
+        if ( this._requestResendCheck( request ) ) {
+            this._queue.unshift( request );
+            this._sendQueueHandle();
+        }
+    }
+
+    _requestResendCheck( request ) {
+        return !this.serverStruct.requestTries ||
+            ( this.serverStruct.requestTries > 0 && request.tries < this.serverStruct.requestTries );
+    }
+
+    _requestRemoveFromSended( request ) {
+        const index = this._sended.indexOf( request );
+        if ( index >= 0 ) {
+            this._sended.splice( index, 1 );
+            return true;
+        }
+        return false;
     }
 
     /**
      * Отправка запроса через @connector
      * @param {*} request 
      */
-    requestSendProcess( request ) {
-        this.onError( request );
+    _requestSendProcess( request ) {
+        // SEND
     }
 
-    requestAdd( request ) {
+    _requestAdd( request ) {
         this._queue.push( request );
         this.dispatchEvent( new LoaderEvent( LoaderEvent.ADD, request ) );
         return request;
-    }
-
-    onResponse( request ) {
-        this.dispatchEvent( new LoaderEvent( LoaderEvent.COMPLETE, request ) );
-    }
-    onError( request ) {
-        this.dispatchEvent( new LoaderEvent( LoaderEvent.ERROR, request ) );
     }
 
     _requestToSend( request ) {

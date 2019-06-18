@@ -10,7 +10,7 @@ const ServerStruct = {
     type: null,         // NetworkLoaderType
     loaderClass: null, 
     timeoutMaximum: -1,
-    requestTries: 1,
+    requestTries: 3,
     requestQueueCount: 5,
     requiredParameters: [],
     requiredHeaders: [],
