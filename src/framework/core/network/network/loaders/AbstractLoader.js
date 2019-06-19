@@ -72,16 +72,15 @@ export default class AbstractLoader extends EventDispathcer {
      * Отправка запроса
      * @param {object} data 
      */
-    send( data ) {
-        if ( !this.sendable ) return;
-        this._sendProcess( this.sendDataParse( data ) );
+    send( params ) {
+        this._sendProcess( this.sendDataParse( params ) );
     }
 
-    sendDataParse( data ) { return data; }
+    sendDataParse( params ) { return params; }
 
-    _sendProcess( data ) {
+    _sendProcess( params ) {
         this.state = LoaderStates.WORKING;
-        this._requestCreate( data );
+        this._requestCreate( params );
         this._sendQueueHandle();
     }
 
@@ -97,8 +96,8 @@ export default class AbstractLoader extends EventDispathcer {
     // REQUEST
     //
 
-    _requestCreate( data ) {
-        const request = new RequestLoader( data );
+    _requestCreate( params ) {
+        const request = new RequestLoader( params );
         return this._requestAdd( request );
     }
 
@@ -113,8 +112,10 @@ export default class AbstractLoader extends EventDispathcer {
         this._requestRemoveFromSended( request );
         if ( this._requestResendCheck( request ) ) {
             this._queue.unshift( request );
-            this._sendQueueHandle();
+        } else {
+            this._requestDestroy();
         }
+        this._sendQueueHandle();
     }
 
     _requestResendCheck( request ) {

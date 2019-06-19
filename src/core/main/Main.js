@@ -12,7 +12,9 @@ export default class Main extends Application {
     constructor( HTMLElement, mainVO = new MainVO() ) {
         super( HTMLElement, mainVO );
         this.addEventListener( DependencyMachineEvent.DEPENDENCY_STARTED, ( event ) => {
-            Net.send( { q:'Apple' } );
+            for ( let i = 0; i < 1; i++ ) {
+                Net.send( { q:['Crying','shedding','tears','welling','eyes','response'][~~(Math.random() * 6)] } );
+            }
         } );
     }
 

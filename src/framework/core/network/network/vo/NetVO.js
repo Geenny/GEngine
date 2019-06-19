@@ -13,7 +13,8 @@ export default class NetVO extends VO {
     init() {
         this.application = null;
         this.serverList = [ {
-            servers: [ 'https://google.com' ],
+            servers: [ 'https://google.com/search' ],
+            proxy: "http://localhost/proxy/proxy.php",
             maximumTimeout: -1,
             requestTries: 3,
             requestQueueCount: 5,

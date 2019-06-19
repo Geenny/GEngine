@@ -46,23 +46,61 @@ export default class HTTPLoader extends AbstractLoader {
     // REQUEST
     //
 
+    _requestComplete( request ) {
+        request.data = request.connector.response;
+        this._requestRemoveFromSended( request );
+    }
+
+    _requestDestroy( request ) {
+        const xhr = request.connector;
+        const handlers = xhr.handlers;
+
+        for ( const handlerName in handlers ) {
+            xhr.removeEventListener( handlerName, handlers[ handlerName ] );
+        }
+
+        request.reset();
+    }
+
     _requestSendProcess( request ) {
         const xhr = request.connector;
-
         request.state = RequestStates.SEND;
         xhr.request = request;
         xhr.responseType = this.responseType;
-        xhr.open( this.method, this.url );
-        // xhr.setRequestHeader("Origin", 'https://www.google.com');
-        xhr.send( request.data );
+
+        if ( this.proxy ) {
+            this._xhrSend( xhr, this.proxy, this.method, {
+                curl: this.url,
+                ...request.params
+            } );
+        } else {
+            this._xhrSend( xhr, this.proxy, this.method, request.params );
+        }
+    }
+    _xhrSend( xhr, url, method, params ) {
+        if ( method === NetworkHTTPMethod.GET ) {
+            xhr.open( method, url + this.formatParams( params ) );
+            xhr.send();
+        } else if ( method === NetworkHTTPMethod.POST ) {
+            xhr.open( method, url );
+            xhr.send( formDataGet( params ) );
+        }
     }
 
-    requestByXHRGet( xhr ) {
-        return this.queue.find( request => request.connector && request.connector === xhr );
+    formDataGet( params = {} ) {
+        const form = new FormData();
+        for ( const key in params ) {
+            form.append( kwy, params[ key ] );
+        }
+        return form;
     }
 
-    requestComplete( request ) {
-        this._requestRemoveFromSended( request );
+    formatParams( params ) {
+        return "?" + Object.keys(params)
+            .map(function(key){
+                return key + "=" + encodeURIComponent(params[key])
+            })
+            .join("&")
     }
 
     
@@ -77,28 +115,39 @@ export default class HTTPLoader extends AbstractLoader {
     _connectorCreate() {
 
         const xhr = new XMLHttpRequest();
+
+        const handlers = {
+            loadstart: this.onInit.bind( this ),
+            progress: this.onProgress.bind( this ),
+            load: this.onComplete.bind( this ),
+            // readystatechange: this.onReadyStateChange.bind( this ),
+            timeout: this.onTimeout.bind( this ),
+            abort: this.onAbort.bind( this ),
+            error: this.onError.bind( this ),
+        }
         
-        xhr.addEventListener( 'loadstart', this.onInit.bind( this ) );
-        xhr.addEventListener( 'progress', this.onProgress.bind( this ) );
-        xhr.addEventListener( 'load', this.onComplete.bind( this ) );
-        xhr.addEventListener( 'readystatechange', this.onReadyStateChange.bind( this ) );
-        xhr.addEventListener( 'timeout', this.onTimeout.bind( this ) );
-        xhr.addEventListener( 'abort', this.onAbort.bind( this ) );
-        xhr.addEventListener( 'error', this.onError.bind( this ) );
+        xhr.addEventListener( 'loadstart', handlers.loadstart );
+        xhr.addEventListener( 'progress', handlers.progress );
+        xhr.addEventListener( 'load', handlers.load );
+        // xhr.addEventListener( 'readystatechange', readystatechange );
+        xhr.addEventListener( 'timeout', handlers.timeout );
+        xhr.addEventListener( 'abort', handlers.abort );
+        xhr.addEventListener( 'error', handlers.error );
+        xhr.handlers = handlers;
 
         return xhr;
     }
 
     onInit( event ) {
         const request = event.currentTarget.request;
-        this.onInitHandle( request );
+        this.onInitHandle( event.currentTarget.request );
     }
     onProgress( event ) {
         const request = event.currentTarget.request;
-        this.onProgressHandle( request );
+        this.onProgressHandle( event.currentTarget.request );
     }
     onReadyStateChange( event ) {
-        // this.onCompleteHandle( event.currentTarget.request, event );
+        // 
     }
     onComplete( event ) {
         this.onCompleteHandle( event.currentTarget.request, event );
@@ -126,10 +175,11 @@ export default class HTTPLoader extends AbstractLoader {
         this.dispatchEvent( new LoaderEvent( LoaderEvent.PROGRESS, request ) );
     }
     onCompleteHandle( request ) {
-        const xhr = request.connector;
         request.state = RequestStates.NONE;
-        this.requestComplete( request );
+        this._requestComplete( request );
         this.dispatchEvent( new LoaderEvent( LoaderEvent.COMPLETE, request ) );
+        this._requestDestroy( request );
+        this._sendQueueHandle();
     }
     onErrorHandle( request ) {
         request.state = RequestStates.NONE;

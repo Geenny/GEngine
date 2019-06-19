@@ -5,6 +5,7 @@ const ServerStruct = {
     servers: null,
     port: 0,
     ping: 0,
+    proxy: null,
     method: null,
     loader: null,
     type: null,         // NetworkLoaderType
