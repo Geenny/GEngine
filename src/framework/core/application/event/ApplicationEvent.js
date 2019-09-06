@@ -2,8 +2,9 @@ import Event from "../../machines/event/Event";
 
 export default class ApplicationEvent extends Event {
 
-    constructor( type ) {
+    constructor( type, data = {} ) {
         super( type );
+        this.data = data;
     }
     
 }
@@ -11,3 +12,4 @@ export default class ApplicationEvent extends Event {
 ApplicationEvent.NONE = "none";
 ApplicationEvent.ACTIVE = "applicationActive";
 ApplicationEvent.DEACTIVE = "applicationDeactive";
+ApplicationEvent.HTML_UPDATE = "applicationHTMLUpdate";

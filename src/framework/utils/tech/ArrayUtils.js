@@ -37,13 +37,21 @@ export default class ArrayUtils {
     }
 
     /**
-     * 
-     * @param {*} list 
-     * @param {*} key 
-     * @param {*} value 
+     * Вернуть содержащееся значение по соответствию полей @list[ @key ] и @value
+     * @param { Array } list 
+     * @param { string | Number } key 
+     * @param { * } value 
      */
     static findValueAsObject( list, key, value ) {
         return list ? list.find( object => object[ key ] === value ) : null;
+    }
+
+    /**
+     * Создать клон экземпляра массива
+     * @param { Array } array 
+     */
+    static clone( array ) {
+        return array.slice(0)
     }
 
 }

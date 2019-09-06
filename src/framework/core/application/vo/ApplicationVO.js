@@ -9,8 +9,12 @@ export default class ApplicationVO extends VO {
     init() {
         
         this.configPath = '';
+        this.HTMLElement = null;
         this.dependencyMachineVO = null; // DependencyMachineVO instance
 
+        this.ticker = null;
+        this.timeScale = 1;
+        
     }
 
 }

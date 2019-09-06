@@ -1,15 +1,10 @@
-import Systems from "../systems/systems/Systems";
+import Systems from "../dependencies/systems/systems/Systems";
 import EventDispathcer from "../machines/event/EventDispatcher";
 import ApplicationEvent from "./event/ApplicationEvent";
 import ApplicationVO from "./vo/ApplicationVO";
-import ApplicationView from "./ApplicationView";
 import Log from "../../utils/log/Log";
-import Launcher from "../launcher/Launcher";
 import DependencyMachine from "../machines/dependency/DependencyMachine";
 import DependencyMachineVO from "../machines/dependency/vo/DependencyMachineVO";
-import DependencyAbstract from "../machines/dependency/DependencyAbstract";
-import DependencyVO from "../machines/dependency/vo/DependencyVO";
-import DependencyStruct from "../machines/dependency/struct/DependencyStruct";
 import Event from "../machines/event/Event";
 import DependencyMachineEvent from "../machines/dependency/events/DependencyMachineEvent";
 
@@ -17,15 +12,14 @@ export default class Application extends EventDispathcer {
 
     /**
      * 
-     * @param {HTMLElement} element 
      * @param {ApplicationVO} vo 
      */
-    constructor( HTMLElement, vo = new ApplicationVO() ) {
+    constructor( vo = new ApplicationVO() ) {
 
         super();
 
-        this.setHTMLElement( HTMLElement );
         this.setVO( vo );
+        this.setHTMLElement( vo.HTMLElement );
 
         Log.l("Application Started!!!");
 
@@ -36,13 +30,23 @@ export default class Application extends EventDispathcer {
     // GET/SET
     //
 
+    /**
+     * Main HTMLElement
+     */
+    get HTMLElement() { return this.vo.HTMLElement; }
+
     
     //
     // INIT
     //
 
     init() {
+        this._initVars();
         this.initDependencyMachine();
+    }
+
+    _initVars() {
+        this.applicationDisplay = null;
     }
 
     initDependencyMachine() {
@@ -64,45 +68,6 @@ export default class Application extends EventDispathcer {
     }
 
     dependencyMachineVOGet( data = {} ) {
-
-        // const dependency1 = {
-        //     ... DependencyStruct,
-        //     ID: 1,
-        //     name: "a",
-        //     class: DependencyAbstract,
-        //     options: { dependenceNameList: ["d"] }
-        // }
-        // const dependency2 = {
-        //     ... DependencyStruct,
-        //     ID: 2,
-        //     name: "b",
-        //     class: DependencyAbstract,
-        //     options: { dependenceNameList: ["a"] }
-        // }
-        // const dependency3 = {
-        //     ... DependencyStruct,
-        //     ID: 3,
-        //     name: "c",
-        //     class: DependencyAbstract,
-        //     options: { dependenceNameList: ["a","b"] }
-        // }
-        // const dependency4 = {
-        //     ... DependencyStruct,
-        //     ID: 4,
-        //     name: "d",
-        //     class: DependencyAbstract,
-        //     options: { dependenceNameList: [] }
-        // }
-
-        // data = {
-        //     dependencyStructList: [
-        //         dependency1,
-        //         dependency2,
-        //         dependency3,
-        //         dependency4
-        //     ]
-        // }
-
         let dependencyMachineVO = null;
 
         if ( this.vo.dependencyMachineVO instanceof DependencyMachineVO ) {
@@ -117,11 +82,7 @@ export default class Application extends EventDispathcer {
 
         return dependencyMachineVO;
     }
-
-    // initSystems() {
-    //     this.
-    // }
-
+    
 
     //
     // VO
@@ -130,10 +91,8 @@ export default class Application extends EventDispathcer {
     setVO( vo ) {
         this.vo = vo;
     }
-
     setHTMLElement( HTMLElement ) {
-        this.applicationView = new ApplicationView( HTMLElement );
-        // applicationView.addEventListener(  )
-    } 
+        this.dispatchEvent( new ApplicationEvent( ApplicationEvent.HTML_UPDATE, { HTMLElement } ) );
+    }
 
 }

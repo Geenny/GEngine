@@ -24,6 +24,7 @@
     "node-fetch": "^2.3.0",
     "open": "0.0.5",
     "shx": "^0.2.2",
+    "three": "^0.108.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "webpack": "^4.10.2",
     "webpack-dev-server": "^3.1.4",

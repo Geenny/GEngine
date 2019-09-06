@@ -1,11 +1,11 @@
 import DependencyStruct from "../core/machines/dependency/struct/DependencyStruct";
-import Systems from "../core/systems/systems/Systems";
-import SystemSource from "../core/systems/systems/struct/SystemSource";
-import DisplaySystem from "../core/systems/display/DisplaySystem";
-import KeyboardSystem from "../core/systems/keyboard/KeyboardSystem";
-import DeviceSystem from "../core/systems/device/DeviceSystem";
-import Net from "../core/network/network/Net";
-import NetVO from "../core/network/network/vo/NetVO";
+import Systems from "../core/dependencies/systems/systems/Systems";
+import SystemSource from "../core/dependencies/systems/systems/struct/SystemSource";
+import DisplaySystem from "../core/dependencies/systems/display/DisplaySystem";
+import KeyboardSystem from "../core/dependencies/systems/keyboard/KeyboardSystem";
+import DeviceSystem from "../core/dependencies/systems/device/DeviceSystem";
+import Net from "../core/dependencies/network/network/Net";
+import NetVO from "../core/dependencies/network/network/vo/NetVO";
 
 const VIEW_SYSTEM = {
     ... SystemSource,
