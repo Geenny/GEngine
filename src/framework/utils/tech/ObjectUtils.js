@@ -2,9 +2,9 @@ export default class ObjectUtils {
 
     /**
      * Добавление из @source в @object существующих параметров
-     * @param {*} object Объект для добавления
-     * @param {*} source Объект источник данных
-     * @param {Boolean} cloneObject добавлять в клон объекта
+     * @param { object } object Объект для добавления
+     * @param { object } source Объект источник данных
+     * @param { Boolean } cloneObject добавлять в клон объекта
      */
     static assignExists( object, source, cloneObject = false ) {
         if ( object ) {
@@ -22,8 +22,23 @@ export default class ObjectUtils {
     }
 
     /**
+     * Вернуть ключ по совпадению значения
+     * @param { object } source 
+     * @param { object } value 
+     */
+    static getKeyByValue( source, value ) {
+        if ( source ) {
+            for ( const key in source ) {
+                if ( source[ key ] != value ) continue;
+                return key;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Клонировать объект
-     * @param {*} object 
+     * @param { object } object 
      */
     static clone( object ) {
         if ( object )

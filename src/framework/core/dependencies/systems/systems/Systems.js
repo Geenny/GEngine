@@ -28,7 +28,6 @@ export default class Systems extends DependencyAbstract {
         return this._systemsSourceList;
     }
     get systemsStartList() { return this.vo.systemsStartList; }
-    get application() { return this.vo.application; }
 
     //
     // INIT

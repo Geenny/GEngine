@@ -1,18 +1,19 @@
 import EventDispathcer from "../../../machines/event/EventDispatcher";
+import DisplayEvent from "../event/DisplayEvent";
+import DisplayVO from "../vo/DisplayVO";
 
 export default class AbstractDisplay extends EventDispathcer {
 
     /**
      * Абстрактный класс обертка для рендеров.
      * Для построения после создание необходимо вызывать init()
-     * @param { DisplayStruct } displayStruct 
+     * @param { DisplayVO } DisplayVO 
      */
-    constructor( displayStruct = {} ) {
+    constructor( displayVO = new DisplayVO() ) {
 
         super();
 
-        this.displayStruct = displayStruct;
-        this.vo = displayStruct.displayVO;
+        this.setVO( displayVO );
 
     }
 
@@ -28,18 +29,31 @@ export default class AbstractDisplay extends EventDispathcer {
     set enable( value ) { this._enable = value; }
 
     /**
+     * Размер рендерера
+     */
+    get size() { return this.vo.size; }
+    set size( value ) { this.vo.size.setFromPoint( value ); }
+
+    /**
      * VIEW Element
      */
-    get viewElement() { return this._viewElement; }
+    get viewElement() { return this.vo.viewElement; }
     set viewElement( value ) {
-        this._viewElement = value;
+        this.vo.viewElement = value;
+        this.dispatchEvent( new DisplayEvent( DisplayEvent.VEIW_ELEMENT_READY ) );
     }
 
     /**
      * CANVAS of VIEW Element
      */
-    get canvas() { return this._canvas; }
+    get canvas() { return this.vo.canvas; }
 
+
+
+    /**
+     * @param { DisplayVO } vo 
+     */
+    setVO( vo ) { this.vo = vo; }
     
     //
     // INIT
@@ -49,17 +63,20 @@ export default class AbstractDisplay extends EventDispathcer {
         this.initVars();
         this.initEngine();
     }
-    initVars() {
-        this._viewElement = null;
-        this._canvas = null;
-    }
+    initVars() { }
     initEngine() { }
 
+
+    //
+    // RESIZE
+    //
 
     /**
      * @param { Point } size 
      */
-    resize( size ) { }
+    resize( width, height ) {
+        this.size.update( width, height );
+    }
 
 
     //

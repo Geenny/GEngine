@@ -30,6 +30,8 @@ export default class DependencyAbstract extends EventDispathcer {
 
     get dependenceNameList() { return this.vo.dependenceNameList; }
 
+    get application() { return this.vo.application; }
+
 
     //
     // INIT

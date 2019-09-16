@@ -32,8 +32,6 @@ export default class Net extends DependencyAbstract {
 
     get servers() { return this._servers; }
 
-    get application() { return this.vo.application; }
-
     get loaderMapper() { return this._loadersMapper; }
 
     //

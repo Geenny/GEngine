@@ -1,4 +1,5 @@
 import DependencyVO from "../../../machines/dependency/vo/DependencyVO";
+import Point from "../../../../data/content/graphics/Point";
 
 export default class DisplayVO extends DependencyVO {
 
@@ -7,8 +8,14 @@ export default class DisplayVO extends DependencyVO {
     }
 
     init() {
+
         super.init();
-        this.viewStructList = [];
+
+        this.ID = -1;
+        this.name = null;
+        this.canvas = null;
+        this.size = new Point();
+
     }
 
 }

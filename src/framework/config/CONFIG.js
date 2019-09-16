@@ -6,6 +6,8 @@ import KeyboardSystem from "../core/dependencies/systems/keyboard/KeyboardSystem
 import DeviceSystem from "../core/dependencies/systems/device/DeviceSystem";
 import Net from "../core/dependencies/network/network/Net";
 import NetVO from "../core/dependencies/network/network/vo/NetVO";
+import Displays from "../core/dependencies/displays/Displays";
+import DisplaysVO from "../core/dependencies/displays/vo/DisplaysVO";
 
 const VIEW_SYSTEM = {
     ... SystemSource,
@@ -50,10 +52,19 @@ const MAIN = {
                         class: Net,
                         classVO: NetVO,
                         dependenceNameList: []
-                    }
+                    },
                     // 
                     // Launcher
-                    // 
+                    //
+
+                    // Display or displays
+                    {
+                        ...DependencyStruct,
+                        ID: 10,
+                        class: Displays,
+                        classVO: DisplaysVO,
+                        dependenceNameList: []
+                    }
                 ]
             }
         }

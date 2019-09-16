@@ -1,6 +1,7 @@
 import SystemAbstract from "../systems/SystemAbstract";
 import ResizeEvent from "./ResizeEvent";
 import VisibilityEvent from "./VisibilityEvent";
+import Point from "../../../../data/content/graphics/Point";
 
 export default class DisplaySystem extends SystemAbstract {
 
@@ -20,7 +21,7 @@ export default class DisplaySystem extends SystemAbstract {
     get width() { return this._width || 0; }
     get height() { return this._height || 0; }
     get application() { return this.target; }
-    get htmlElement() { return this.application.htmlElement; }
+    get htmlElement() { return this.application.HTMLElement; }
 
 
 
@@ -37,11 +38,13 @@ export default class DisplaySystem extends SystemAbstract {
     }
 
     sizeUpdate( width = undefined, height = undefined ) {
-        this._width = width != undefined || !this.htmlElement ? width : this.htmlElement.offsetWidth;
-        this._height = height != undefined || !this.htmlElement ? height : this.htmlElement.offsetHeight;
         this._widthPage = window.innerWidth;
         this._heightPage = window.innerHeight;
-        this._size = { x: this._width, y: this._height };
+        this._width = this._widthPage;
+        this._height = this._heightPage - 4;
+        // this._width = width != undefined || !this.htmlElement ? width : Math.min( this.htmlElement.offsetWidth, this._widthPage );
+        // this._height = height != undefined || !this.htmlElement ? height : Math.min( this.htmlElement.offsetHeight, this._heightPage );
+        this._size = new Point( this._width, this._height );
     }
 
 
