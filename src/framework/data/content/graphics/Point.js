@@ -37,7 +37,7 @@ export default class Point {
      * Вернуть площадь 
      */
     get squared() {
-        if (this._squaredDirty) {
+        if ( this._squaredDirty ) {
             this._squared = this.x * this.y;
             this._squaredDirty = false;
         }
@@ -49,12 +49,12 @@ export default class Point {
      * @param { number } x Координата x
      * @param { number } y Координата y
      */
-    update(x, y) {
-        if (typeof x === "number" && this.x !== x) {
+    update( x, y ) {
+        if ( typeof x === "number" && this.x !== x ) {
             this.x = x;
             this.dirty = true;
         }
-        if (typeof y === "number" && this.y !== y) {
+        if ( typeof y === "number" && this.y !== y ) {
             this.y = y;
             this.dirty = true;
         }

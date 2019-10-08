@@ -6,6 +6,7 @@ import DisplayVO from "./vo/DisplayVO";
 import DisplayStruct from "./struct/DisplayStruct";
 import ResizeEvent from "../systems/display/ResizeEvent";
 import DisplayEvent from "./event/DisplayEvent";
+import Point from "../../../data/content/graphics/Point";
 
 export default class Displays extends DependencyAbstract {
 
@@ -67,6 +68,7 @@ export default class Displays extends DependencyAbstract {
         this._initVars();
     }
     _initVars() {
+        this.size = new Point();
         this._view = null;
         this._displayStructList = [];
     }
@@ -80,9 +82,25 @@ export default class Displays extends DependencyAbstract {
         this.application.removeEventListener( ResizeEvent.RESIZE, this.onResize, this );
     }
 
+
+    //
+    // RESIZE
+    //
+
     onResize( event ) {
         if ( !this.display ) return;
+        this.sizeSet( event.width, event.height );
         this.display.resize( event.width, event.height );
+    }
+
+    sizeSet( width, height ) {
+        this.size.update( width, height );
+    }
+
+    sizeUpdate() {
+        const displaySystem = this.application.systems.systemGetByName( this.vo.displaySystemName );
+        displaySystem.sizeUpdate();
+        this.size = displaySystem.size;
     }
 
 
@@ -94,6 +112,7 @@ export default class Displays extends DependencyAbstract {
      * 
      */
     startProcess() {
+        this.sizeUpdate();
         this._displaysCreate();
         this._displayDeafultInit();
         this._initHtmlElement();
@@ -158,6 +177,7 @@ export default class Displays extends DependencyAbstract {
 
         display.addEventListener( DisplayEvent.VEIW_ELEMENT_READY, this._onDisplayReady, this );
 
+        display.size.setFromPoint( this.size );
         display.init();
 
         displayStruct.instance = display;

@@ -21,6 +21,8 @@ export default class DisplaysVO extends DependencyVO {
                 options: {}
             }
         ];
+
+        this.displaySystemName = "DisplaySystem";
     }
 
 }

@@ -40,10 +40,8 @@ export default class DisplaySystem extends SystemAbstract {
     sizeUpdate( width = undefined, height = undefined ) {
         this._widthPage = window.innerWidth;
         this._heightPage = window.innerHeight;
-        this._width = this._widthPage;
-        this._height = this._heightPage - 4;
-        // this._width = width != undefined || !this.htmlElement ? width : Math.min( this.htmlElement.offsetWidth, this._widthPage );
-        // this._height = height != undefined || !this.htmlElement ? height : Math.min( this.htmlElement.offsetHeight, this._heightPage );
+        this._width = width != undefined || !this.htmlElement ? width : Math.max( this.htmlElement.offsetWidth, this._widthPage );
+        this._height = height != undefined || !this.htmlElement ? height : Math.max( this.htmlElement.offsetHeight, this._heightPage );
         this._size = new Point( this._width, this._height );
     }
 

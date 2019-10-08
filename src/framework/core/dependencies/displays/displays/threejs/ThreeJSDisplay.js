@@ -51,6 +51,7 @@ export default class ThreeJSDisplay extends AbstractDisplay {
     initRenderer() {
         const RendererClass = this.rendererClassGet();
         this._renderer = new RendererClass( this.vo.rendererParameters );
+        this.resize( this.size.x, this.size.y );
     }
     initScene() {
         this._scene = new Scene();
@@ -59,6 +60,7 @@ export default class ThreeJSDisplay extends AbstractDisplay {
         this.camera = this.cameraCreate();
     }
     initViewElement() {
+        this.vo.canvas = this._renderer.domElement;
         this.viewElement = this._renderer.domElement;
     }
 
