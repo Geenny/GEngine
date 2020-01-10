@@ -1,6 +1,6 @@
 const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
-const config = require('./webpack.config.development')
+const config = require('./webpack/webpack.config.development')
 const open = require('open')
 // const path = require('path')
 

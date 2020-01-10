@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node entry.js",
-    "start2": "node entry.js config=./webpack.config.development.js",
+    "start2": "node entry.js config=./webpack/webpack.config.development.js",
     "start:dev": "webpack-dev-server"
   },
   "keywords": [],
@@ -21,12 +21,15 @@
     "css-loader": "^0.28.11",
     "eslint": "^4.15.0",
     "file-loader": "^1.1.11",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.9.0",
     "node-fetch": "^2.3.0",
     "open": "0.0.5",
     "shx": "^0.2.2",
     "three": "^0.108.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "webpack": "^4.10.2",
+    "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.1.4",
     "webpack-merge": "^4.1.2",
     "webpack-visualizer-plugin": "^0.1.11"

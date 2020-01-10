@@ -7,6 +7,8 @@ import DependencyMachine from "../machines/dependency/DependencyMachine";
 import DependencyMachineVO from "../machines/dependency/vo/DependencyMachineVO";
 import Event from "../machines/event/Event";
 import DependencyMachineEvent from "../machines/dependency/events/DependencyMachineEvent";
+import TickerMachine from "../machines/ticker/TickerMachine";
+import TickerMachineVO from "../machines/ticker/vo/TickerMachineVO";
 
 export default class Application extends EventDispathcer {
 
@@ -42,6 +44,7 @@ export default class Application extends EventDispathcer {
 
     init() {
         this._initVars();
+        this.initTickerMachine();
         this.initDependencyMachine();
     }
 
@@ -81,6 +84,16 @@ export default class Application extends EventDispathcer {
         dependencyMachineVO.application = this;
 
         return dependencyMachineVO;
+    }
+
+
+    //
+    // TICKER MACHINE
+    //
+    
+    initTickerMachine() {
+        const tickerMachine = new TickerMachine( this.vo.tickerMachineVO || new TickerMachineVO() );
+        this.tickerMachine = tickerMachine;
     }
     
 

@@ -63,7 +63,7 @@ const MAIN = {
                         ID: 10,
                         class: Displays,
                         classVO: DisplaysVO,
-                        dependenceNameList: []
+                        dependenceNameList: [ "Systems" ]
                     }
                 ]
             }

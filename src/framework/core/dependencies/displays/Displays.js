@@ -25,15 +25,15 @@ export default class Displays extends DependencyAbstract {
     /**
      * Выбранный вид
      */
-    get display() { return this._displaySturct ? this._displaySturct.instance : null; }
+    get display() { return this._displayStruct ? this._displayStruct.instance : null; }
 
     /**
      * DisplaySturct
      */
-    get displaySturct() { return this._displaySturct; }
-    set displaySturct( value ) {
-        if ( !value || this._displaySturct === value ) return;
-        this._displaySturct = value;
+    get displayStruct() { return this._displayStruct; }
+    set displayStruct( value ) {
+        if ( !value || this._displayStruct === value ) return;
+        this._displayStruct = value;
         this.updateDisplay();
     }
 
@@ -136,7 +136,7 @@ export default class Displays extends DependencyAbstract {
      */
     displayByNameGet( name ) {
         const displayStruct = ArrayUtils.findValueAsObject( this.displayStructList, "name", name );
-        if ( displayStruct.display ) this._displaySturct = displayStruct;
+        if ( displayStruct.display ) this._displayStruct = displayStruct;
         return displayStruct.display;
     }
 
@@ -163,8 +163,8 @@ export default class Displays extends DependencyAbstract {
     }
 
     _displayDeafultInit() {
-        if ( this.displaySturct ) return;
-        this.displaySturct = this.displayDefaultGet();
+        if ( this.displayStruct ) return;
+        this.displayStruct = this.displayDefaultGet();
     }
 
     _displayCreateByDisplayStruct( displayStruct ) {
@@ -207,8 +207,8 @@ export default class Displays extends DependencyAbstract {
 
     initTicker() {
         // TODO Make tikcker
-        setInterval(() => {
+        this.application.tickerMachine.addMethod(() => {
             if ( this.display ) this.display.draw();
-        }, 1000 / 60);
+        });
     }
 }
