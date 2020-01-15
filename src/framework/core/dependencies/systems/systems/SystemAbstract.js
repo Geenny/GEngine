@@ -1,14 +1,13 @@
-import EventDispathcer from "../../../machines/event/EventDispatcher";
 import ERRORS from "../../../../config/ERRORS";
 import SystemVO from "./vo/SystemVO";
+import EventDispatcherVOWrapper from "../../../../data/vo/EventDispatcherVOWrapper";
 
-export default class SystemAbstract extends EventDispathcer {
+export default class SystemAbstract extends EventDispatcherVOWrapper {
 
     constructor( systemVO = new SystemVO() ) {
-        super();
+        super( systemVO );
         if ( new.target === SystemAbstract )
             throw new TypeError( ERRORS.E1001 );
-        this.initVO( systemVO );
     }
 
 
@@ -18,11 +17,6 @@ export default class SystemAbstract extends EventDispathcer {
     get name() { return this.vo.name; }
     get target() { return this.vo.target; }
     get isStarted() { return this._isStarted || false; }
-
-    // VO
-    initVO( vo ) {
-        this.vo = vo;
-    }
 
     /**
      * Запуск системы. Система, в отличии от @dependency , запускается асинхронно,

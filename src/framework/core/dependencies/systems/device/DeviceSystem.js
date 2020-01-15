@@ -26,9 +26,6 @@ export default class DeviceSystem extends SystemAbstract {
     init() {
         this.setListeners();
     }
-    initVO( vo ) {
-        this.vo = vo;
-    }
 
     sizeUpdate( width = undefined, height = undefined ) {
         this._width = width != undefined || !this.htmlElement ? width : this.htmlElement.offsetWidth;

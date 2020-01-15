@@ -25,9 +25,6 @@ export default class KeyboardSystem extends SystemAbstract {
     init() {
         this.setListeners();
     }
-    initVO( vo ) {
-        this.vo = vo;
-    }
 
 
     //

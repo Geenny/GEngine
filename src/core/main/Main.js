@@ -5,6 +5,7 @@ import { Tween } from "@createjs/tweenjs";
 import DependencyMachineEvent from "../../framework/core/machines/dependency/events/DependencyMachineEvent";
 import Net from "../../framework/core/dependencies/network/network/Net";
 import Log from "../../framework/utils/log/Log";
+import Game from "../game/source/Game";
 
 
 export default class Main extends Application {
@@ -20,6 +21,7 @@ export default class Main extends Application {
 
     init() {
         super.init();
+        this.startGame();
         this.addEventListener( Event.ANY, this.onEvent, this );
 
 
@@ -28,6 +30,16 @@ export default class Main extends Application {
 
     onEvent( event ) {
         // Log.l( event );
+    }
+
+
+    //
+    // GAME
+    // 
+
+    startGame() {
+        this.game = new Game( this );
+        this.game.init();
     }
 
 }

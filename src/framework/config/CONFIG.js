@@ -8,20 +8,32 @@ import Net from "../core/dependencies/network/network/Net";
 import NetVO from "../core/dependencies/network/network/vo/NetVO";
 import Displays from "../core/dependencies/displays/Displays";
 import DisplaysVO from "../core/dependencies/displays/vo/DisplaysVO";
+import { DISPLAY_SYSTEM_NAME, KEYBOARD_SYSTEM_NAME, DEVICE_SYSTEM_NAME, TIME_SYSTEM_NAME } from "../constants/Constants";
+import DependencyIDs from "../core/dependencies/DependencyIDs";
+import TimeSystem from "../core/dependencies/systems/time/TimeSystem";
 
 const VIEW_SYSTEM = {
     ... SystemSource,
-    class: DisplaySystem
+    class: DisplaySystem,
+    options: { name: DISPLAY_SYSTEM_NAME }
 };
 
 const KEYBOARD_SYSTEM = {
     ... SystemSource,
-    class: KeyboardSystem
+    class: KeyboardSystem,
+    options: { name: KEYBOARD_SYSTEM_NAME }
 };
 
 const DEVICE_SYSTEM = {
     ... SystemSource,
-    class: DeviceSystem
+    class: DeviceSystem,
+    options: { name: DEVICE_SYSTEM_NAME }
+};
+
+const TIME_SYSTEM = {
+    ... SystemSource,
+    class: TimeSystem,
+    options: { name: TIME_SYSTEM_NAME }
 };
 
 const MAIN = {
@@ -33,14 +45,15 @@ const MAIN = {
                     // Systems 
                     {
                         ... DependencyStruct,
-                        ID: 1,
+                        ID: DependencyIDs.SYSTEMS,
                         class: Systems,
                         dependenceNameList: [],
                         options: {
                             systemsStartList: [
                                 VIEW_SYSTEM,
                                 DEVICE_SYSTEM,
-                                KEYBOARD_SYSTEM
+                                KEYBOARD_SYSTEM,
+                                TIME_SYSTEM
                             ]
                         }
                     },
@@ -48,7 +61,7 @@ const MAIN = {
                     // Network
                     {
                         ... DependencyStruct,
-                        ID: 2,
+                        ID: DependencyIDs.NET,
                         class: Net,
                         classVO: NetVO,
                         dependenceNameList: []
@@ -60,10 +73,10 @@ const MAIN = {
                     // Display or displays
                     {
                         ...DependencyStruct,
-                        ID: 10,
+                        ID: DependencyIDs.DISPLAYS,
                         class: Displays,
                         classVO: DisplaysVO,
-                        dependenceNameList: [ "Systems" ]
+                        dependenceNameList: [ 1 ]
                     }
                 ]
             }

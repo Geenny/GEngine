@@ -29,6 +29,15 @@ module.exports = {
 		new webpack.HotModuleReplacementPlugin()
 	],
 	module: {
+		// loaders: [
+		// 	{
+		// 		test: /\.js$/,
+		// 		loader: 'babel-loader',
+		// 		query: {
+		// 			presets: ['es2015']
+		// 		}
+		// 	}
+		// ],
 		rules: [
 			// {
 			// 	test: /node_modules[/\\]tweenjs/,
@@ -38,6 +47,6 @@ module.exports = {
 			// { test: /\.less$/, use: [ 'style-loader', 'css-loader', 'postcss-loader', 'less-loader' ] },
 			// { test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/, use: [ 'file-loader' ] },
 			// { test: /\.(png|jpg|gif)$/, use: [ { loader: 'url-loader', options: { limit: 100000 } } ] }
-		],
+		]
 	}
 }

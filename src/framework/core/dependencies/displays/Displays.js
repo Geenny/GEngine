@@ -117,6 +117,7 @@ export default class Displays extends DependencyAbstract {
         this._displayDeafultInit();
         this._initHtmlElement();
         this.subscribe();
+        this.initTicker();
         this.startComplete();
     }
 
@@ -146,7 +147,6 @@ export default class Displays extends DependencyAbstract {
 
     updateDisplay() {
         this._updateViewElement();
-        this.initTicker();
     }
 
     _updateViewElement() {

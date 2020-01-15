@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node entry.js",
     "start2": "node entry.js config=./webpack/webpack.config.development.js",
-    "start:dev": "webpack-dev-server"
+    "start:dev": "webpack-dev-server",
+    "build": "webpack --config webpack/webpack.config.production.js"
   },
   "keywords": [],
   "author": "Geenny",
@@ -37,6 +38,7 @@
   "dependencies": {
     "@createjs/tweenjs": "^2.0.0-beta.4",
     "createjs": "^1.0.1",
+    "lodash": "^4.17.15",
     "tweenjs": "^1.0.2"
   }
 }

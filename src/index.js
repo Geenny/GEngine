@@ -9,3 +9,4 @@ mainVO.HTMLElement = HTMLElement;
 
 const application = new Main( mainVO );
 application.init();
+window.APP = application;

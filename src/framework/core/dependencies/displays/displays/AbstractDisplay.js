@@ -29,6 +29,11 @@ export default class AbstractDisplay extends EventDispathcer {
     set enable( value ) { this._enable = value; }
 
     /**
+     * отношение сторон
+     */
+    get aspect() { return this.size.x / this.size.y; }
+
+    /**
      * Размер рендерера
      */
     get size() { return this.vo.size; }

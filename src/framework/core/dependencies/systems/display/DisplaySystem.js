@@ -22,6 +22,7 @@ export default class DisplaySystem extends SystemAbstract {
     get height() { return this._height || 0; }
     get application() { return this.target; }
     get htmlElement() { return this.application.HTMLElement; }
+    get name() { return this.vo.name; }
 
 
 
@@ -32,9 +33,6 @@ export default class DisplaySystem extends SystemAbstract {
     init() {
         this.sizeUpdate();
         this.setListeners();
-    }
-    initVO( vo ) {
-        this.vo = vo;
     }
 
     sizeUpdate( width = undefined, height = undefined ) {

@@ -1,33 +1,23 @@
 import State from "./State";
-import EventDispatcher from "./../event/EventDispatcher";
 import StateMachineEvent from "./events/StateMachineEvent";
+import EventDispatcherVOWrapper from "../../../data/vo/EventDispatcherVOWrapper";
 
-export default class StateMachine extends EventDispatcher {
+export default class StateMachine extends EventDispatcherVOWrapper {
 
     /**
      * 
      * @param {StateMachineVO} vo 
      */
     constructor( vo ) {
-        super();
-        this.init( vo );
+        super( vo );
+        this.init();
     }
 
     /**
-     * 
      * @param { StateMachineVO } vo 
      */
-    init( vo ) {
+    init() {
         this.initVars();
-        this.initVO( vo );
-    }
-
-    /**
-     * 
-     * @param { StateMachineVO } vo 
-     */
-    initVO( vo ) {
-        this.vo = vo;
         this._statesCreateFromVO();
     }
 

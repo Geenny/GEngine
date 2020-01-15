@@ -4,7 +4,7 @@ export default class StructList {
 
     /**
      * 
-     * @param {Array<Struct>} list 
+     * @param { Array<Struct> } list 
      */
     constructor( list = [] ) {
         this.list = ArrayUtils.clone( list );

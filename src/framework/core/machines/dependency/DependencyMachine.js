@@ -1,4 +1,3 @@
-import EventDispathcer from "../event/EventDispatcher";
 import DependencyMachineVO from "./vo/DependencyMachineVO";
 import DependencyEvent from "./events/DependencyEvent";
 import DependencyMachineEvent from "./events/DependencyMachineEvent";
@@ -8,12 +7,12 @@ import DependencyAbstract from "./DependencyAbstract";
 import DependencyVO from "./vo/DependencyVO";
 import ArrayUtils from "../../../utils/tech/ArrayUtils";
 import DependencyStruct from "./struct/DependencyStruct";
+import EventDispatcherVOWrapper from "../../../data/vo/EventDispatcherVOWrapper";
 
-export default class DependencyMachine extends EventDispathcer {
+export default class DependencyMachine extends EventDispatcherVOWrapper {
 
-    constructor( vo = new DependencyMachineVO() ) {
-        super();
-        this._setVO( vo );
+    constructor( dependencyMachineVO = new DependencyMachineVO() ) {
+        super( dependencyMachineVO );
         this._initVars();
     }
 
@@ -225,10 +224,10 @@ export default class DependencyMachine extends EventDispathcer {
 
                 const dependencyStruct = this.dependencyList[ key ];
                 const dependencyInstance = dependencyStruct.dependency;
+                const containsDependencyIsReady = dependenceNameList.indexOf( dependencyStruct.name ) != -1 ||
+                    dependenceNameList.indexOf( dependencyStruct.ID );
 
-                if ( dependenceNameList.indexOf( dependencyStruct.name ) != -1 &&
-                    dependencyInstance.state === DependencyStates.WORKING )
-                {
+                if ( containsDependencyIsReady && dependencyInstance.state === DependencyStates.WORKING ) {
                     list.push( dependencyStruct.name );
                 }
 
@@ -386,10 +385,6 @@ export default class DependencyMachine extends EventDispathcer {
                 this._dependencyIsStopped( event.target );
                 break;
         }
-    }
-
-    _setVO( vo ) {
-        this.vo = vo;
     }
 
 }

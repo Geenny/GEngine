@@ -22,8 +22,7 @@ export default class Net extends DependencyAbstract {
      * @param {NetVO} netVO Наследник @DependencyVO
      */
     constructor( netVO = new NetVO() ) {
-        super();
-        this._initVO( netVO );
+        super( netVO );
     }
 
     //
@@ -50,7 +49,6 @@ export default class Net extends DependencyAbstract {
      * Назначение NetVO. Происходит один раз из конструктора класса.
      * @param {NetVO} vo 
      */
-    _initVO( vo ) { this.vo = vo; }
     _initVars() {
         this._servers = [];
         this._loaders = [];

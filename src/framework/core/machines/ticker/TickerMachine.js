@@ -1,35 +1,24 @@
-import EventDispatcher from "./../event/EventDispatcher";
 import TickerMachineVO from "./vo/TickerMachineVO";
 import Ticker from "./Ticker";
+import EventDispatcherVOWrapper from "../../../data/vo/EventDispatcherVOWrapper";
 
-export default class TickerMachine extends EventDispatcher {
+export default class TickerMachine extends EventDispatcherVOWrapper {
 
     /**
      * 
-     * @param {TickerMachineVO} vo 
+     * @param { TickerMachineVO } vo 
      */
     constructor( vo ) {
-        super();
-        this.init( vo );
+        super( vo );
+        this.init();
     }
 
     /**
-     * 
-     * @param { StateMachineVO } vo 
+     * Init
      */
     init( vo ) {
         this.initVars();
-        this.initVO( vo );
         this._initDefaultTicker();
-    }
-
-    /**
-     * 
-     * @param { StateMachineVO } vo 
-     */
-    initVO( vo ) {
-        this.vo = vo;
-        this._startDefaultTicker();
     }
 
     initVars() {
@@ -38,7 +27,7 @@ export default class TickerMachine extends EventDispatcher {
     }
 
     _initDefaultTicker() {
-        if (!this.startOnCreate) return;
+        if ( !this.startOnCreate ) return;
         this._startDefaultTicker();
     }
 
@@ -67,9 +56,9 @@ export default class TickerMachine extends EventDispatcher {
 
     _startDefaultTicker() {
         if ( this.defaultTicker ) return;
-        this._createTicker( this.fps );
+        this._createTicker( this.vo.fps );
     }
-    _createTicker( fps, method  = null ) {
+    _createTicker( fps = 60, method  = null ) {
         const ticker = new Ticker( fps, method, true );
         this._tickers.push( ticker );
     }

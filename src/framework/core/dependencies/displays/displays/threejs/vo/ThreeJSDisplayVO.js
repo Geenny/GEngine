@@ -17,7 +17,7 @@ export default class ThreeJSDisplayVO extends DisplayVO {
             // canvas: null,
             // context: null,
             precision: "highp", // "highp", "mediump", "lowp"
-            alpha: false,
+            // alpha: false,
             premultipliedAlpha: true,
             antialias: false,
             stencil: true,

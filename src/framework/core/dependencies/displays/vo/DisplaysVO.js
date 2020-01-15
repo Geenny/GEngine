@@ -1,6 +1,7 @@
 import DependencyVO from "../../../machines/dependency/vo/DependencyVO";
 import ThreeJSDisplay from "../displays/threejs/ThreeJSDisplay";
 import ThreeJSDisplayVO from "../displays/threejs/vo/ThreeJSDisplayVO";
+import { DISPLAY_SYSTEM_NAME } from "../../../../constants/Constants";
 
 export default class DisplaysVO extends DependencyVO {
 
@@ -22,7 +23,7 @@ export default class DisplaysVO extends DependencyVO {
             }
         ];
 
-        this.displaySystemName = "DisplaySystem";
+        this.displaySystemName = DISPLAY_SYSTEM_NAME;
     }
 
 }

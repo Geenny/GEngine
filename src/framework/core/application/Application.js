@@ -9,6 +9,7 @@ import Event from "../machines/event/Event";
 import DependencyMachineEvent from "../machines/dependency/events/DependencyMachineEvent";
 import TickerMachine from "../machines/ticker/TickerMachine";
 import TickerMachineVO from "../machines/ticker/vo/TickerMachineVO";
+import Displays from "../dependencies/displays/Displays";
 
 export default class Application extends EventDispathcer {
 
@@ -62,10 +63,10 @@ export default class Application extends EventDispathcer {
     }
     onDependencyMachineEvent( event ) {
         const dependency = event.dependency;
-        if ( dependency ) {
-            if ( dependency instanceof Systems ) {
-                this.systems = dependency;
-            }
+        if ( dependency instanceof Systems ) {
+            this.systems = dependency;
+        } else if ( dependency instanceof Displays) {
+            this.applicationDisplay = dependency.display;
         }
         this.dispatchEvent( new DependencyMachineEvent( event.type, event.dependencyMachine, event.dependency ) );
     }

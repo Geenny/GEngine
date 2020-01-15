@@ -1,19 +1,18 @@
-import EventDispathcer from "../event/EventDispatcher";
 import DependencyVO from "./vo/DependencyVO";
 import StateMachine from "../state/StateMachine";
 import StateMachineVO from "../state/vo/StateMachineVO";
 import DependencyStates from "./states/DependencyState";
 import DependencyEvent from "./events/DependencyEvent";
 import ERRORS from "../../../config/ERRORS";
+import EventDispatcherVOWrapper from "../../../data/vo/EventDispatcherVOWrapper";
 
-export default class DependencyAbstract extends EventDispathcer {
+export default class DependencyAbstract extends EventDispatcherVOWrapper {
 
-    constructor( vo = new DependencyVO() ) {
-        super();
+    constructor( dependencyVO = new DependencyVO() ) {
+        super( dependencyVO );
         if ( new.target === DependencyAbstract ) {
             throw new TypeError( ERRORS.E1000 );
         }
-        this._setVO( vo );
     }
 
     //
@@ -94,10 +93,6 @@ export default class DependencyAbstract extends EventDispathcer {
     error() {
         this.state = DependencyStates.ERROR;
         this.dispatchEvent( new DependencyEvent( DependencyEvent.ERROR ) );
-    }
-
-    _setVO( vo ) {
-        this.vo = vo;
     }
 
 }

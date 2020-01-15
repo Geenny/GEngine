@@ -11,8 +11,7 @@ export default class Systems extends DependencyAbstract {
      * @param {SystemsVO} systemsVO Наследник @DependencyVO
      */
     constructor( systemsVO = new SystemsVO() ) {
-        super();
-        this.initVO( systemsVO );
+        super( systemsVO );
     }
 
     //
@@ -35,9 +34,6 @@ export default class Systems extends DependencyAbstract {
 
     init() {
         super.init();
-    }
-    initVO( vo ) {
-        this.vo = vo;
     }
 
 
