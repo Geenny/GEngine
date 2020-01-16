@@ -53,45 +53,37 @@ export default class ThreeJSDisplay extends AbstractDisplay {
 	    // this.camera.position.x = 100;
 	    this.camera.lookAt(this.scene.position);
         this.camera.position.z = 400;
-
-        // Let there be light!
-        var light = new DirectionalLight( 0xffffff, 1 );
-        light.position.set( 50, 50, 50 );
-        this.scene.add(light);
-
-        // And the box.
-        var geometry = new BoxGeometry( 20, 20, 20 );
-        var material = new MeshPhongMaterial( {color: 0xcccccc} );
-        this.cube = new Mesh( geometry, material );
-        // this.cube.position.z = -800;
-        this.scene.add( this.cube );
-
-
 	    this.uicamera.lookAt(this.uiscene.position);
-        // this.uicamera.position.y = 0;
         this.uicamera.position.z = 900;
-	    // this.uicamera.position.x = 10;
-        
-        // Let there be light!
-        var light2 = new DirectionalLight( 0xffffff, 1 );
-        light2.position.set( 50, 50, 50 );
-        this.uiscene.add(light2);
 
-        // And the box.
-        var geometry2 = new PlaneGeometry( 160, 160, 0 );
-        var material2 = new MeshPhongMaterial( { color: 0xff0066 } );
-        this.plane = new Mesh( geometry2, material2 );
-        
-        var geometry3 = new PlaneGeometry( 80, 80, 0 );
-        var material3 = new MeshPhongMaterial( { color: 0x330900 } );
-        this.plane2 = new Mesh( geometry3, material3 );
+        // var light = new DirectionalLight( 0xffffff, 1 );
+        // light.position.set( 50, 50, 50 );
+        // this.scene.add(light);
 
-        var geometry4 = new PlaneGeometry( 60, 60, 0 );
-        var material4 = new MeshPhongMaterial( { color: 0x33b900 } );
-        this.plane3 = new Mesh( geometry4, material4 );
-        this.uiscene.add( this.plane );
-        this.uiscene.add( this.plane2 );
-        this.uiscene.add( this.plane3 );
+        // var geometry = new BoxGeometry( 20, 20, 20 );
+        // var material = new MeshPhongMaterial( {color: 0xcccccc} );
+        // this.cube = new Mesh( geometry, material );
+        // // this.cube.position.z = -800;
+        // this.scene.add( this.cube );
+        
+        // var light2 = new DirectionalLight( 0xffffff, 1 );
+        // light2.position.set( 50, 50, 50 );
+        // this.uiscene.add(light2);
+
+        // var geometry2 = new PlaneGeometry( 160, 160, 0 );
+        // var material2 = new MeshPhongMaterial( { color: 0xff0066 } );
+        // this.plane = new Mesh( geometry2, material2 );
+        
+        // var geometry3 = new PlaneGeometry( 80, 80, 0 );
+        // var material3 = new MeshPhongMaterial( { color: 0x330900 } );
+        // this.plane2 = new Mesh( geometry3, material3 );
+
+        // var geometry4 = new PlaneGeometry( 60, 60, 0 );
+        // var material4 = new MeshPhongMaterial( { color: 0x33b900 } );
+        // this.plane3 = new Mesh( geometry4, material4 );
+        // this.uiscene.add( this.plane );
+        // this.uiscene.add( this.plane2 );
+        // this.uiscene.add( this.plane3 );
     }
     initRenderer() {
         const RendererClass = this.rendererClassGet();
@@ -202,15 +194,15 @@ export default class ThreeJSDisplay extends AbstractDisplay {
         this._renderer.clearDepth();
         this._renderer.render( this._uiscene, this._uicamera );
         
-        this.cube.rotation.x += 0.005;
-        this.cube.rotation.y -= 0.005;
-        this.cube.rotation.z += 0.01;
+        // this.cube.rotation.x += 0.005;
+        // this.cube.rotation.y -= 0.005;
+        // this.cube.rotation.z += 0.01;
         
-        this.plane.position.x = -this.size.x * 0.5 + 80 + 2;
-        this.plane.position.y = -this.size.y * 0.5 + 80 + 2;
-        this.plane2.position.x = -this.size.x * 0.5 + 80 + 2;
-        this.plane2.position.y = -this.size.y * 0.5 + 80 + 2;
-        this.plane3.position.x = -this.size.x * 0.5 + 80 + 2;
-        this.plane3.position.y = -this.size.y * 0.5 + 80 + 2;
+        // this.plane.position.x = -this.size.x * 0.5 + 80 + 2;
+        // this.plane.position.y = -this.size.y * 0.5 + 80 + 2;
+        // this.plane2.position.x = -this.size.x * 0.5 + 80 + 2;
+        // this.plane2.position.y = -this.size.y * 0.5 + 80 + 2;
+        // this.plane3.position.x = -this.size.x * 0.5 + 80 + 2;
+        // this.plane3.position.y = -this.size.y * 0.5 + 80 + 2;
     }
 }

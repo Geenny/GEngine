@@ -8,6 +8,9 @@ export default class DisplayObjectVO extends InteractiveObjectVO {
 
     init() {
 
+        this.enable = true;
+        this.group = 0;
+        this.name = "";
         this.texture = null;
         this.textureID = null;
         this.applicationTextureID = null;

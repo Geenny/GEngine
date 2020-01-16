@@ -197,7 +197,21 @@ export default class DependencyMachine extends EventDispatcherVOWrapper {
 
     /**
      * Вернуть @DependencyAbstract по имени @dependency
-     * @param {DependencyAbstract} name 
+     * @param { Number } ID Параметр из @DependencyIDs
+     */
+    dependencyByIDGet( ID ) {
+        for ( const key in this.dependencyList ) {
+            const dependencyStruct = this.dependencyList[ key ];
+            const dependency = dependencyStruct.dependency;
+            if ( dependency && dependency.ID === ID )
+                return dependency;
+        }
+        return null;
+    }
+
+    /**
+     * Вернуть @DependencyAbstract по имени @dependency
+     * @param { String } name 
      */
     dependencyByNameGet( name ) {
         for ( const key in this.dependencyList ) {

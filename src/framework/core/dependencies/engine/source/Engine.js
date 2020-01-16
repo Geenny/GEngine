@@ -2,6 +2,8 @@ import DependencyAbstract from "../../../machines/dependency/DependencyAbstract"
 import EngineVO from "./vo/EngineVO";
 import ScreenManager from "../content/screen/ScreenManager";
 import ScreenManagerVO from "../content/screen/vo/ScreenManagerVO";
+import Stage from "../content/display/Stage";
+import StageVO from "../content/display/vo/StageVO";
 
 export default class Engine extends DependencyAbstract {
 
@@ -17,7 +19,8 @@ export default class Engine extends DependencyAbstract {
     // GET/SET
     //
 
-    get display() { return this.application.display; }
+    get display() { return this.application.applicationDisplay; }
+
     get width() { return this.display.size.x; }
     get height() { return this.display.size.y; }
     get startUIX() { return Math.floor( this.display.size.x * 0.5 ); }
@@ -64,9 +67,28 @@ export default class Engine extends DependencyAbstract {
     //
 
     startMainModules() {
-        const screenManagerVO = new ScreenManagerVO( this.vo.screenManagerVOData );
-        this.screenManager = new ScreenManager( screenManagerVO );
-        this.screenManager.init();
+        this.startUIStage();
+        this.startStage();
+        // const screenManagerVO = new ScreenManagerVO( this.vo.screenManagerVOData );
+        // this.screenManager = new ScreenManager( screenManagerVO );
+        // this.screenManager.init();
+
+    }
+
+    startUIStage() {
+        const stageVO = new StageVO( {
+            scene: this.display.scene,
+            camera: this.display.camera
+        } );
+        this.uistage = new Stage( stageVO );
+    }
+
+    startStage() {
+        const stageVO = new StageVO( {
+            scene: this.display.scene,
+            camera: this.display.camera
+        } );
+        this.stage = new Stage( stageVO );
     }
 
 }

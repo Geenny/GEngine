@@ -8,8 +8,6 @@ export default class InteractiveObjectVO extends VO {
 
     init() {
 
-        this.enable = true;
-        this.group = 0;
         this.interactionID = 0;
         // this.texture = null;
         // this.textureID = null;

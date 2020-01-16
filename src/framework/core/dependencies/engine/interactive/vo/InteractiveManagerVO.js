@@ -10,8 +10,8 @@ export default class InteractiveManagerVO extends VO {
 
         super.init();
 
-        this.ID = UserID.UNDEFINED;
-        this.profile = null;
+        // this.ID = UserID.UNDEFINED;
+        // this.profile = null;
 
     }
 
