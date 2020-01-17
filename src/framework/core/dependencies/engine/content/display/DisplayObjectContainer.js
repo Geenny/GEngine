@@ -21,10 +21,10 @@ export default class DisplayObjectContainer extends DisplayObject {
 
     init() {
         super.init();
-        this._initVars();
+        this._initDisplayObjectContainerVars();
     }
 
-    _initVars() {
+    _initDisplayObjectContainerVars() {
         this._list = [];
     }
 
@@ -62,7 +62,7 @@ export default class DisplayObjectContainer extends DisplayObject {
     }
 
     _addToChildrenList( child ) {
-        this._addToChildrenList.push( child );
+        this._list.push( child );
     }
 
 }

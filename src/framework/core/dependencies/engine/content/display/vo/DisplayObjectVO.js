@@ -1,6 +1,6 @@
-import InteractiveObjectVO from "./InteractiveObjectVO";
+import VO from "../../../../../../data/vo/VO";
 
-export default class DisplayObjectVO extends InteractiveObjectVO {
+export default class DisplayObjectVO extends VO {
 
     constructor( data ) {
         super( data );

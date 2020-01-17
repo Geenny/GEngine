@@ -22,6 +22,7 @@ export default class DependencyAbstract extends EventDispatcherVOWrapper {
     /**
      * Имя зависимости @DependencyAbstract
      */
+    get ID() { return this.vo.ID; }
     get name() { return this.vo.name || this.constructor.name; }
 
     get state() { return this.sm.state ? this.sm.state.name : DependencyStates.STOPPED; }

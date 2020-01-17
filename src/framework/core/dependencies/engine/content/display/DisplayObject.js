@@ -29,6 +29,10 @@ export default class DisplayObject extends EventDispatcherVOWrapper {
         this._updateStage();
     }
 
+    get name() { return this._name; }
+
+    get object3D() { return this._object3D; }
+
     get x() { return this._x; }
     get y() { return this._y; }
     get width() { return this._width; }
@@ -41,21 +45,22 @@ export default class DisplayObject extends EventDispatcherVOWrapper {
     init() {
         if ( this._inited ) return;
         this._inited = true;
-        this._initVars();
+        this._initDisplayObjctVars();
     }
 
-    _initVars() {
+    _initDisplayObjctVars() {
         this._x = 0;
         this._y = 0;
         this._width = 0;
         this._height = 0;
-        this.name = this.vo.name;
+        this._enable = this.vo.enable;
+        this._name = this.vo.name;
     }
 
     _updateStage() {
         if ( this._parent && this._parent.stage && !this._stage ) {
-            this._stage.addToDisplay( this );
             this._stage = this._parent.stage;
+            this._stage.addToDisplay( this );
         } else {
             if ( this._stage ) {
                 this._stage.removeFromDisplay( this );

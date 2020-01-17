@@ -275,6 +275,8 @@ export default class DependencyMachine extends EventDispatcherVOWrapper {
         const DependencyClass = dependencyStruct.class || DependencyAbstract;
         const DependencyVOClass = dependencyStruct.classVO || DependencyVO;
         const dependencyVO = new DependencyVOClass( dependencyStruct.options );
+        dependencyVO.ID = dependencyStruct.ID;
+        dependencyVO.name = dependencyStruct.name;
         dependencyVO.application = this.application;
 
         const dependency = new DependencyClass( dependencyVO );

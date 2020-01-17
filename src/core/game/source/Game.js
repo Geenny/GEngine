@@ -3,6 +3,8 @@ import User from "../user/User";
 import UserVO from "../user/vo/UserVO";
 import DependencyIDs from "../../../framework/core/dependencies/DependencyIDs";
 import DependencyStates from "../../../framework/core/machines/dependency/states/DependencyState";
+import SpriteObject from "../../../framework/core/dependencies/engine/content/display/SpriteObject";
+import SpriteVO from "../../../framework/core/dependencies/engine/content/display/vo/SpriteVO";
 
 export default class Game extends EventDispathcer {
 
@@ -28,11 +30,12 @@ export default class Game extends EventDispathcer {
     //
 
     init() {
+        if ( this.inited ) return;
+        this._inited = true;
+        
         this._initUser();
         this._initEngine();
         // this._initMenu();
-        this._inited = true;
-        debugger;
     }
 
     _initUser() {
@@ -44,6 +47,10 @@ export default class Game extends EventDispathcer {
         // if ( engine.state === DependencyStates.WORKING ) {
 
         // }
+
+        const spriteVO = new SpriteVO();
+        const sprite = new SpriteObject( spriteVO );
+        this.engine.stage.addChild( sprite );
     }  
 
 }
