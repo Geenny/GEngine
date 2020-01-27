@@ -1,4 +1,5 @@
 import DisplayVO from "../../../vo/DisplayVO";
+import Camera from "../constants/Camera";
 
 export default class ThreeJSDisplayVO extends DisplayVO {
 
@@ -28,13 +29,30 @@ export default class ThreeJSDisplayVO extends DisplayVO {
             logarithmicDepthBuffer: false
         }
 
-        this.cameraType = "PerspectiveCamera";
-        this.cameraNear = 0.1;
-        this.cameraFar = 1000;
+        // Prespective camera parameters
+        this.camera = {
+            type: Camera.PerspectiveCamera,
+            near: 0.1,
+            far: 1000,
+            fov: 50,
+            aspect: 1, // width / height
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0
+        };
+
+        this.scene = {
+            backgroundColor: 0x222222
+        };
+
+        // this.cameraType = Camera.PerspectiveCamera;
+        // this.cameraNear = 0.1;
+        // this.cameraFar = 1000;
 
         // Prespective camera parameters
-        this.cameraFov = 50; // 
-        this.cameraAspect = 1; // width / height
+        // this.cameraFov = 50; // 
+        // this.cameraAspect = 1; // width / height
 
     }
 

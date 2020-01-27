@@ -4,7 +4,9 @@ export default class RequestLoader {
         this.reset();
         this.params = params;
         this.connector = connector;
-        this.data = null;
+        this.content = null;
+        this.loaded = 0;
+        this.total = 0;
     }
 
     reset() {
@@ -12,5 +14,8 @@ export default class RequestLoader {
         this.connector = null;
         this.state = null;
         this.tries = 0;
+        this.content = null;
+        this.loaded = 0;
+        this.total = 0;
     }
 }

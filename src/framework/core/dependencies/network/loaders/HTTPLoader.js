@@ -3,6 +3,7 @@ import LoaderEvent from "./events/LoaderEvent";
 import NetworkHTTPMethod from "../constants/NetworkHTTPMethod";
 import HTTPRequestResponseType from "../constants/HTTPRequestResponseType";
 import RequestStates from "./states/RequestStates";
+import ObjectUtils from "../../../../utils/tech/ObjectUtils";
 
 export default class HTTPLoader extends AbstractLoader {
 
@@ -15,13 +16,6 @@ export default class HTTPLoader extends AbstractLoader {
     // SET/GET
     //
 
-    get requestQueueCount() { return this.serverStruct.requestQueueCount; }
-    set requestQueueCount( value ) {
-        if ( this.requestQueueCount === value ) return;
-        this.serverStruct.requestQueueCount = value;
-    }
-
-    get url() { return this.server; }
     get method() { return this.serverStruct.method || NetworkHTTPMethod.GET; }
     get responseType() { return this.serverStruct.responseType || HTTPRequestResponseType.TEXT; }
 
@@ -38,7 +32,6 @@ export default class HTTPLoader extends AbstractLoader {
 
     initVars() {
         super.initVars();
-        this.connectors = [];
     }
 
 
@@ -47,8 +40,8 @@ export default class HTTPLoader extends AbstractLoader {
     //
 
     _requestComplete( request ) {
-        request.data = request.connector.response;
-        this._requestRemoveFromSended( request );
+        this._content = request.connector.response;
+        request.content = request.connector.response;
     }
 
     _requestDestroy( request ) {
@@ -74,7 +67,7 @@ export default class HTTPLoader extends AbstractLoader {
                 ...request.params
             } );
         } else {
-            this._xhrSend( xhr, this.proxy, this.method, request.params );
+            this._xhrSend( xhr, this.url, this.method, request.params );
         }
     }
     _xhrSend( xhr, url, method, params ) {
@@ -96,11 +89,14 @@ export default class HTTPLoader extends AbstractLoader {
     }
 
     formatParams( params ) {
+        if ( ObjectUtils.noData( params ) ) {
+            return "";
+        }
         return "?" + Object.keys(params)
             .map(function(key){
                 return key + "=" + encodeURIComponent(params[key])
             })
-            .join("&")
+            .join("&");
     }
 
     
@@ -120,16 +116,14 @@ export default class HTTPLoader extends AbstractLoader {
             loadstart: this.onInit.bind( this ),
             progress: this.onProgress.bind( this ),
             load: this.onComplete.bind( this ),
-            // readystatechange: this.onReadyStateChange.bind( this ),
             timeout: this.onTimeout.bind( this ),
             abort: this.onAbort.bind( this ),
             error: this.onError.bind( this ),
-        }
+        };
         
         xhr.addEventListener( 'loadstart', handlers.loadstart );
         xhr.addEventListener( 'progress', handlers.progress );
         xhr.addEventListener( 'load', handlers.load );
-        // xhr.addEventListener( 'readystatechange', readystatechange );
         xhr.addEventListener( 'timeout', handlers.timeout );
         xhr.addEventListener( 'abort', handlers.abort );
         xhr.addEventListener( 'error', handlers.error );
@@ -144,6 +138,8 @@ export default class HTTPLoader extends AbstractLoader {
     }
     onProgress( event ) {
         const request = event.currentTarget.request;
+        request.loaded = event.loaded;
+        request.total = event.total;
         this.onProgressHandle( event.currentTarget.request );
     }
     onReadyStateChange( event ) {
@@ -175,11 +171,10 @@ export default class HTTPLoader extends AbstractLoader {
         this.dispatchEvent( new LoaderEvent( LoaderEvent.PROGRESS, request ) );
     }
     onCompleteHandle( request ) {
-        request.state = RequestStates.NONE;
+        request.state = RequestStates.COMPLETE;
         this._requestComplete( request );
         this.dispatchEvent( new LoaderEvent( LoaderEvent.COMPLETE, request ) );
         this._requestDestroy( request );
-        this._sendQueueHandle();
     }
     onErrorHandle( request ) {
         request.state = RequestStates.NONE;

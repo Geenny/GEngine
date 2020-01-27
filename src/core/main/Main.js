@@ -3,7 +3,7 @@ import MainVO from "./MainVO";
 import Event from "../../framework/core/machines/event/Event";
 import { Tween } from "@createjs/tweenjs";
 import DependencyMachineEvent from "../../framework/core/machines/dependency/events/DependencyMachineEvent";
-import Net from "../../framework/core/dependencies/network/network/Net";
+import Net from "../../framework/core/dependencies/network/Net";
 import Log from "../../framework/utils/log/Log";
 import Game from "../game/source/Game";
 

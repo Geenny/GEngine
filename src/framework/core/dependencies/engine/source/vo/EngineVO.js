@@ -8,6 +8,7 @@ export default class EngineVO extends DependencyVO {
 
     init() {
         super.init();
+        this.resourceVOData = {};
     }
 
 }

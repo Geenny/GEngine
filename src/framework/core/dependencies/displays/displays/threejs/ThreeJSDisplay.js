@@ -1,5 +1,5 @@
 import AbstractDisplay from "../AbstractDisplay";
-import { Scene, PerspectiveCamera, OrthographicCamera, DirectionalLight, BoxGeometry, PlaneGeometry, MeshPhongMaterial, Mesh } from "three";
+import { Scene, PerspectiveCamera, OrthographicCamera, DirectionalLight, BoxGeometry, PlaneGeometry, MeshPhongMaterial, Mesh, Group, Color } from "three";
 import RendererStruct from "./struct/RendererStruct";
 import RendererEnum from "./enum/RendererEnum";
 import CameraStruct from "./struct/CameraStruct";
@@ -53,12 +53,16 @@ export default class ThreeJSDisplay extends AbstractDisplay {
 	    // this.camera.position.x = 100;
 	    this.camera.lookAt(this.scene.position);
         this.camera.position.z = 400;
-	    this.uicamera.lookAt(this.uiscene.position);
+	    this.uicamera.lookAt( this.uiscene.position );
         this.uicamera.position.z = 900;
 
-        // var light = new DirectionalLight( 0xffffff, 1 );
-        // light.position.set( 50, 50, 50 );
-        // this.scene.add(light);
+        var light3D = new DirectionalLight( 0xffffff, 1 );
+        light3D.position.set( 0, 0, 900 );
+        this.scene.add( light3D );
+        
+        var light2D = new DirectionalLight( 0xffffff, 1 );
+        light2D.position.set( 0, 0, 900 );
+        this.uiscene.add( light2D );
 
         // var geometry = new BoxGeometry( 20, 20, 20 );
         // var material = new MeshPhongMaterial( {color: 0xcccccc} );
@@ -66,13 +70,12 @@ export default class ThreeJSDisplay extends AbstractDisplay {
         // // this.cube.position.z = -800;
         // this.scene.add( this.cube );
         
-        // var light2 = new DirectionalLight( 0xffffff, 1 );
-        // light2.position.set( 50, 50, 50 );
-        // this.uiscene.add(light2);
 
         // var geometry2 = new PlaneGeometry( 160, 160, 0 );
         // var material2 = new MeshPhongMaterial( { color: 0xff0066 } );
         // this.plane = new Mesh( geometry2, material2 );
+        // var group = new Group();
+        // group.add( this.plane );
         
         // var geometry3 = new PlaneGeometry( 80, 80, 0 );
         // var material3 = new MeshPhongMaterial( { color: 0x330900 } );
@@ -81,24 +84,25 @@ export default class ThreeJSDisplay extends AbstractDisplay {
         // var geometry4 = new PlaneGeometry( 60, 60, 0 );
         // var material4 = new MeshPhongMaterial( { color: 0x33b900 } );
         // this.plane3 = new Mesh( geometry4, material4 );
-        // this.uiscene.add( this.plane );
+        // this.uiscene.add( group );
         // this.uiscene.add( this.plane2 );
         // this.uiscene.add( this.plane3 );
     }
     initRenderer() {
         const RendererClass = this.rendererClassGet();
         this._renderer = new RendererClass( this.vo.rendererParameters );
-        // this._renderer.setClearColor( 0x000000, 0 );
         this._renderer.autoClear = false;
         this.resize( this.size.x, this.size.y );
     }
     initScene() {
         this._scene = new Scene();
+        this._scene.background = new Color( this.vo.scene.backgroundColor );
         this._uiscene = new Scene();
     }
     initCameras() {
         this._camera = this.cameraCreate( 0, this.cameraType );
         this._uicamera = this.cameraCreate( 1, CameraStruct.OrthographicCamera );
+        // this._uicamera = this.cameraCreate( 0, CameraStruct.OrthographicCamera );
         // this._uicamera = this.cameraCreate( 1, CameraStruct.PerspectiveCamera );
     }
     initViewElement() {
@@ -128,7 +132,7 @@ export default class ThreeJSDisplay extends AbstractDisplay {
     //
 
     updateCamerasAspect() {
-        this.vo.cameraAspect = this.aspect;
+        this.vo.camera.aspect = this.aspect;
 
         for ( var i = 0; i < this._cameras.length; i++ ) {
             const camera = this._cameras[ i ];
@@ -157,18 +161,18 @@ export default class ThreeJSDisplay extends AbstractDisplay {
         switch( type ) {
             case CameraStruct.OrthographicCamera:
                 return new OrthographicCamera(
-                    this.vo.cameraLeft,
-                    this.vo.cameraRight,
-                    this.vo.cameraTop,
-                    this.vo.cameraBottom,
-                    this.vo.cameraNear,
-                    this.vo.cameraFar );
+                    this.vo.camera.left,
+                    this.vo.camera.right,
+                    this.vo.camera.top,
+                    this.vo.camera.bottom,
+                    this.vo.camera.near,
+                    this.vo.camera.far );
             default:
                 return new PerspectiveCamera(
-                    this.vo.cameraFov,
-                    this.vo.cameraAspect,
-                    this.vo.cameraNear,
-                    this.vo.cameraFar );
+                    this.vo.camera.fov,
+                    this.vo.camera.fspect,
+                    this.vo.camera.near,
+                    this.vo.camera.far );
         }
     }
 

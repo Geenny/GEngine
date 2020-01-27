@@ -32,8 +32,8 @@ export default class ArrayUtils {
      * @param { string } key 
      * @param { * } value 
      */
-    static findAsObject( list, key, value ) {
-        return !!ArrayUtils.findValueAsObject( list, key, value );
+    static isValueInList( list, key, value ) {
+        return !!ArrayUtils.findAsObject( list, key, value );
     }
 
     /**
@@ -42,7 +42,7 @@ export default class ArrayUtils {
      * @param { string | Number } key 
      * @param { * } value 
      */
-    static findValueAsObject( list, key, value ) {
+    static findAsObject( list, key, value ) {
         return list ? list.find( object => object[ key ] === value ) : null;
     }
 

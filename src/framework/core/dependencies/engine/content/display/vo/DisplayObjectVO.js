@@ -13,7 +13,15 @@ export default class DisplayObjectVO extends VO {
         this.name = "";
         this.texture = null;
         this.textureID = null;
+        this.textureName = null;
         this.applicationTextureID = null;
+
+        this.materialData = {
+            map: null,
+            color: 0xff0000,
+            fog: false,
+            wireframe: false
+        };
 
     }
 

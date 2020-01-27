@@ -10,6 +10,8 @@ export default class SpriteVO extends DisplayObjectVO {
 
         this.color = 0xff0000;
         this.fog = false;
+        this.width = 100;
+        this.height = 100;
 
     }
 

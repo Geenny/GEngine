@@ -1,6 +1,8 @@
 import DisplayObjectContainer from "./DisplayObjectContainer";
 import GroupStruct from "./struct/GroupStruct";
 import { Group } from "three";
+import ArrayUtils from "../../../../../utils/tech/ArrayUtils";
+import DisplayObject from "./DisplayObject";
 
 export default class Stage extends DisplayObjectContainer {
 
@@ -25,6 +27,23 @@ export default class Stage extends DisplayObjectContainer {
     get camera() { return this._camera; }
     set camera( value ) { this._camera = value; }
 
+    set width( value ) {
+        super.width = value;
+        this.x = -value * 0.5;
+    }
+
+    set height( value ) {
+        super.height = value;
+        this.y = value * 0.5;
+    }
+
+    /**
+     * Количество  элементов на экране
+     */
+    get length() { return this._globalList.length; }
+
+    get defaultGroupStruct() { return this._groupStructList[ 0 ]; }
+
 
 
     //
@@ -46,6 +65,13 @@ export default class Stage extends DisplayObjectContainer {
         this._globalList = [];
         this._groupStructList = [];
     }
+
+    _updatePosition() {
+        this._parentX = this._x;
+        this._parentY = this._y;
+        this._realParentX = this._x;
+        this._realParentY = this._y;
+    }
     
     addChild( child ) {
         if ( child instanceof Stage ) {
@@ -60,20 +86,75 @@ export default class Stage extends DisplayObjectContainer {
      * @param {  } child 
      * @param {  } groupName 
      */
-    addToDisplay( child, groupName = null ) {
-        const groupStructDefault = this._groupStructList[ 0 ];
-        let groupStruct = !groupName ? groupStructDefault : this.groupStructByNameGet( groupName );
-        if ( !groupStruct ) {
-            groupStruct = groupStructDefault;
-        }
+    addToDisplay( child ) {
+        if ( this.isChildAtList( child ) ) return;
+        this._childAdd( child );
+    }
 
+    removeFromDisplay( child ) {
+        this._childRemove( child );
+    }
+
+    isChildAtList( child ) {
+        return this._globalList.indexOf( child ) >= 0;
+    }
+
+    _childAdd( instance, parentGroupName = null ) {
+        const groupName = this._childGroupNameInit( instance, instance.group || parentGroupName );
+        let groupStruct = this.groupStructByNameGet( groupName );
+        groupStruct = groupStruct || this._groupCreate( groupName );
+
+        if ( instance instanceof DisplayObjectContainer ) {
+            this._childAddToList( instance );
+            for ( let i = 0; i < instance.list.length; i++ )  {
+                const child = instance.list[ i ];
+                this._childAdd( child, groupName );
+            }
+        } else if ( instance instanceof DisplayObject ) {
+            this._childAddToList( instance );
+            this._childAddToDisplay( instance, groupStruct );
+        }
+    }
+
+    _childRemove( instance ) {
+        if ( instance instanceof DisplayObjectContainer ) {
+            this._childRemoveFromList( instance );
+            for ( let i = 0; i < instance.list.length; i++ )  {
+                const child = instance.list[ i ];
+                this._childAdd( child, groupName );
+            }
+        } else if ( instance instanceof DisplayObject ) {
+            this._childRemoveFromList( instance );
+            this._childRemoveFromDisplay( instance );
+        }
+    }
+
+    _childGroupNameInit( child, parentGroupName ) {
+        parentGroupName = child.parent ? child.parent.group : parentGroupName;
+        return child.group || parentGroupName || this.defaultGroupStruct.name;
+    }
+
+    _childAddToDisplay( child, groupStruct ) {
         groupStruct.instance.add( child.object3D );
         groupStruct.childrenList.push( child );
+    }
+    _childRemoveFromDisplay( child ) {
+        const groupStruct = this._groupStructByChild( child );
+        if ( !groupStruct ) return;
+
+        groupStruct.instance.add( child.object3D );
+        const index = groupStruct.childrenList.indexOf( child );
+        groupStruct.childrenList.splice( index, 1 );
+
+        if ( groupStruct.childrenList.length ) return;
+
+    }
+    _childAddToList( child ) {
         this._globalList.push( child );
     }
-    removeFromDisplay( child ) {
+    _childRemoveFromList( child ) {
         const index = this._globalList.indexOf( child );
-        this._globalList.splice( index, 1 );
+        if ( index >= 0 ) this._globalList.splice( index, 1 );
     }
 
 
@@ -109,6 +190,18 @@ export default class Stage extends DisplayObjectContainer {
         const groupStruct = this._groupCreateStruct( groupName );
         this._groupAddToList( groupStruct );
         this._groupAddToScene( groupStruct );
+        return groupStruct;
+    }
+
+    _groupStructByChild( child ) {
+        for ( let i = 0; i < this._groupStructList.length; i++ ) {
+            const groupStruct = this._groupStructList[ i ];
+            const index = groupStruct.childrenList.indexOf( child );
+            if ( index >= 0 ) {
+                return groupStruct;
+            }
+        }
+        return null;
     }
 
     _initGroupsFromVO() {
@@ -132,10 +225,14 @@ export default class Stage extends DisplayObjectContainer {
         this._groupStructList.push( groupStruct );
     }
 
+    _groupRemoveFromList( groupStruct ) {
+        const index = this._groupStructList.indexOf( groupStruct );
+        if ( index >= 0 ) this._groupStructList.splice( index, 1 );
+    }
+
     _groupAddToScene( groupStruct ) {
         if ( !this._scene ) return;
         this._scene.add( groupStruct.instance );
-        groupStruct.scene = this._scene;
     }
 
     _groupRemoveFromScene( groupStruct ) {

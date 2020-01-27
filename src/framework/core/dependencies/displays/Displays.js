@@ -136,7 +136,7 @@ export default class Displays extends DependencyAbstract {
      * @param {String} name 
      */
     displayByNameGet( name ) {
-        const displayStruct = ArrayUtils.findValueAsObject( this.displayStructList, "name", name );
+        const displayStruct = ArrayUtils.findAsObject( this.displayStructList, "name", name );
         if ( displayStruct.display ) this._displayStruct = displayStruct;
         return displayStruct.display;
     }

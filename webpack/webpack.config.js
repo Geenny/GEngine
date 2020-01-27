@@ -1,4 +1,5 @@
 const webpack = require('webpack')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const host = 'localhost'
 const port = (process.argv[2]) || 8900
@@ -15,7 +16,7 @@ module.exports = {
 	output: {
 		path: __dirname,
 		filename: 'bundle.js',
-		publicPath: '/static/'
+		publicPath: '/'
 	},
 	resolve: {
 		alias: {
@@ -26,7 +27,10 @@ module.exports = {
 		config: 'config'
 	},
 	plugins: [
-		new webpack.HotModuleReplacementPlugin()
+		new webpack.HotModuleReplacementPlugin(),
+		new CopyWebpackPlugin([
+            { from: './src/assets', to: 'assets' }
+        ]),
 	],
 	module: {
 		// loaders: [

@@ -1,4 +1,4 @@
-import Event from "../../../../../machines/event/Event";
+import Event from "../../../../machines/event/Event";
 
 export default class LoaderEvent extends Event {
 
@@ -17,6 +17,7 @@ LoaderEvent.PENDING = "loaderPending";
 LoaderEvent.PROGRESS = "loaderProgress";
 LoaderEvent.COMPLETE = "loaderComplete";
 LoaderEvent.ERROR = "loaderError";
+LoaderEvent.CANCEL = "loaderCancel";
 
 LoaderEvent.TEST_START = "loaderTestStart";
 LoaderEvent.TEST_COMPLETE = "loaderTestComplete";

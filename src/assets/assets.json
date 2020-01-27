@@ -1,0 +1,8 @@
+{
+    "list": [
+        { "name": "ButtonInputAtlas", "type": "image", "url": "assets/images/buttons/start_button.png" },
+        { "name": "ButtonInputNorm", "type": "image", "url": "assets/images/buttons/norm.png" },
+        { "name": "ButtonInputOver", "type": "image", "url": "assets/images/buttons/over.png" },
+        { "name": "ButtonInputPress", "type": "image", "url": "assets/images/buttons/press.png" }
+    ]
+}

@@ -1,11 +1,11 @@
 import DisplayObject from "./DisplayObject";
-import { Sprite, SpriteMaterial, TextureLoader } from "three";
+import { Mesh, Sprite, SpriteMaterial, TextureLoader, PlaneGeometry, MeshPhongMaterial, PlaneBufferGeometry, DoubleSide, Texture } from "three";
 import ResourceGenerator from "../../resource/ResourceGenerator";
 import Resources from "../../resource/Resources";
 import ResourceStruct from "../../resource/struct/ResourceStruct";
 import ResourceType from "../../resource/enum/ResourceType";
 
-export default class SpriteObject extends DisplayObject {
+export default class PlaneObject extends DisplayObject {
 
     /**
      * 
@@ -19,16 +19,14 @@ export default class SpriteObject extends DisplayObject {
     // GET/SET
     //
 
-    get sprite() { return this._object3D; }
+    // set x( value ) {
 
-    set width( value ) {
-        this._width = value;
-        this.sprite.scale.x = value;
+    // }
+    set width( value )  {
+        this.geometry.scale.x = value / this.geometry.parameters.width;
     }
-    
-    set height( value ) {
-        this._height = value;
-        this.sprite.scale.y = value;
+    set height( value )  {
+        this.geometry.scale.y = value / this.geometry.parameters.height;
     }
 
 
@@ -38,7 +36,7 @@ export default class SpriteObject extends DisplayObject {
 
     init() {
         super.init();
-        this._initSpriteObjectVars();
+        this._initPlaneObjectVars();
         this._initTexture();
         this.redraw();
     }
@@ -54,8 +52,9 @@ export default class SpriteObject extends DisplayObject {
         Resources.resourceGet( resourceStruct );
     }
 
-    _initSpriteObjectVars() {
-        this._texture = this.vo.texture;
+    _initPlaneObjectVars() {
+        this._width = this.vo.width || 256;
+        this._height = this.vo.height || 256;
     }
 
 
@@ -64,16 +63,11 @@ export default class SpriteObject extends DisplayObject {
     //
 
     redraw() {
-        if ( this.ready ) {
-            this._ready = false;
-            this.clear();
-        }
+        this.clear();
         this._draw();
     }
 
-    clear() {
-
-    }
+    clear() { }
 
     displayObjectUpdate() {
         if ( !this.material.map ) return;
@@ -83,8 +77,9 @@ export default class SpriteObject extends DisplayObject {
 
     _draw() {
         this._material = this.materialGet();
-        const sprite = new Sprite( this.material );
-        this._object3D = sprite;
+        this._geometry = new PlaneBufferGeometry( this._width, this._height, 8, 8 );
+        const mesh = new Mesh( this._geometry, this.material );
+        this._object3D = mesh;
     }
 
 
@@ -93,7 +88,7 @@ export default class SpriteObject extends DisplayObject {
     // 
 
     materialUpdate()  {
-        if ( this._material.map === this.texture ) return;
+        if ( this._material.map === this.texture ) return
         this._material.map = this.texture;
         this._material.needsUpdate = true;
     }

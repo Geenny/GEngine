@@ -4,8 +4,8 @@ import SystemSource from "../core/dependencies/systems/systems/struct/SystemSour
 import DisplaySystem from "../core/dependencies/systems/display/DisplaySystem";
 import KeyboardSystem from "../core/dependencies/systems/keyboard/KeyboardSystem";
 import DeviceSystem from "../core/dependencies/systems/device/DeviceSystem";
-import Net from "../core/dependencies/network/network/Net";
-import NetVO from "../core/dependencies/network/network/vo/NetVO";
+import Net from "../core/dependencies/network/Net";
+import NetVO from "../core/dependencies/network/vo/NetVO";
 import Displays from "../core/dependencies/displays/Displays";
 import DisplaysVO from "../core/dependencies/displays/vo/DisplaysVO";
 import { DISPLAY_SYSTEM_NAME, KEYBOARD_SYSTEM_NAME, DEVICE_SYSTEM_NAME, TIME_SYSTEM_NAME } from "../constants/Constants";

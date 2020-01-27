@@ -33,6 +33,7 @@ export default class DependencyMachine extends EventDispatcherVOWrapper {
     //
 
     init() {
+        this.dependencyStructListCheck();
         this.dependencyStartAll();
     }
     _initVars() {
@@ -72,15 +73,6 @@ export default class DependencyMachine extends EventDispatcherVOWrapper {
             this.dependencyUpdateWorkDependence();
         }
     }
-
-    // dependencyStartByStruct( dependencyStruct ) {
-    //     const dependency = this.dependencyCreate( dependencyStruct );
-    //     if ( dependency) {
-    //         this.dependencyAdd( dependency );
-    //         return this.dependencyStart( dependency );
-    //     }
-    //     return false;
-    // }
 
     /**
      * 
@@ -154,6 +146,21 @@ export default class DependencyMachine extends EventDispatcherVOWrapper {
         if ( dependencyStruct ) {
             if ( !dependencyStruct.name )
                 dependencyStruct.name = dependencyStruct.class.name;
+        }
+    }
+
+    /**
+     * Проверить список данных для @Dependency
+     */
+    dependencyStructListCheck() {
+        const registredDependencyIDs = [];
+        for ( let i = this.dependencyStructList.length - 1; i > -1; i-- ) {
+            const dependencyStructData = this.dependencyStructList[ i ];
+            if ( registredDependencyIDs.indexOf( dependencyStructData.ID ) >= 0 ) {
+                this.dependencyStructList.splice( i, 1 );
+            } else {
+                registredDependencyIDs.push( dependencyStructData.ID );
+            }
         }
     }
 

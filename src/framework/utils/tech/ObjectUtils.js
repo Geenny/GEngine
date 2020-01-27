@@ -23,7 +23,7 @@ export default class ObjectUtils {
 
     /**
      * Вернуть ключ по совпадению значения
-     * @param { object } source 
+     * @param { object } source Простой объект
      * @param { object } value 
      */
     static getKeyByValue( source, value ) {
@@ -37,12 +37,56 @@ export default class ObjectUtils {
     }
 
     /**
+     * @value Содержиться в простом объекте @source
+     * @param { object } source Простой объект
+     * @param { object } value 
+     * @return { boolean }
+     */
+    static inValues( source, value ) {
+        return !!ObjectUtils.getKeyByValue( source, value );
+    }
+
+    /**
+     * @value Содержиться в простом объекте @source
+     * @param { object } source Простой объект
+     * @param { Array } values Список значений
+     * @return { boolean }
+     */
+    static allInValues( source, values ) {
+        if ( Array.isArray( values ) ) {
+            for ( let i = 0; i < values.length; i++ ) {
+                if ( !ObjectUtils.inValues( values[ i ] ) ) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Клонировать объект
      * @param { object } object 
      */
     static clone( object ) {
         if ( object )
             return { ... object };
+    }
+
+    /**
+     * Посчитать количество элементов в объекте
+     * @param { object } object 
+     */
+    static count( object ) {
+        return object ? Object.keys( object ).length : 0;
+    }
+
+    /**
+     * Проверить или содержатся данные в объекте
+     * @param { object } object 
+     */
+    static noData( object ) {
+        return ObjectUtils.count( object ) === 0;
     }
 
 }

@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const Visualizer = require('webpack-visualizer-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -10,7 +11,7 @@ const object = {
     mode: 'production',
     output: {
 		path: outputPath,
-        filename: './static/bundle.js',
+        filename: './bundle.js',
         publicPath: '/'
 	},
     optimization: {
@@ -37,9 +38,9 @@ const object = {
         new Visualizer({
             filename: './webpack-prod-stats.html'
         }),
-        // new CopyWebpackPlugin([
-        //     { from: './src/assets/fonts', to: 'assets/fonts' }
-        // ]),
+        new CopyWebpackPlugin([
+            { from: './src/assets', to: 'assets' }
+        ]),
         new HtmlWebpackPlugin({
             template: 'index.html',
             inject: false,
