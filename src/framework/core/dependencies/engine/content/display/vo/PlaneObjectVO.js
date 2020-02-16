@@ -1,7 +1,8 @@
 import DisplayObjectVO from "./DisplayObjectVO";
 import Point from "../../../../../../data/content/graphics/Point";
+import SpriteVO from "./SpriteVO";
 
-export default class SpriteVO extends DisplayObjectVO {
+export default class PlaneObjectVO extends SpriteVO {
 
     constructor( data ) {
         super( data );
@@ -11,10 +12,9 @@ export default class SpriteVO extends DisplayObjectVO {
 
         super.initVars();
 
-        this.width = 256;
-        this.height = 256;
-        this.scale = new Point(1, 1);
-        this.rotation = 0;
+        this.segmentWidth = 4;
+        this.segmentHeight = 4;
+
     }
 
 }

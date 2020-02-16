@@ -11,3 +11,5 @@ export default class DisplayEvent extends Event {
 }
 
 DisplayEvent.VEIW_ELEMENT_READY = "displayViewElementReady";
+DisplayEvent.BEFORE_RENDER = "displayBeforeRender";
+DisplayEvent.AFTER_RENDER = "displayAfterRender";

@@ -5,6 +5,7 @@ import RendererEnum from "./enum/RendererEnum";
 import CameraStruct from "./struct/CameraStruct";
 import CameraEnum from "./enum/CameraEnum";
 import ObjectUtils from "../../../../../utils/tech/ObjectUtils";
+import DisplayEvent from "../../event/DisplayEvent";
 
 export default class ThreeJSDisplay extends AbstractDisplay {
 
@@ -193,6 +194,9 @@ export default class ThreeJSDisplay extends AbstractDisplay {
 
     draw() {
         if ( !this.enable ) return;
+
+        this.dispatchEvent( new DisplayEvent( DisplayEvent.BEFORE_RENDER ), false );
+
         this._renderer.clear();
         this._renderer.render( this._scene, this._camera );
         this._renderer.clearDepth();
@@ -208,5 +212,7 @@ export default class ThreeJSDisplay extends AbstractDisplay {
         // this.plane2.position.y = -this.size.y * 0.5 + 80 + 2;
         // this.plane3.position.x = -this.size.x * 0.5 + 80 + 2;
         // this.plane3.position.y = -this.size.y * 0.5 + 80 + 2;
+
+        this.dispatchEvent( new DisplayEvent( DisplayEvent.AFTER_RENDER ), false );
     }
 }

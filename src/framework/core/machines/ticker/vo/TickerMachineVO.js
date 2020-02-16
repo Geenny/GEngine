@@ -6,7 +6,7 @@ export default class TickerMachineVO extends VO {
         super( data );
     }
 
-    init() {
+    initVars() {
         this.interval = null;           // @State
         this.fps = 60;                  // Текущий фрэймрейт
         this.startOnCreate = true;

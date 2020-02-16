@@ -12,10 +12,10 @@ export default class EventDispathcer {
      * @param {Event} event Экземпляр @Event 
      * @return {EventDispathcer} Текущий экземпляр @EventDispathcer
      */
-    dispatchEvent( event ) {
+    dispatchEvent( event, isLog = true ) {
         this._dispatching = true;
         if ( !event.target ) event.target = this;
-        Log.l( event );
+        if ( isLog ) Log.l( event );
         this._dispatcher.forEach( target => {
             if ( this._stop ) return;
             if ( target ) {

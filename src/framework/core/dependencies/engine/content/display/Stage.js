@@ -21,11 +21,15 @@ export default class Stage extends DisplayObjectContainer {
     get scene() { return this._scene; }
     set scene( value ) {
         this._scene = value;
+        this._sceneListsnersAdd();
         this._groupSceneUpdate();
     }
 
     get camera() { return this._camera; }
     set camera( value ) { this._camera = value; }
+
+    get dirty() { return this._dirty; }
+    set dirty( value ) { this._dirty = !!value; }
 
     set width( value ) {
         super.width = value;
@@ -57,21 +61,29 @@ export default class Stage extends DisplayObjectContainer {
     }
 
     _initStageVars() {
-        this._scene = this.vo.scene;
-        this._camera = this.vo.camera;
         this._width = 0;
         this._height = 0;
         this._stage = this;
         this._globalList = [];
         this._groupStructList = [];
+        this._dirtyList = [];
+        this.scene = this.vo.scene;
+        this.camera = this.vo.camera;
     }
 
-    _updatePosition() {
+    _initCenterPlane() {}
+
+    _updateProperties() {
         this._parentX = this._x;
         this._parentY = this._y;
-        this._realParentX = this._x;
-        this._realParentY = this._y;
+        this._rx = this._x;
+        this._ry = this._y;
     }
+
+
+    //
+    // CHILDREN
+    //
     
     addChild( child ) {
         if ( child instanceof Stage ) {
@@ -97,6 +109,10 @@ export default class Stage extends DisplayObjectContainer {
 
     isChildAtList( child ) {
         return this._globalList.indexOf( child ) >= 0;
+    }
+
+    dirtyChildSet( child ) {
+        this._dirtyList.push( child );
     }
 
     _childAdd( instance, parentGroupName = null ) {
@@ -155,6 +171,15 @@ export default class Stage extends DisplayObjectContainer {
     _childRemoveFromList( child ) {
         const index = this._globalList.indexOf( child );
         if ( index >= 0 ) this._globalList.splice( index, 1 );
+    }
+
+    _sceneListsnersAdd() {
+        this._onBeforeChildrenRender = this._onBeforeChildrenRender.bind( this );
+        this._scene.onBeforeRender = this._onBeforeChildrenRender;
+    }
+
+    _onBeforeChildrenRender( renderer, scene, camera, geometry, material, group ) {
+        this.update();
     }
 
 
@@ -251,6 +276,27 @@ export default class Stage extends DisplayObjectContainer {
             }
         } else {
             this._groupRemoveFromScene( groupStruct );
+        }
+    }
+
+
+    //
+    // DISPLAYOBJECT
+    //
+
+    /**
+     * Обновить состояния свойств каждого объекта дерева из списка
+     * _dirtyList.
+     */
+    update() {
+        super.update();
+        if ( !this._dirtyList.length ) return;
+        while( this._dirtyList.length ) {
+            const child = this._dirtyList.shift();
+            if ( child.parent ) child.update();
+            if ( child instanceof DisplayObjectContainer ) {
+                this._dirtyList = this._dirtyList.concat( child.list );
+            }
         }
     }
 

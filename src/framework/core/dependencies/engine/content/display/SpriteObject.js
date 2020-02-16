@@ -23,12 +23,12 @@ export default class SpriteObject extends DisplayObject {
 
     set width( value ) {
         this._width = value;
-        this.sprite.scale.x = value;
+        this.sprite.scale.x = this.width;
     }
     
     set height( value ) {
         this._height = value;
-        this.sprite.scale.y = value;
+        this.sprite.scale.y = this.height;
     }
 
 
@@ -82,7 +82,7 @@ export default class SpriteObject extends DisplayObject {
     }
 
     _draw() {
-        this._material = this.materialGet();
+        this._material = this.materialCreate();
         const sprite = new Sprite( this.material );
         this._object3D = sprite;
     }

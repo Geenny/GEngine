@@ -6,7 +6,7 @@ export default class StateMachineVO extends VO {
         super( data );
     }
 
-    init() {
+    initVars() {
         this.chained = false;           // @State 
         this.interpolate = false;       
         this.states = null;             // Список объектов из StateEnum

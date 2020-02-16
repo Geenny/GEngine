@@ -4,30 +4,21 @@ import ResourceGenerator from "../../resource/ResourceGenerator";
 import Resources from "../../resource/Resources";
 import ResourceStruct from "../../resource/struct/ResourceStruct";
 import ResourceType from "../../resource/enum/ResourceType";
+import PlaneObjectVO from "./vo/PlaneObjectVO";
 
 export default class PlaneObject extends DisplayObject {
 
     /**
      * 
-     * @param { SpriteVO } spriteVO
+     * @param { PlaneObjectVO } planeObjectVO
      */
-    constructor( spriteVO ) {
-        super( spriteVO );
+    constructor( planeObjectVO ) {
+        super( planeObjectVO );
     }
 
     //
     // GET/SET
     //
-
-    // set x( value ) {
-
-    // }
-    set width( value )  {
-        this.geometry.scale.x = value / this.geometry.parameters.width;
-    }
-    set height( value )  {
-        this.geometry.scale.y = value / this.geometry.parameters.height;
-    }
 
 
     //
@@ -53,7 +44,7 @@ export default class PlaneObject extends DisplayObject {
     }
 
     _initPlaneObjectVars() {
-        this._width = this.vo.width || 256;
+        this._width = this.vo.width || 512;
         this._height = this.vo.height || 256;
     }
 
@@ -70,27 +61,40 @@ export default class PlaneObject extends DisplayObject {
     clear() { }
 
     displayObjectUpdate() {
-        if ( !this.material.map ) return;
-        this.width = this.material.map.image.width;
-        this.height = this.material.map.image.height;
+        if ( !this.texture ) return;
+        this.width = this.texture.image.width;
+        this.height = this.texture.image.height;
     }
 
     _draw() {
-        this._material = this.materialGet();
-        this._geometry = new PlaneBufferGeometry( this._width, this._height, 8, 8 );
-        const mesh = new Mesh( this._geometry, this.material );
-        this._object3D = mesh;
+        if ( !this._object3D ) {
+            this._object3D = this.createObject3D();
+        }
     }
 
 
     //
-    // MATERIAL
-    // 
+    // GEOMETRY
+    //
 
-    materialUpdate()  {
-        if ( this._material.map === this.texture ) return
-        this._material.map = this.texture;
-        this._material.needsUpdate = true;
+    geometryCreate() {
+        return new PlaneBufferGeometry( this._width, this._height, this.vo.segmentWidth, this.vo.segmentHeight );
+    }
+
+
+    //
+    // OBJECT3D
+    //
+
+    createObject3D() {
+        const material = this.materialCreate();
+        const geometry = this.geometryCreate();  
+        const mesh = new Mesh( geometry, material );
+
+        this._material = mesh.material;
+        this._geometry = mesh.geometry;
+
+        return mesh;
     }
 
 }

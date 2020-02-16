@@ -6,7 +6,7 @@ export default class ResourcesVO extends VO {
         super( data );
     }
 
-    init() {
+    initVars() {
         this.resourceDataList = [];
     }
 

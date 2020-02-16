@@ -9,7 +9,7 @@ export default class NetVO extends VO {
         super( data );
     }
 
-    init() {
+    initVars() {
         this.application = null;
         this.serverList = [ {
             urls: [ 'https://google.com/search' ],

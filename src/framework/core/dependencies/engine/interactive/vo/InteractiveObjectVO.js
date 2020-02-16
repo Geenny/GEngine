@@ -6,7 +6,7 @@ export default class InteractiveObjectVO extends VO {
         super( data );
     }
 
-    init() {
+    initVars() {
 
         this.interactionID = 0;
         // this.texture = null;

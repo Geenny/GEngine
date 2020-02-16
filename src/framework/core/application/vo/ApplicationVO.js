@@ -6,8 +6,8 @@ export default class ApplicationVO extends VO {
         super( data );
     }
 
-    init() {
-        
+    initVars() {
+
         this.configPath = '';
         this.HTMLElement = null;
         this.dependencyMachineVO = null; // DependencyMachineVO instance

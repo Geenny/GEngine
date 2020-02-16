@@ -6,7 +6,7 @@ export default class DependencyMachineVO extends VO {
         super( data );
     }
 
-    init() {
+    initVars() {
         this.dependencyStructList = [];
         this.application = null;            // @Application
     }

@@ -6,7 +6,7 @@ export default class DependencyVO extends VO {
         super( data );
     }
 
-    init() {
+    initVars() {
         this.ID = 0;
         this.name = null;
         this.dependenceNameList = [];

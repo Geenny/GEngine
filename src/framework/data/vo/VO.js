@@ -2,17 +2,25 @@ export default class VO {
 
     constructor( data ) {
         this.source = { };
-        this.init();
+        this.initVars();
         this.parse( data );
     }
 
+    init() {
+        for ( const key in this.source ) {
+            this[ key ] = this.source[ key ];
+        }
+        return this;
+    }
+
     /**
-     * Инициализация @VO любыми значениями по умолчанию.
+     * Инициализация переменных @VO любыми значениями по умолчанию.
      */
-    init() { }
+    initVars() { }
 
     parse( data ) {
         this.dataSet( data );
+        return this;
     }
 
     /**
@@ -20,12 +28,8 @@ export default class VO {
      * @param {object} data 
      */
     dataSet( data ) {
-        if ( data ) {
-            this.source = Object.assign( data, this.source );
-            for ( const key in data ) {
-                this[ key ] = data[ key ];
-            }
-        }
+        if ( !data ) return;
+        this.source = Object.assign( this.source, data );
     }
 
 }

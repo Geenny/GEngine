@@ -110,6 +110,7 @@ export default class Engine extends DependencyAbstract {
 
     startUIStage() {
         const stageVO = new StageVO( {
+            application: this.application,
             scene: this.display.uiscene,
             camera: this.display.uicamera
         } );
@@ -118,6 +119,7 @@ export default class Engine extends DependencyAbstract {
 
     startStage() {
         const stageVO = new StageVO( {
+            application: this.application,
             scene: this.display.scene,
             camera: this.display.camera
         } );

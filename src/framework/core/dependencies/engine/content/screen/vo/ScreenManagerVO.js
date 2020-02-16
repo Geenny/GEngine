@@ -6,7 +6,7 @@ export default class ScreenManagerVO extends VO {
         super( data );
     }
 
-    init() {
+    initVars() {
         this.screenCurrent = null;
         this.screenList = [];
         this.screenHistory = [];

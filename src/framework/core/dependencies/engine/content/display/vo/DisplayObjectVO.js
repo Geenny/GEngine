@@ -1,4 +1,5 @@
 import VO from "../../../../../../data/vo/VO";
+import { FrontSide } from "three";
 
 export default class DisplayObjectVO extends VO {
 
@@ -6,7 +7,7 @@ export default class DisplayObjectVO extends VO {
         super( data );
     }
 
-    init() {
+    initVars() {
 
         this.enable = true;
         this.group = 0;
@@ -18,9 +19,11 @@ export default class DisplayObjectVO extends VO {
 
         this.materialData = {
             map: null,
-            color: 0xff0000,
+            color: null, // 0xffffff
             fog: false,
-            wireframe: false
+            wireframe: false,
+            transparent: true,
+            side: FrontSide
         };
 
     }

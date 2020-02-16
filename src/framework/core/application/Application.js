@@ -1,5 +1,4 @@
 import Systems from "../dependencies/systems/systems/Systems";
-import EventDispathcer from "../machines/event/EventDispatcher";
 import ApplicationEvent from "./event/ApplicationEvent";
 import ApplicationVO from "./vo/ApplicationVO";
 import Log from "../../utils/log/Log";
@@ -10,8 +9,9 @@ import DependencyMachineEvent from "../machines/dependency/events/DependencyMach
 import TickerMachine from "../machines/ticker/TickerMachine";
 import TickerMachineVO from "../machines/ticker/vo/TickerMachineVO";
 import Displays from "../dependencies/displays/Displays";
+import EventDispatcherVOWrapper from "../../data/vo/EventDispatcherVOWrapper";
 
-export default class Application extends EventDispathcer {
+export default class Application extends EventDispatcherVOWrapper {
 
     /**
      * 
@@ -19,9 +19,8 @@ export default class Application extends EventDispathcer {
      */
     constructor( vo = new ApplicationVO() ) {
 
-        super();
+        super( vo );
 
-        this.setVO( vo );
         this.setHTMLElement( vo.HTMLElement );
 
         Log.l("Application Started!!!");
@@ -51,6 +50,7 @@ export default class Application extends EventDispathcer {
 
     _initVars() {
         this.applicationDisplay = null;
+        Math.PI2 = Math.PI * 2;
     }
 
     initDependencyMachine() {

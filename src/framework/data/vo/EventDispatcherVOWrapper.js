@@ -1,4 +1,5 @@
 import EventDispathcer from "../../core/machines/event/EventDispatcher";
+import VO from "./VO";
 
 export default class EventDispatcherVOWrapper extends EventDispathcer {
 
@@ -12,6 +13,9 @@ export default class EventDispatcherVOWrapper extends EventDispathcer {
         this._setVO( vo );
     }
 
-    _setVO( vo ) { this.vo = vo; }
+    _setVO( vo ) {
+        if ( vo && vo instanceof VO ) vo.init();
+        this.vo = vo;
+    }
 
 }

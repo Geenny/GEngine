@@ -6,7 +6,7 @@ export default class DisplayObjectContainerVO extends VO {
         super( data );
     }
 
-    init() {
+    initVars() {
 
         this.enable = true;
         this.name = "";

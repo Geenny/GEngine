@@ -12,11 +12,11 @@ import Event from "../../../machines/event/Event";
 export default class Resources extends EventDispatcherVOWrapper {
 
     static resourceGet( resourceStruct ) {
-        if ( !Resources.instance ) new Resources( new ResourcesVO() );
+        if ( !Resources.instance ) Resources.instance = new Resources();
         return Resources.instance.resourceGet( resourceStruct );
     }
 
-    constructor( resourceVO ) {
+    constructor( resourceVO = new ResourcesVO() ) {
         super( resourceVO );
     }
 

@@ -1,8 +1,9 @@
 import EventDispathcer from "../../../machines/event/EventDispatcher";
 import DisplayEvent from "../event/DisplayEvent";
 import DisplayVO from "../vo/DisplayVO";
+import EventDispatcherVOWrapper from "../../../../data/vo/EventDispatcherVOWrapper";
 
-export default class AbstractDisplay extends EventDispathcer {
+export default class AbstractDisplay extends EventDispatcherVOWrapper {
 
     /**
      * Абстрактный класс обертка для рендеров.
@@ -11,9 +12,7 @@ export default class AbstractDisplay extends EventDispathcer {
      */
     constructor( displayVO = new DisplayVO() ) {
 
-        super();
-
-        this.setVO( displayVO );
+        super( displayVO );
 
     }
 
@@ -54,11 +53,6 @@ export default class AbstractDisplay extends EventDispathcer {
     get canvas() { return this.vo.canvas; }
 
 
-
-    /**
-     * @param { DisplayVO } vo 
-     */
-    setVO( vo ) { this.vo = vo; }
     
     //
     // INIT

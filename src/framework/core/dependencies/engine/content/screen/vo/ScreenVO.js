@@ -6,7 +6,7 @@ export default class ScreenVO extends VO {
         super( data );
     }
 
-    init() {
+    initVars() {
         this.screenBuilderList = [];
     }
 

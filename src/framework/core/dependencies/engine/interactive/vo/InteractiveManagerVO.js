@@ -6,9 +6,9 @@ export default class InteractiveManagerVO extends VO {
         super( data );
     }
 
-    init() {
+    initVars() {
 
-        super.init();
+        super.initVars();
 
         // this.ID = UserID.UNDEFINED;
         // this.profile = null;

@@ -6,7 +6,7 @@ export default class SystemVO extends VO {
         super( data );
     }
 
-    init() {
+    initVars() {
         this.target = null;
     }
 

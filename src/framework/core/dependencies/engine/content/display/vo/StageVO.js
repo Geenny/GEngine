@@ -6,7 +6,8 @@ export default class StageVO extends VO {
         super( data );
     }
 
-    init() {
+    initVars() {
+
         this.enable = true;
         this.group = 0;
         this.scene = null;

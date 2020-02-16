@@ -89,4 +89,26 @@ export default class ObjectUtils {
         return ObjectUtils.count( object ) === 0;
     }
 
+    /**
+     * 
+     * @param { Object } target 
+     * @param { Object } source 
+     */
+    static concat( target, source ) {
+        function concat( target, source ) {
+            if ( !target || !source ) return;
+            for ( const key in source ) {
+                // if ( typeof source[ key ] != typeof target[ key ]) continue;
+                if ( typeof source[ key ] === "object" && !Array.isArray( source[ key ] ) ) {
+                    if ( !target[ key ] ) target[ key ] = {};
+                    concat( target[ key ], source[ key ] );
+                } else {
+                    target[ key ] = source[ key ];
+                }
+            }
+        }
+
+        concat( target, source );
+    }
+
 }
