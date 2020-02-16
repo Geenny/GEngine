@@ -35,6 +35,7 @@ export default class DisplayObject extends EventDispatcherVOWrapper {
     }
 
     get name() { return this._name; }
+    set name( value ) { this._name = value; }
 
     get object3D() { return this._object3D; } // Mesh, Sprite
     get geometry() { return this._geometry; }
@@ -122,7 +123,26 @@ export default class DisplayObject extends EventDispatcherVOWrapper {
         this._scaley = value;
     }
 
+    get visible() { return this._visible; }
+    set visible( value ) {
+        if ( typeof value != 'boolean' ) debugger;
+        this.dirty = true;
+        this._scaley = value;
+    }
+
+    get alpha() { return this._alpha; }
+    set alpha( value ) {
+        if (isNaN(value)) debugger;
+        if (value === undefined) debugger;
+        this.dirty = true;
+        this._alpha = value;
+    }
+
     get depth() { return this._depth; }
+
+    get bounds() { return this._bounds; }
+
+    get debug() { return this._stage && this._stage.debug; }
 
     //
     // INIT
@@ -136,6 +156,8 @@ export default class DisplayObject extends EventDispatcherVOWrapper {
 
     _initDisplayObjctVars() {
         this._dirty = true;
+        this._visible = true;
+        this._alpha = 1;
         this._x = 0;
         this._y = 0;
         this._scalex = 1;
@@ -143,6 +165,8 @@ export default class DisplayObject extends EventDispatcherVOWrapper {
         this._width = 0;
         this._height = 0;
         this._rotation = 0;
+        this._rectangle = new Rectangle();
+        this._hitBox = new Rectangle();
         this._bounds = new Rectangle();
         this._parentX = 0;
         this._parentY = 0;
@@ -186,8 +210,29 @@ export default class DisplayObject extends EventDispatcherVOWrapper {
             this._parentRealRotation = 0;
         }
 
+        if ( this._name === "ABC" ) debugger;
+
         this._realRotation = this._parentRealRotation + this._rotation;
         
+        // this._rectangle.update( this._realX + this._x, this._realY - this._y, this._width * this._scalex, this._height * this._scaley );
+        // this._rectangle.angle = this._parentRealRotation;
+        // this._bounds.update(
+        //     this._rectangle.left,
+        //     this._rectangle.top,
+        //     this._rectangle.right - this._rectangle.left,
+        //     this._rectangle.bottom - this._rectangle.top );
+        
+        // const realX = this._x;
+        // const realY = this._realY - this._y;
+
+        this._rectangle.update( this._x, this._y, this._width * this._scalex, this._height * this._scaley );
+        this._rectangle.angle = this._parentRealRotation;
+        this._bounds.update(
+            this._realX + this._rectangle.left,
+            this._realY - this._rectangle.top,
+            this._rectangle.right - this._rectangle.left,
+            -this._rectangle.bottom + this._rectangle.top );
+
         this._rpX = this._width * this._scalex * 0.5 + this._x;
         this._rpY = this._height * this._scaley * 0.5 + this._y;
         this._rсX = this._rpX * Math.cos( this._parentRealRotation ) - this._rpY * Math.sin( this._parentRealRotation );
@@ -199,11 +244,14 @@ export default class DisplayObject extends EventDispatcherVOWrapper {
 
     _updatePosition() {
         if ( !this._object3D ) return;
+        this._object3D.visible = this._visible;
         this._object3D.position.x = this._rx;
         this._object3D.position.y = this._ry;
         this._object3D.rotation.z = -this._rr;
-        this._object3D.scale.x = this.width / this.geometry.parameters.width;
-        this._object3D.scale.y = this.height / this.geometry.parameters.height;
+        this._object3D.scale.x = this._width / this.geometry.parameters.width;
+        this._object3D.scale.y = this._height / this.geometry.parameters.height;
+        this._material.opacity = this._alpha;
+        
     }
 
 

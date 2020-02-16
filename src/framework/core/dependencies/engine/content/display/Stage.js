@@ -1,8 +1,9 @@
 import DisplayObjectContainer from "./DisplayObjectContainer";
 import GroupStruct from "./struct/GroupStruct";
-import { Group } from "three";
+import { Group, Line, Geometry, BufferGeometry, LineBasicMaterial, Float32BufferAttribute, Vector3 } from "three";
 import ArrayUtils from "../../../../../utils/tech/ArrayUtils";
 import DisplayObject from "./DisplayObject";
+import PlaneObject from "./PlaneObject";
 
 export default class Stage extends DisplayObjectContainer {
 
@@ -40,6 +41,9 @@ export default class Stage extends DisplayObjectContainer {
         super.height = value;
         this.y = value * 0.5;
     }
+
+    get debug() { return true || this._debug; }
+    set debug( value ) { this._debug = !!value; }
 
     /**
      * Количество  элементов на экране
@@ -154,6 +158,7 @@ export default class Stage extends DisplayObjectContainer {
         groupStruct.instance.add( child.object3D );
         groupStruct.childrenList.push( child );
     }
+
     _childRemoveFromDisplay( child ) {
         const groupStruct = this._groupStructByChild( child );
         if ( !groupStruct ) return;
@@ -165,9 +170,11 @@ export default class Stage extends DisplayObjectContainer {
         if ( groupStruct.childrenList.length ) return;
 
     }
+
     _childAddToList( child ) {
         this._globalList.push( child );
     }
+
     _childRemoveFromList( child ) {
         const index = this._globalList.indexOf( child );
         if ( index >= 0 ) this._globalList.splice( index, 1 );
@@ -284,20 +291,104 @@ export default class Stage extends DisplayObjectContainer {
     // DISPLAYOBJECT
     //
 
+    resize() {
+        this.update();
+    }
+
     /**
      * Обновить состояния свойств каждого объекта дерева из списка
      * _dirtyList.
      */
     update() {
         super.update();
-        if ( !this._dirtyList.length ) return;
-        while( this._dirtyList.length ) {
-            const child = this._dirtyList.shift();
-            if ( child.parent ) child.update();
-            if ( child instanceof DisplayObjectContainer ) {
-                this._dirtyList = this._dirtyList.concat( child.list );
+        if ( this._dirtyList.length ) {
+            while( this._dirtyList.length ) {
+                const child = this._dirtyList.shift();
+                if ( child.parent ) child.update();
+                if ( child instanceof DisplayObjectContainer ) {
+                    this._dirtyList = this._dirtyList.concat( child.list );
+                }
+            }
+
+            if ( this.debug ) {
+                this.redrawDebug();
             }
         }
+
+        if ( this.needSort ) {
+            this.sort();
+        }
+        
+    }
+
+    sort() {
+        this.needSort = false;
+    }
+
+
+    //
+    // DEBUG
+    //
+
+    redrawDebug() {
+        if ( !this.line ) {
+            let lineGeometry = new BufferGeometry();
+            let lineMaterial = new LineBasicMaterial( { color: 0x33CC99,  linewidth: 2 } );
+            this.line = new Line( lineGeometry, lineMaterial );
+            this._scene.add( this.line );
+        }
+
+        let points = [];
+        for ( let i = 0; i < this._globalList.length; i++ ) {
+            const child = this._globalList[ i ];
+            if ( ( child instanceof Stage ) || ( child instanceof DisplayObjectContainer ) ) continue;
+            if ( child.name != "ABC" ) continue;
+            const rectangle = child.bounds;
+            points.push(
+                new Vector3( rectangle.x, rectangle.y, 0 ),
+                new Vector3( rectangle.x + rectangle.width, rectangle.y, 0 ),
+                new Vector3( rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0 ),
+                new Vector3( rectangle.x, rectangle.y + rectangle.height, 0 ),
+                new Vector3( rectangle.x, rectangle.y, 0 )
+            );
+        }
+
+        this.line.geometry.setFromPoints( points );
+
+        // this.line.geometry.vertices.push(
+        //     new Vector3( 0, 0, 0 ),
+        //     new Vector3( 400, 0, 0 ),
+        //     new Vector3( 400, 200, 0 ),
+        //     new Vector3( 0, 200, 0 ),
+        //     new Vector3( 0, 0, 0 ),
+        // )
+
+        // debugger;
+
+        // setInterval(() => {
+        //     this.line.geometry.setFromPoints( [
+        //         new Vector3( 0, 0, 0 ),
+        //         new Vector3( (Math.random() * 1000 - 500) + 200, 0, 0 ),
+        //         new Vector3( (Math.random() * 1000 - 500) + 200, (Math.random() * 1000 - 500) + 200, 0 ),
+        //         new Vector3( 0, (Math.random() * 1000 - 500) + 200, 0 ),
+        //         new Vector3( 0, 0, 0 ),
+        //         new Vector3( 0, 0, 0 ),
+        //         new Vector3( 0, 0, 0 ),
+        //         new Vector3( (Math.random() * 1000 - 500) + 200, 0, 0 ),
+        //         new Vector3( (Math.random() * 1000 - 500) + 200, (Math.random() * 1000 - 500) + 200, 0 ),
+        //         new Vector3( 0, (Math.random() * 1000 - 500) + 200, 0 ),
+        //         new Vector3( 0, 0, 0 ),
+        //     ] );
+        //     // this.line.geometry.vertices.push(
+        //     //     new Vector3( 0, 0, 0 ),
+        //     //     new Vector3( rand + 200, 0, 0 ),
+        //     //     new Vector3( rand + 200, rand + 200, 0 ),
+        //     //     new Vector3( 0, rand + 200, 0 ),
+        //     //     new Vector3( 0, 0, 0 )
+        //     // );
+        //     // this.line.position.x ++;
+        //     // this._scene.add( this.line );
+        // }, 250);
     }
 
 }

@@ -24,8 +24,8 @@ export default class ResourceGenerator {
     static getText( text = "" ) {
         const canvas = document.createElement( "canvas" );
 
-        // canvas.width = 512;
-        // canvas.height = 256;
+        canvas.width = 512;
+        canvas.height = 256;
 
         const context = canvas.getContext( "2d" );
         context.font = "26px Arial";
@@ -37,9 +37,9 @@ export default class ResourceGenerator {
 
         context.fillStyle = g; // ResourceGenerator.colorToString( 0xff0000 );
         const measureText = context.measureText( text );
-        context.fillText( text, 0, 17 );
-        context.fillText( text, 0, 35 );
-        context.fillText( text, 0, 55 );
+        context.fillText( text, 0, 20 );
+        context.fillText( text, 0, 40 );
+        context.fillText( text, 0, 60 );
 
         return new CanvasTexture( canvas );
     }

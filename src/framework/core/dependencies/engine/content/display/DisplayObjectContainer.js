@@ -131,8 +131,4 @@ export default class DisplayObjectContainer extends DisplayObject {
         this.dirty = false;
     }
 
-    resize() {
-        this.update();
-    }
-
 }

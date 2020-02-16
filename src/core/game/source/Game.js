@@ -13,6 +13,7 @@ import KeyboardEvent from "../../../framework/core/dependencies/systems/keyboard
 import TextField from "../../../framework/core/dependencies/engine/content/display/text/TextField";
 import TextFieldVO from "../../../framework/core/dependencies/engine/content/display/text/vo/TextFieldVO";
 import PlaneObjectVO from "../../../framework/core/dependencies/engine/content/display/vo/PlaneObjectVO";
+import Rectangle from "../../../framework/data/content/graphics/Rectangle";
 
 export default class Game extends EventDispathcer {
 
@@ -65,55 +66,65 @@ export default class Game extends EventDispathcer {
 
         const containerVO = new DisplayObjectContainerVO().init();
         const container = new DisplayObjectContainer( containerVO );
-        container.x = 400;
-        container.y = 300;
+        container.x = 900;
+        container.y = 460;
         this.engine.uistage.addChild( container );
 
-        const container2 = new DisplayObjectContainer( containerVO );
-        container2.x = 200;
-        container2.y = 0;
-        container.addChild( container2 );
+        // const container2 = new DisplayObjectContainer( containerVO );
+        // container2.x = 200;
+        // container2.y = 0;
+        // container.addChild( container2 );
 
-        const container3 = new DisplayObjectContainer( containerVO );
-        container3.x = 200;
-        container3.y = 100;
-        container2.addChild( container3 );
+        // const container3 = new DisplayObjectContainer( containerVO );
+        // container3.x = 200;
+        // container3.y = 100;
+        // container2.addChild( container3 );
 
-        const planeVOData = { textureName: "ButtonInputAtlas" };
+        const planeVOData = { textureName: "ButtonInputAtlas", name: "ABC" };
         const planeVO = new PlaneObjectVO( planeVOData );
         let plane = new PlaneObject( planeVO );
-        plane.x = 300;
-        plane.y = 200;
-        container3.addChild( plane );
+        plane.x = 200;
+        plane.y = 100;
+        container.addChild( plane );
 
-        const textVOData = { text:"Test text. 1,2,3... Test text. 1,2,3... Test text. 1,2,3... Test text. 1,2,3... Test text. 1,2,3..." };
+        const textVOData = { name: "ABC", text:"Test text. 1,2,3... Test text. 1,2,3... Test text. 1,2,3... Test text. 1,2,3... Test text. 1,2,3..." };
         const textVO = new TextFieldVO( textVOData );
         const text = new TextField( textVO );
-        text.x = 0;
+        text.x = 100;
         text.y = 20;
-        container3.addChild( text );
+        container.addChild( text );
 
-        const container4 = new DisplayObjectContainer( containerVO );
-        container4.x = 300;
-        container4.y = 200;
-        container3.addChild( container4 );
+        // const container4 = new DisplayObjectContainer( containerVO );
+        // container4.x = 300;
+        // container4.y = 200;
+        // container3.addChild( container4 );
 
         this.application.addEventListener( KeyboardEvent.DOWN, ( event ) => {
             // if ( event.key === "q") plane.x ++;
             // if ( event.key === "a") plane.x --;
             if ( event.key === "w") container.x ++;
             if ( event.key === "s") container.x --;
-            if ( event.key === "e") plane.rotation += 0.05;
-            if ( event.key === "d") plane.rotation -= 0.05;
+            // if ( event.key === "e") plane.rotation += 0.05;
+            // if ( event.key === "d") plane.rotation -= 0.05;
             if ( event.key === "r") container.rotation += 0.05;
             if ( event.key === "f") container.rotation -= 0.05;
-            if ( event.key === "t") container2.rotation += 0.05;
-            if ( event.key === "g") container2.rotation -= 0.05;
-            if ( event.key === "y") container3.rotation += 0.05;
-            if ( event.key === "h") container3.rotation -= 0.05;
+            // if ( event.key === "t") container2.rotation += 0.05;
+            // if ( event.key === "g") container2.rotation -= 0.05;
+            // if ( event.key === "y") container3.rotation += 0.05;
+            // if ( event.key === "h") container3.rotation -= 0.05;
             if ( event.key === "u") plane.width += 10;
             if ( event.key === "j") plane.width -= 10;
         } );
+
+        const rect = new Rectangle();
+        rect.update( 100, 0, 10, 10 );
+
+        for ( let i = 0; i < 37; i++ ) {
+            const angle = Math.PI2 * i / 36;
+            rect.angle = angle;
+            console.log(i * 10, rect.left.toFixed(1), rect.top.toFixed(1), (rect.right - rect.left).toFixed(1), (rect.bottom - rect.top).toFixed(1) );
+
+        }
 
         // // const plane = new PlaneObject( planeVO );
         // // plane.x = 0;
