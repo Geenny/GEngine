@@ -1,7 +1,7 @@
-import DisplayObjectVO from "./DisplayObjectVO";
 import Point from "../../../../../../data/content/graphics/Point";
+import InteractiveObjectVO from "./InteractiveObjectVO";
 
-export default class SpriteVO extends DisplayObjectVO {
+export default class SpriteVO extends InteractiveObjectVO {
 
     constructor( data ) {
         super( data );

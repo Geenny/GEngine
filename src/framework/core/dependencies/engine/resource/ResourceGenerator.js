@@ -25,7 +25,7 @@ export default class ResourceGenerator {
         const canvas = document.createElement( "canvas" );
 
         canvas.width = 512;
-        canvas.height = 256;
+        canvas.height = 128;
 
         const context = canvas.getContext( "2d" );
         context.font = "26px Arial";

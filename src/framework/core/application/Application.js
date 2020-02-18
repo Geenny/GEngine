@@ -23,7 +23,7 @@ export default class Application extends EventDispatcherVOWrapper {
 
         this.setHTMLElement( vo.HTMLElement );
 
-        Log.l("Application Started!!!");
+        Log.l( "Application Started!!!", true );
 
     }
 

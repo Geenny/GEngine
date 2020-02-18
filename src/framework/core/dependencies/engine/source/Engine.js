@@ -7,6 +7,8 @@ import StageVO from "../content/display/vo/StageVO";
 import Resources from "../resource/Resources";
 import ResourcesVO from "../resource/vo/ResourcesVO";
 import ResizeEvent from "../../systems/display/ResizeEvent";
+import InteractiveManager from "../interactive/InteractiveManager";
+import InteractiveObjectVO from "../content/display/vo/InteractiveObjectVO";
 
 export default class Engine extends DependencyAbstract {
 
@@ -95,6 +97,7 @@ export default class Engine extends DependencyAbstract {
         this.startResource();
         this.startUIStage();
         this.startStage();
+        this.startInteractiveManager();
         // const screenManagerVO = new ScreenManagerVO( this.vo.screenManagerVOData );
         // this.screenManager = new ScreenManager( screenManagerVO );
         // this.screenManager.init();
@@ -108,8 +111,16 @@ export default class Engine extends DependencyAbstract {
         this.resources = resources;
     }
 
+    startInteractiveManager() {
+        // const managerVO = new InteractiveObjectVO( { application: this.application } );
+        // const manager = new InteractiveManager( managerVO );
+        // manager.init();
+        // this.interactiveManager = manager;
+    }
+
     startUIStage() {
         const stageVO = new StageVO( {
+            engine: this,
             application: this.application,
             scene: this.display.uiscene,
             camera: this.display.uicamera
@@ -119,6 +130,7 @@ export default class Engine extends DependencyAbstract {
 
     startStage() {
         const stageVO = new StageVO( {
+            engine: this,
             application: this.application,
             scene: this.display.scene,
             camera: this.display.camera

@@ -1,11 +1,11 @@
-import DisplayObject from "./DisplayObject";
 import { Sprite, SpriteMaterial, TextureLoader } from "three";
 import ResourceGenerator from "../../resource/ResourceGenerator";
 import Resources from "../../resource/Resources";
 import ResourceStruct from "../../resource/struct/ResourceStruct";
 import ResourceType from "../../resource/enum/ResourceType";
+import InteractiveObject from "./InteractiveObject";
 
-export default class SpriteObject extends DisplayObject {
+export default class SpriteObject extends InteractiveObject {
 
     /**
      * 

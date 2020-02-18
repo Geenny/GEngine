@@ -1,9 +1,9 @@
 import DisplayObjectContainer from "./DisplayObjectContainer";
 import GroupStruct from "./struct/GroupStruct";
 import { Group, Line, Geometry, BufferGeometry, LineBasicMaterial, Float32BufferAttribute, Vector3 } from "three";
-import ArrayUtils from "../../../../../utils/tech/ArrayUtils";
 import DisplayObject from "./DisplayObject";
-import PlaneObject from "./PlaneObject";
+import InteractiveManager from "../../interactive/InteractiveManager";
+import InteractiveManagerVO from "../../interactive/vo/InteractiveManagerVO";
 
 export default class Stage extends DisplayObjectContainer {
 
@@ -18,6 +18,10 @@ export default class Stage extends DisplayObjectContainer {
     //
     // GET/SET
     //
+
+    get application() { return this.engine.application; }
+
+    get engine() { return this.vo.engine; }
 
     get scene() { return this._scene; }
     set scene( value ) {
@@ -52,6 +56,8 @@ export default class Stage extends DisplayObjectContainer {
 
     get defaultGroupStruct() { return this._groupStructList[ 0 ]; }
 
+    get interactiveObject3DList() { return this._interactiveObject3DList; }
+
 
 
     //
@@ -62,6 +68,7 @@ export default class Stage extends DisplayObjectContainer {
         super.init();
         this._initStageVars();
         this._initGroups();
+        this._startInteractiveManager();
     }
 
     _initStageVars() {
@@ -71,6 +78,7 @@ export default class Stage extends DisplayObjectContainer {
         this._globalList = [];
         this._groupStructList = [];
         this._dirtyList = [];
+        this._interactiveObject3DList = [];
         this.scene = this.vo.scene;
         this.camera = this.vo.camera;
     }
@@ -82,6 +90,15 @@ export default class Stage extends DisplayObjectContainer {
         this._parentY = this._y;
         this._rx = this._x;
         this._ry = this._y;
+    }
+
+    _startInteractiveManager() {
+        const interactiveManagerVOData = { stage: this };
+        const interactiveManagerVO = new InteractiveManagerVO( interactiveManagerVOData );
+        const interactiveManager = new InteractiveManager( interactiveManagerVO );
+        interactiveManager.init();
+
+        this.interactiveManager = interactiveManager;
     }
 
 
@@ -133,6 +150,7 @@ export default class Stage extends DisplayObjectContainer {
         } else if ( instance instanceof DisplayObject ) {
             this._childAddToList( instance );
             this._childAddToDisplay( instance, groupStruct );
+            this._childInteractiveAdd( instance )
         }
     }
 
@@ -146,6 +164,7 @@ export default class Stage extends DisplayObjectContainer {
         } else if ( instance instanceof DisplayObject ) {
             this._childRemoveFromList( instance );
             this._childRemoveFromDisplay( instance );
+            this._childInteractiveRemove( index );
         }
     }
 
@@ -162,13 +181,24 @@ export default class Stage extends DisplayObjectContainer {
     _childRemoveFromDisplay( child ) {
         const groupStruct = this._groupStructByChild( child );
         if ( !groupStruct ) return;
+        if ( !groupStruct.childrenList.length ) return;
 
         groupStruct.instance.add( child.object3D );
         const index = groupStruct.childrenList.indexOf( child );
         groupStruct.childrenList.splice( index, 1 );
+    }
 
-        if ( groupStruct.childrenList.length ) return;
+    _childInteractiveAdd( child ) {
+        this.interactiveManager.add( child );
+        this._interactiveObject3DList.push( child.object3D );
+    }
 
+    _childInteractiveRemove( child ) {
+        const index = this._interactiveObject3DList.indexOf( child.object3D );
+        if ( index < 0 ) return;
+        
+        this.interactiveManager.remove( child );
+        this._interactiveObject3DList.splice( index, 1 );
     }
 
     _childAddToList( child ) {
@@ -318,6 +348,8 @@ export default class Stage extends DisplayObjectContainer {
         if ( this.needSort ) {
             this.sort();
         }
+
+        this.interactiveTest();
         
     }
 
@@ -327,13 +359,24 @@ export default class Stage extends DisplayObjectContainer {
 
 
     //
+    // INTERACTIVE
+    //
+
+    interactiveTest() {
+        if ( !this._interactiveObject3DList.length ) return;
+        this.interactiveManager.intersect( this._interactiveObject3DList );
+    }
+
+
+
+    //
     // DEBUG
     //
 
     redrawDebug() {
         if ( !this.line ) {
             let lineGeometry = new BufferGeometry();
-            let lineMaterial = new LineBasicMaterial( { color: 0x33CC99,  linewidth: 2 } );
+            let lineMaterial = new LineBasicMaterial( { color: 0x33CC99, linewidth: 0.5 } );
             this.line = new Line( lineGeometry, lineMaterial );
             this._scene.add( this.line );
         }
@@ -342,53 +385,29 @@ export default class Stage extends DisplayObjectContainer {
         for ( let i = 0; i < this._globalList.length; i++ ) {
             const child = this._globalList[ i ];
             if ( ( child instanceof Stage ) || ( child instanceof DisplayObjectContainer ) ) continue;
-            if ( child.name != "ABC" ) continue;
-            const rectangle = child.bounds;
+            if ( !child.debugable ) continue;
+            const bounds = child.bounds;
+            const rectangle = child._rectangle;
             points.push(
-                new Vector3( rectangle.x, rectangle.y, 0 ),
-                new Vector3( rectangle.x + rectangle.width, rectangle.y, 0 ),
-                new Vector3( rectangle.x + rectangle.width, rectangle.y + rectangle.height, 0 ),
-                new Vector3( rectangle.x, rectangle.y + rectangle.height, 0 ),
-                new Vector3( rectangle.x, rectangle.y, 0 )
+                new Vector3( 0, 0, 0 ),
+                new Vector3( child._parentRealX + bounds.x, child._parentRealY - bounds.y, 0 ),
+                new Vector3( child._parentRealX + bounds.x + bounds.width, child._parentRealY - bounds.y, 0 ),
+                new Vector3( child._parentRealX + bounds.x + bounds.width, child._parentRealY - bounds.y - bounds.height, 0 ),
+                new Vector3( child._parentRealX + bounds.x, child._parentRealY - bounds.y - bounds.height, 0 ),
+                new Vector3( child._parentRealX + bounds.x, child._parentRealY - bounds.y, 0 ),
+                new Vector3( 0, 0, 0 ),
+                new Vector3( 0, 0, 0 ),
+                new Vector3( child._parentRealX + rectangle.leftTop.x, child._parentRealY - rectangle.leftTop.y, 0 ),
+                new Vector3( child._parentRealX + rectangle.rightTop.x, child._parentRealY - rectangle.rightTop.y, 0 ),
+                new Vector3( child._parentRealX + rectangle.rightBottom.x, child._parentRealY - rectangle.rightBottom.y, 0 ),
+                new Vector3( child._parentRealX + rectangle.leftBottom.x, child._parentRealY - rectangle.leftBottom.y, 0 ),
+                new Vector3( child._parentRealX + rectangle.leftTop.x, child._parentRealY - rectangle.leftTop.y, 0 ),
+                new Vector3( 0, 0, 0 )
             );
         }
 
         this.line.geometry.setFromPoints( points );
 
-        // this.line.geometry.vertices.push(
-        //     new Vector3( 0, 0, 0 ),
-        //     new Vector3( 400, 0, 0 ),
-        //     new Vector3( 400, 200, 0 ),
-        //     new Vector3( 0, 200, 0 ),
-        //     new Vector3( 0, 0, 0 ),
-        // )
-
-        // debugger;
-
-        // setInterval(() => {
-        //     this.line.geometry.setFromPoints( [
-        //         new Vector3( 0, 0, 0 ),
-        //         new Vector3( (Math.random() * 1000 - 500) + 200, 0, 0 ),
-        //         new Vector3( (Math.random() * 1000 - 500) + 200, (Math.random() * 1000 - 500) + 200, 0 ),
-        //         new Vector3( 0, (Math.random() * 1000 - 500) + 200, 0 ),
-        //         new Vector3( 0, 0, 0 ),
-        //         new Vector3( 0, 0, 0 ),
-        //         new Vector3( 0, 0, 0 ),
-        //         new Vector3( (Math.random() * 1000 - 500) + 200, 0, 0 ),
-        //         new Vector3( (Math.random() * 1000 - 500) + 200, (Math.random() * 1000 - 500) + 200, 0 ),
-        //         new Vector3( 0, (Math.random() * 1000 - 500) + 200, 0 ),
-        //         new Vector3( 0, 0, 0 ),
-        //     ] );
-        //     // this.line.geometry.vertices.push(
-        //     //     new Vector3( 0, 0, 0 ),
-        //     //     new Vector3( rand + 200, 0, 0 ),
-        //     //     new Vector3( rand + 200, rand + 200, 0 ),
-        //     //     new Vector3( 0, rand + 200, 0 ),
-        //     //     new Vector3( 0, 0, 0 )
-        //     // );
-        //     // this.line.position.x ++;
-        //     // this._scene.add( this.line );
-        // }, 250);
     }
 
 }

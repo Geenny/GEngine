@@ -8,9 +8,10 @@ import Net from "../core/dependencies/network/Net";
 import NetVO from "../core/dependencies/network/vo/NetVO";
 import Displays from "../core/dependencies/displays/Displays";
 import DisplaysVO from "../core/dependencies/displays/vo/DisplaysVO";
-import { DISPLAY_SYSTEM_NAME, KEYBOARD_SYSTEM_NAME, DEVICE_SYSTEM_NAME, TIME_SYSTEM_NAME } from "../constants/Constants";
+import { DISPLAY_SYSTEM_NAME, KEYBOARD_SYSTEM_NAME, DEVICE_SYSTEM_NAME, TIME_SYSTEM_NAME, MOUSE_SYSTEM_NAME } from "../constants/Constants";
 import DependencyIDs from "../core/dependencies/DependencyIDs";
 import TimeSystem from "../core/dependencies/systems/time/TimeSystem";
+import MouseSystem from "../core/dependencies/systems/mouse/MouseSystem";
 
 const VIEW_SYSTEM = {
     ... SystemSource,
@@ -36,6 +37,12 @@ const TIME_SYSTEM = {
     options: { name: TIME_SYSTEM_NAME }
 };
 
+const MOUSE_SYSTEM = {
+    ... SystemSource,
+    class: MouseSystem,
+    options: { name: MOUSE_SYSTEM_NAME }
+};
+
 const MAIN = {
     main: {
         vo: {
@@ -53,7 +60,8 @@ const MAIN = {
                                 VIEW_SYSTEM,
                                 DEVICE_SYSTEM,
                                 KEYBOARD_SYSTEM,
-                                TIME_SYSTEM
+                                TIME_SYSTEM,
+                                MOUSE_SYSTEM
                             ]
                         }
                     },

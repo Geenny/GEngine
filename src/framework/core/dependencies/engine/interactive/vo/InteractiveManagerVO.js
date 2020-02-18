@@ -1,4 +1,4 @@
-import VO from "../../../../framework/data/vo/VO";
+import VO from "../../../../../data/vo/VO";
 
 export default class InteractiveManagerVO extends VO {
 
@@ -8,10 +8,9 @@ export default class InteractiveManagerVO extends VO {
 
     initVars() {
 
-        super.initVars();
-
-        // this.ID = UserID.UNDEFINED;
-        // this.profile = null;
+        this.appliaction = null;
+        this.scene = null;
+        this.camera = null;
 
     }
 

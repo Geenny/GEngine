@@ -7,41 +7,21 @@ export default class DisplayObjectContainer extends DisplayObject {
 
     /**
      * 
-     * @param { SpriteVO } displayVO
+     * @param { DisplayObjectContainerVO } displayObjectContainerVO
      */
-    constructor( displayVO ) {
-        super( displayVO );
+    constructor( displayObjectContainerVO ) {
+        super( displayObjectContainerVO );
     }
 
     //
     // GET/SET
     //
 
-    // get x() { return this._x; }
-    // set x( value ) {
-    //     if (isNaN(value)) debugger;
-    //     if (value === undefined) debugger;
-    //     super.x = value;
-    // }
-
-    // get y() { return this._y; }
-    // set y( value ) {
-    //     if (isNaN(value)) debugger;
-    //     if (value === undefined) debugger;
-    //     super.y = value;
-    // }
-
-    // get rotation() { return this._rotation; }
-    // set rotation( value ) {
-    //     if (isNaN(value)) debugger;
-    //     if (value === undefined) debugger;
-    //     super.rotation = value;
-    // }
-
     get list() { return this._list; }
 
     get length() { return this._list.length; }
 
+    
     //
     // INIT
     //
@@ -57,7 +37,7 @@ export default class DisplayObjectContainer extends DisplayObject {
     }
 
     _initCenterPlane() {
-        const planeVOData = { materialData: { color: 0xff0000 }, width: 10, height: 10 };
+        const planeVOData = { materialData: { color: 0xff0000 }, width: 10, height: 10, debugable: false };
         const planeVO = new PlaneObjectVO( planeVOData );
         const plane = new PlaneObject( planeVO );
         this.addChild( plane );

@@ -100,13 +100,6 @@ export default class DisplayObject extends EventDispatcherVOWrapper {
         this._rotation = value % Math.PI2;
     }
 
-    get bounds() { return this._bounds; }
-    set bounds( value ) {
-        if (isNaN(value)) debugger;
-        if (value === undefined) debugger;
-        debugger;
-    }
-
     get scaleX() { return this._scalex; }
     set scaleX( value ) {
         if (isNaN(value)) debugger;
@@ -143,6 +136,7 @@ export default class DisplayObject extends EventDispatcherVOWrapper {
     get bounds() { return this._bounds; }
 
     get debug() { return this._stage && this._stage.debug; }
+    get debugable() { return this.vo.debugable; }
 
     //
     // INIT
@@ -166,12 +160,11 @@ export default class DisplayObject extends EventDispatcherVOWrapper {
         this._height = 0;
         this._rotation = 0;
         this._rectangle = new Rectangle();
-        this._hitBox = new Rectangle();
         this._bounds = new Rectangle();
         this._parentX = 0;
         this._parentY = 0;
-        this._realX = 0;
-        this._realY = 0;
+        this._parentRealX = 0;
+        this._parentRealY = 0;
         this._realRotation = 0;
         this._rx = 0;
         this._ry = 0;
@@ -199,59 +192,43 @@ export default class DisplayObject extends EventDispatcherVOWrapper {
         if ( this._parent ) {
             this._parentX = this._parent.x;
             this._parentY = this._parent.y;
-            this._realX = this._parent._rx;
-            this._realY = this._parent._ry;
+            this._parentRealX = this._parent._rx;
+            this._parentRealY = this._parent._ry;
             this._parentRealRotation = this._parent._realRotation;
         } else {
             this._parentX = 0;
             this._parentY = 0;
-            this._realX = 0;
-            this._realY = 0;
+            this._parentRealX = 0;
+            this._parentRealY = 0;
             this._parentRealRotation = 0;
         }
 
-        if ( this._name === "ABC" ) debugger;
-
         this._realRotation = this._parentRealRotation + this._rotation;
-        
-        // this._rectangle.update( this._realX + this._x, this._realY - this._y, this._width * this._scalex, this._height * this._scaley );
-        // this._rectangle.angle = this._parentRealRotation;
-        // this._bounds.update(
-        //     this._rectangle.left,
-        //     this._rectangle.top,
-        //     this._rectangle.right - this._rectangle.left,
-        //     this._rectangle.bottom - this._rectangle.top );
-        
-        // const realX = this._x;
-        // const realY = this._realY - this._y;
 
         this._rectangle.update( this._x, this._y, this._width * this._scalex, this._height * this._scaley );
         this._rectangle.angle = this._parentRealRotation;
         this._bounds.update(
-            this._realX + this._rectangle.left,
-            this._realY - this._rectangle.top,
+            this._rectangle.left,
+            this._rectangle.top,
             this._rectangle.right - this._rectangle.left,
-            -this._rectangle.bottom + this._rectangle.top );
+            this._rectangle.bottom - this._rectangle.top );
 
         this._rpX = this._width * this._scalex * 0.5 + this._x;
         this._rpY = this._height * this._scaley * 0.5 + this._y;
-        this._rсX = this._rpX * Math.cos( this._parentRealRotation ) - this._rpY * Math.sin( this._parentRealRotation );
-        this._rсY = this._rpX * Math.sin( this._parentRealRotation ) + this._rpY * Math.cos( this._parentRealRotation );
-        this._rx = this._realX + this._rсX;
-        this._ry = this._realY - this._rсY;
+        this._rx = this._rpX * Math.cos( this._parentRealRotation ) - this._rpY * Math.sin( this._parentRealRotation );
+        this._ry = this._rpX * Math.sin( this._parentRealRotation ) + this._rpY * Math.cos( this._parentRealRotation );
         this._rr = this._realRotation;
     }
 
     _updatePosition() {
         if ( !this._object3D ) return;
+        this._material.opacity = this._alpha;
         this._object3D.visible = this._visible;
-        this._object3D.position.x = this._rx;
-        this._object3D.position.y = this._ry;
+        this._object3D.position.x = this._parentRealX + this._rx;
+        this._object3D.position.y = this._parentRealY - this._ry;
         this._object3D.rotation.z = -this._rr;
         this._object3D.scale.x = this._width / this.geometry.parameters.width;
         this._object3D.scale.y = this._height / this.geometry.parameters.height;
-        this._material.opacity = this._alpha;
-        
     }
 
 
@@ -270,7 +247,6 @@ export default class DisplayObject extends EventDispatcherVOWrapper {
 
     materialCreate() {
         const materialParameters = this.materialParametersGet();
-        // debugger;
         const material = new MeshBasicMaterial( materialParameters );
 
         if ( this._texture ) {

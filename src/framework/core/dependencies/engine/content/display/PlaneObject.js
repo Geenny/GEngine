@@ -1,12 +1,12 @@
-import DisplayObject from "./DisplayObject";
 import { Mesh, Sprite, SpriteMaterial, TextureLoader, PlaneGeometry, MeshPhongMaterial, PlaneBufferGeometry, DoubleSide, Texture } from "three";
 import ResourceGenerator from "../../resource/ResourceGenerator";
 import Resources from "../../resource/Resources";
 import ResourceStruct from "../../resource/struct/ResourceStruct";
 import ResourceType from "../../resource/enum/ResourceType";
 import PlaneObjectVO from "./vo/PlaneObjectVO";
+import InteractiveObject from "./InteractiveObject";
 
-export default class PlaneObject extends DisplayObject {
+export default class PlaneObject extends InteractiveObject {
 
     /**
      * 
