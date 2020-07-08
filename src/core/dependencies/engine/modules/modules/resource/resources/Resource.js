@@ -1,4 +1,3 @@
-import { Texture, CanvasTexture, TextureLoader } from "three";
 import ResourceEvent from "../event/ResourceEvent";
 import ResourceEnum from "../enum/ResourceEnum";
 import LoaderEvent from "../../../../../network/loaders/events/LoaderEvent";

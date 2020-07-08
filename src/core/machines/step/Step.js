@@ -26,7 +26,7 @@ export default class Step extends EventDispatcherVOWrapper {
     get steps() { return this.vo.steps; }
     get stepNames() { return this.vo.stepNames; }
 
-    get screenManager() { return this.application.screenManager; }
+    get screenManager() { return this.application.modules.screenManager; }
 
 
     start( parameters ) {

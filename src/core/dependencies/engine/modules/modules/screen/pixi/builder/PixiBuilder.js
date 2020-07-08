@@ -1,10 +1,8 @@
 import ScreenBuilder from "../../ScreenBuilder";
-import ScreenNode from "../../sctruct/ScreenNode";
-import Node from "../nodes/ContainerWrapper";
 import ContainerWrapper from "../nodes/ContainerWrapper";
 import NodeType from "../constants/NodeType";
+import { Sprite } from "pixi.js";
 import SpriteWrapper from "../nodes/SpriteWrapper";
-import { Sprite, Container, Graphics } from "pixi.js";
 import GraphicsWrapper from "../nodes/GraphicsWrapper";
 import SpriteBound from "../nodes/SpriteBound";
 import ButtonWrapper from "../nodes/ButtonWrapper";
@@ -19,8 +17,8 @@ export default class PixiBuilder extends ScreenBuilder {
     //
     // GET/SET
     //
-    get container() { return this.application && this.application.view && this.application.view.stage ?
-        this.application.view.stage : null; }
+    get container() { return this.application && this.application.modules && this.application.modules.view && this.application.modules.view.stage ?
+        this.application.modules.view.stage : null; }
 
 
     //
@@ -58,7 +56,7 @@ export default class PixiBuilder extends ScreenBuilder {
     clear( screenNode ) {
         if ( !screenNode ) return;
         screenNode.content.removeChildren();
-        this.container.removeChild( screenNode.content );
+        if ( this.container ) this.container.removeChild( screenNode.content );
         screenNode.content = null;
     }
 

@@ -18,6 +18,7 @@ export default class Modules extends EventDispatcherVOWrapper {
     set enable( value ) { this._enable = value; }
 
     get application() { return this.vo.application; }
+    get applicationRootName() { return this.vo.applicationRootName || "modules"; }
     get moduleList() { return this._moduleList; }
     get moduleStructList() { return this.vo.moduleStructList || []; }
 
@@ -53,7 +54,7 @@ export default class Modules extends EventDispatcherVOWrapper {
             moduleStruct.options.modules = this;
             const module = StructUtils.createStruct( moduleStruct );
             this._moduleList.push( module );
-            this.application[ moduleStruct.name ] = module;
+            this.application.rootAdd( module, this.applicationRootName );
             this.application.dispatchEvent( new ModuleEvent( ModuleEvent.START, this, module ) );
         } catch ( error ) {
             const errorData = { errorID: 0, errorMessage: `Module ${moduleStruct.name} create error!!!` };

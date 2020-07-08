@@ -13,6 +13,7 @@ import StepMachine from "../machines/step/StepMachine";
 import StepEvent from "../machines/step/events/StepEvent";
 import PlatformEvent from "../dependencies/platform/event/PlatformEvent";
 import ResourcesEvent from "../dependencies/engine/modules/modules/resource/event/ResourcesEvent";
+import ERRORS from "../../config/ERRORS";
 
 export default class Application extends EventDispatcherVOWrapper {
 
@@ -61,8 +62,6 @@ export default class Application extends EventDispatcherVOWrapper {
         this.initStepMachine();
         this.initDependencyMachine();
         this.dispatchEvent( new ApplicationEvent( ApplicationEvent.INIT ) );
-
-        this.platformSubscribe();
     }
 
     _initVars() {
@@ -79,7 +78,9 @@ export default class Application extends EventDispatcherVOWrapper {
         this.stepMachine.destroy();
         this.dependencyMachine.destroy();
         this.tickerMachine.destroy();
-        this.platformUnsubscribe();
+
+        this.stepMachine.removeEventListener( StepEvent.ANY, this.onStepMachineHandle );
+        this.dependencyMachine.removeEventListener( Event.ANY, this.onDependencyMachineEvent );
     }
 
 
@@ -96,10 +97,6 @@ export default class Application extends EventDispatcherVOWrapper {
         this.dependencyMachine = dependencyMachine;
     }
     onDependencyMachineEvent( event ) {
-        const dependency = event.dependency;
-        if ( dependency.name && !this[ dependency.name ] ) {
-            this[ dependency.name ] = dependency;
-        }
         this.dispatchEvent( new DependencyMachineEvent( event.type, event.dependencyMachine, event.dependency ) );
     }
 
@@ -148,92 +145,7 @@ export default class Application extends EventDispatcherVOWrapper {
     onStepMachineHandle( event ) { }
 
 
-    //
-    // PLATFORM
-    //
 
-    platformSubscribe() {
-        this.addEventListener( PlatformEvent.INIT, this._platformOnInit, this );
-        this.addEventListener( PlatformEvent.READY, this._platformOnReady, this );
-        this.addEventListener( PlatformEvent.DATA_GET, this._platformOnDataGet, this );
-    }
-    platformUnsubscribe() {
-        this.removeEventListener( PlatformEvent.INIT, this._platformOnInit );
-        this.removeEventListener( PlatformEvent.READY, this._platformOnReady );
-        this.removeEventListener( PlatformEvent.DATA_GET, this._platformOnDataGet );
-    }
-    _platformOnInit() {
-        this.loadingScreenStart();
-        this.initResourcesProgress();
-    }
-    _platformOnReady() {
-        this._platformDataGet();
-        this.platformReady = true;
-    }
-    _platformOnDataGet() {
-        // debugger;
-        // const storageData = this._remoteStorageDataAnalize( event.data );
-        // this.storageSetAll( storageData );
-        // this.soundSettingsUpdate();
-        // this.dispatchEvent( new GameEvent( GameEvent.DATA, storageData ) );
-        // this.startGameCheck();
-        // this.dataReady = true;
-    }
-    _platformReadySet() {
-        if ( !this.resourceReady || this.platformReady ) return;
-        this.Platform.loadReady();
-    }
-    _platformDataGet() {
-        if ( !this.Platform || !this.Platform.api ) return;
-        this.Platform.api.dataGet();
-    }
-    // _remoteStorageDataAnalize( storageData ) {
-    //     if ( !storageData[ GAME_DATA_NAME ] ) {
-    //         const resultData = { };
-    //         resultData[ GAME_DATA_NAME ] = GAME_DATA_DEFAULT;
-    //         resultData[ SETTINGS_NAME ] = SETTINGS_DEFAULT;
-    //         return merge( { }, resultData );
-    //     }
-    //     return storageData;
-    // }
-
-
-    //
-    // RESOURCE PROGRESS
-    //
-    initResourcesProgress() {
-        if ( !this.resources ) return;
-        this.resources.addEventListener( ResourcesEvent.PROGRESS, this.onResourcePreloadProgress, this );
-        this.resources.addEventListener( ResourcesEvent.READY, this.onResourcePreloadReady, this );
-    }
-    destroyResourceProgress() {
-        if ( !this.resources ) return;
-        this.resources.removeEventListener( ResourcesEvent.PROGRESS, this.onResourcePreloadProgress );
-        this.resources.removeEventListener( ResourcesEvent.READY, this.onResourcePreloadReady );
-    }
-    progressSet( progress ) {
-        if ( !this.Platform ) return;
-        this.Platform.api.progressSet( progress );
-    }
-    onResourcePreloadProgress( event ) {
-        if ( !event.data || event.data.name != "Preload" ) return;
-        Log.l( event.data.progress );
-        this.progressSet( event.data.progress );
-        this.dispatchEvent( new ResourcesEvent( ResourcesEvent.PROGRESS, event.target, event.data ) );
-    }
-    onResourcePreloadReady( event ) {
-        this.resourceReady = true;
-        this.destroyResourceProgress();
-        this._platformReadySet();
-        this.dispatchEvent( new ResourcesEvent( ResourcesEvent.READY, event.target, event.data ) );
-    }
-    loadingScreenStart() {
-        const step = this.stepMachine.step;
-        if ( !step ) return;
-        step.stop();
-    }
-
-    
 
     //
     // VO
@@ -299,12 +211,70 @@ export default class Application extends EventDispatcherVOWrapper {
         return this.storageData && this.storageData.hasOwnProperty( name );
     }
 
+
+    //
+    // INTERACTION SET
+    //
+
     /**
      * Метод отвечающий за тригер взаимодействия
      */
     interaction() {
         this.isInteract = true;
         this.dispatchEvent( new ApplicationEvent( ApplicationEvent.INTERACTION, { isInteract: true } ) );
+    }
+
+
+    //
+    // ROOT ADD/REMOVE
+    //
+
+    /**
+     * Добавить @module объект в рута 
+     * @param { Object } module 
+     * @param { String } rootName 
+     */
+    rootAdd( module, rootName = null ) {
+        if ( !module.name )
+            throw new Error( ERRORS.E1002 );
+ 
+        if ( !this._rootCheckForAdd( rootName ) )
+            throw new Error( ERRORS.E1003 );
+
+        const modules = rootName ? this[ rootName ] : this;
+        if ( modules[ module.name ] )
+            throw new Error( ERRORS.E1004 );
+        
+        modules[ module.name ] = module;
+    }
+
+    /**
+     * Удалить @module объект из рута 
+     * @param { Object } module 
+     * @param { String } rootName 
+     */
+    rootRemove( module, rootName = null ) {
+        const modules = rootName ? this[ rootName ] : this;
+        delete modules[ module.name ];
+        this._rootCheckForRemove();
+    }
+
+    _rootCheckForAdd( rootName ) {
+        const modules = rootName ? this[ rootName ] : this;
+        if ( modules ) return true;
+        if ( rootName ) {
+            this[ rootName ] = { };
+            return true;
+        }
+        return false;
+    }
+    _rootCheckForRemove( rootName ) {
+        if ( !rootName ) return;
+        const modules = this[ rootName ];
+        const length = ObjectUtils.count( modules );
+        if ( modules && length <= 0 ) {
+            delete this[ rootName ];
+        }
     }
 
 }

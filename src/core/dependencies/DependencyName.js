@@ -1,10 +1,10 @@
 export default class DependencyName {}
 
-DependencyName.SYSTEMS = "Systems";
-DependencyName.NET = "Net";
-DependencyName.LAUNCHER = "Launcher";
-DependencyName.DISPLAYS = "Displays";
-DependencyName.PLATFORM = "Platform";
-DependencyName.LOADER = "Loader";
-DependencyName.ENGINE = "Engine";
-DependencyName.GAME = "Game";
+DependencyName.SYSTEMS = "systems";
+DependencyName.NET = "net";
+DependencyName.LAUNCHER = "launcher";
+DependencyName.DISPLAYS = "displays";
+DependencyName.PLATFORM = "platform";
+DependencyName.LOADER = "loader";
+DependencyName.ENGINE = "engine";
+DependencyName.GAME = "game";

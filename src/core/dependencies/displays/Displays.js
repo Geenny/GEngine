@@ -1,8 +1,6 @@
 import DependencyAbstract from "../../machines/dependency/DependencyAbstract";
 import DisplaysVO from "./vo/DisplaysVO";
 import ArrayUtils from "../../../utils/tech/ArrayUtils";
-import DisplayVO from "./vo/DisplayVO";
-import DisplayStruct from "./struct/DisplayStruct";
 import ResizeEvent from "../systems/display/ResizeEvent";
 import DisplayEvent from "./event/DisplayEvent";
 import Point from "../../../data/content/graphics/Point";
@@ -104,7 +102,8 @@ export default class Displays extends DependencyAbstract {
     }
 
     displaySystemGet() {
-        return this.application.Systems ? this.application.Systems.systemGetByName( this.vo.displaySystemName ) : null;
+        return this.application.dependencies && this.application.dependencies.systems ?
+            this.application.dependencies.systems.systemGetByName( this.vo.displaySystemName ) : null;
     }
 
 

@@ -1,6 +1,6 @@
 {
-  "name": "gengine",
-  "version": "0.0.1",
+  "name": "g-engine",
+  "version": "0.3.1",
   "description": "GEngine",
   "main": "index.js",
   "scripts": {

@@ -19,6 +19,9 @@ export default class Module extends EventDispatcherVOWrapper {
     get width() { return this._size.x; }
     get height() { return this._size.y; }
 
+    get ID() { return this.vo.ID; }
+    get name() { return this.vo.name; }
+
     //
     // INIT
     //

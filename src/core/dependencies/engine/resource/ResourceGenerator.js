@@ -18,7 +18,7 @@ export default class ResourceGenerator {
         context.fillStyle = ResourceGenerator.colorToString( color );
         context.fillRect( 0, 0, canvas.width, canvas.height );
 
-        return new CanvasTexture( canvas );
+        return canvas;
     }
 
     static getText( text = "" ) {

@@ -382,12 +382,16 @@ export default class DependencyMachine extends EventDispatcherVOWrapper {
         this.dispatchEvent( dependencyMachineEvent, this, dependency );
     }
 
+    _dependencyIsStarting( dependency ) {
+        this.application.rootAdd( dependency, this.vo.applicationRootName );
+    }
     _dependencyIsStarted( dependency ) { }
     _dependencyIsWorking( dependency ) {
         this._dispatch( new DependencyMachineEvent( DependencyMachineEvent.DEPENDENCY_STARTED, this, dependency ) );
         this.dependencyUpdateWorkDependence();
     }
     _dependencyIsStopped( dependency ) {
+        this.application.rootRemove( dependency, this.vo.applicationRootName );
         this._dispatch( new DependencyMachineEvent( DependencyMachineEvent.DEPENDENCY_STOPPED, this, dependency ) );
         this.dependencyUpdateWorkDependence();
     }
@@ -398,7 +402,10 @@ export default class DependencyMachine extends EventDispatcherVOWrapper {
      */
     _onDependencyEvent( event ) {
         switch( event.type ) {
-            case DependencyEvent.STARTING: break;
+            case DependencyEvent.STARTING:
+                this._dependencyIsStarting( event.target );
+                break;
+
             case DependencyEvent.STARTED:
                 this._dependencyIsStarted( event.target );
                 break;

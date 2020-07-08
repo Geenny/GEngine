@@ -32,6 +32,7 @@ import SCREENS from "./SCREENS";
 import Platform from "../core/dependencies/platform/Platform";
 import PlatformVO from "../core/dependencies/platform/vo/PlatformVO";
 import PlatformName from "../core/dependencies/platform/constants/PlatformName";
+import Launcher from "../core/dependencies/launcher/Launcher";
 
 const VIEW_SYSTEM = {
     ... SystemSource,
@@ -191,6 +192,15 @@ const DATA = {
                 platformName: PlatformName.NONE
             }
         },
+
+        // Launcher
+        {
+            ... DependencyStruct,
+            ID: DependencyIDs.LAUNCHER,
+            name: DependencyName.LAUNCHER,
+            class: Launcher,
+            dependenceNameList: [ DependencyIDs.ENGINE ]
+        }
 
         // Game 
         // {
