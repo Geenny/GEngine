@@ -97,9 +97,14 @@ export default class Displays extends DependencyAbstract {
     }
 
     sizeUpdate() {
-        const displaySystem = this.application.systems.systemGetByName( this.vo.displaySystemName );
+        const displaySystem = this.displaySystemGet();
+        if ( !displaySystem ) return;
         displaySystem.sizeUpdate();
         this.size = displaySystem.size;
+    }
+
+    displaySystemGet() {
+        return this.application.Systems ? this.application.Systems.systemGetByName( this.vo.displaySystemName ) : null;
     }
 
 

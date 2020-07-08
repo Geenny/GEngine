@@ -26,7 +26,7 @@ VO.HTMLElement = HTMLElement;
 
 function onStart() {
 
-    applicationStart();
+    const application = applicationStart();
 
     document.addEventListener( "click", onClick );
     document.addEventListener( "touchend", onClick );
@@ -41,11 +41,13 @@ function onStart() {
 }
 
 function applicationStart() {
-    if ( window.g_app ) return;
+    if ( window.g_app ) return window.g_app;
 
     const application = new Application( VO );
     application.init();
     window.g_app = application;
+
+    return application;
 }
 
 function applicationRestart() {
@@ -54,7 +56,7 @@ function applicationRestart() {
         window.g_app = null;
     }
 
-    applicationStart();
+    return applicationStart();
 }
 
 window.onload = function() {

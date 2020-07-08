@@ -2,6 +2,10 @@ import EventDispatcherVOWrapper from "../../../data/vo/EventDispatcherVOWrapper"
 import StepEvent from "./events/StepEvent";
 import StructUtils from "../../../data/content/struct/StructUtils";
 import MouseEvent from "../../dependencies/systems/mouse/MouseEvent";
+import Struct from "../../../data/content/struct/Struct";
+import StepVO from "./vo/StepVO";
+import DependencyMachineEvent from "../dependency/events/DependencyMachineEvent";
+import DependencyName from "../../dependencies/DependencyName";
 
 export default class StepMachine extends EventDispatcherVOWrapper {
 
@@ -18,21 +22,20 @@ export default class StepMachine extends EventDispatcherVOWrapper {
     // GET/SET
     //
     get stepStructList() { return this.vo.stepStructList; }
+    get stepsList() { return this.vo.steps; }
     get step() { return this._step; }
     get previousStep() { return this._previousStep; }
     get application() { return this.vo.application; }
 
 
-    /**
-     * Init
-     */
+    // 
+    // INIT
+    //
     init() {
         this.initVars();
         this._initSteps();
-        this._startDefaultStep();
         this._listenersAdd();
     }
-
     initVars() {
         this._step = null;
         this._previousStep = null;
@@ -40,12 +43,33 @@ export default class StepMachine extends EventDispatcherVOWrapper {
     }
 
     _initSteps() {
-        if ( !this.stepStructList ) return;
+        if ( !this.stepsList ) return;
+        this._stepStructListCreate();
         this._stepListCreate();
         this.stepListCheck();
     }
+    _stepStructGet( i, options ) {
+        const struct = {
+            ...Struct,
+            ID: i + 1,
+            name: options.name,
+            class: options.step,
+            classVO: StepVO,
+            options
+        };
+        return struct;
+    }
+    _stepStructListCreate() {
+        const structList = [];
+        for ( let i = 0; i < this.stepsList.length; i++ ) {
+            const stepData = this.stepsList[ i ];
+            const stepStruct = this._stepStructGet( i, stepData );
+            structList.push( stepStruct );
+        }
+        this.vo.stepStructList = structList;
+    }
     _stepListCreate() {
-        for ( let i = 0; i <   this.stepStructList.length; i++ ) {
+        for ( let i = 0; i < this.stepStructList.length; i++ ) {
             const stepStruct = this.stepStructList[ i ];
             const step = this._stepCreate( stepStruct );
             this._stepToListAdd( step );
@@ -70,10 +94,13 @@ export default class StepMachine extends EventDispatcherVOWrapper {
         if ( this.isListeners ) return;
         this.isListeners = true;
         this.application.addEventListener( MouseEvent.UP, this.onApplicationClick, this );
+        this.application.addEventListener( DependencyMachineEvent.DEPENDENCY_STARTED, this.onDependencyStarted, this );
     }
     _listenersRemove() {
+        if ( !this.isListeners ) return;
         this.isListeners = false;
         this.application.removeEventListener( MouseEvent.UP, this.onApplicationClick, this );
+        this.application.removeEventListener( DependencyMachineEvent.DEPENDENCY_STARTED, this.onDependencyStarted );
     }
 
     onApplicationClick( event ) {
@@ -81,6 +108,10 @@ export default class StepMachine extends EventDispatcherVOWrapper {
         if ( !this.step.started ) return;
         if ( this.step.worktime < 10 ) return;
         this.step.stop();
+    }
+    onDependencyStarted( event ) {
+        if ( !event.dependency || event.dependency.name != DependencyName.ENGINE ) return;
+        this._startDefaultStep();
     }
 
 
@@ -159,5 +190,14 @@ export default class StepMachine extends EventDispatcherVOWrapper {
     dispatch( event ) {
         if ( !event ) return;
         this.dispatchEvent( event );
+    }
+
+
+    /**
+     * Destroy machine
+     */
+    destroy() {
+        this._listenersRemove();
+        this.stop( this.step, -1 );
     }
 }

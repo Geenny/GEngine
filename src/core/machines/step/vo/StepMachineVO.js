@@ -7,6 +7,7 @@ export default class StepMachineVO extends VO {
     }
 
     initVars() {
+        this.steps = [];                    // { name, step: StepClass, list: [ ... ] }
         this.stepStructList = [];
         this.application = null;            // @Application
     }

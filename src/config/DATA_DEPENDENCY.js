@@ -29,6 +29,9 @@ import Struct from "../data/content/struct/Struct";
 import Sounds from "../core/dependencies/engine/modules/modules/sound/Sounds";
 import SoundsVO from "../core/dependencies/engine/modules/modules/sound/vo/SoundsVO";
 import SCREENS from "./SCREENS";
+import Platform from "../core/dependencies/platform/Platform";
+import PlatformVO from "../core/dependencies/platform/vo/PlatformVO";
+import PlatformName from "../core/dependencies/platform/constants/PlatformName";
 
 const VIEW_SYSTEM = {
     ... SystemSource,

@@ -1,10 +1,10 @@
 import Struct from "../../data/content/struct/Struct";
-import ScreenVO from "../../core/dependencies/engine/modules/modules/screen/vo/ScreenVO";
-import NodeType from "../../core/dependencies/engine/modules/modules/screen/pixi/constants/NodeType";
-import NodeAlignType from "../../core/dependencies/engine/modules/modules/screen/pixi/constants/NodeAlignType";
-import NodeFillType from "../../core/dependencies/engine/modules/modules/screen/pixi/constants/NodeFillType";
-import NodeSequenceType from "../../core/dependencies/engine/modules/modules/screen/pixi/constants/NodeSequenceType";
-import PixiScreen from "../../core/dependencies/engine/modules/modules/screen/pixi/screen/PixiScreen";
+import ScreenVO from "../dependencies/engine/modules/modules/screen/vo/ScreenVO";
+import NodeType from "../dependencies/engine/modules/modules/screen/pixi/constants/NodeType";
+import NodeAlignType from "../dependencies/engine/modules/modules/screen/pixi/constants/NodeAlignType";
+import NodeFillType from "../dependencies/engine/modules/modules/screen/pixi/constants/NodeFillType";
+import NodeSequenceType from "../dependencies/engine/modules/modules/screen/pixi/constants/NodeSequenceType";
+import PixiScreen from "../dependencies/engine/modules/modules/screen/pixi/screen/PixiScreen";
 import ScreenName from "./ScreenName";
 
 const screenData = {
@@ -31,13 +31,23 @@ const screenData = {
                 drawCircle: false
             }
         },
+        {
+            type: NodeType.NODE,
+            name: "TextContainer",
+            fill: NodeFillType.FULL,
+            align: NodeAlignType.BC,
+            parameters: {
+                width: "100%",
+                height: "100%"
+            }
+        },
     ]
 };
 
 export default {
     ... Struct,
     ID: 1,
-    name: ScreenName.BEGIN,
+    name: ScreenName.LOADING,
     class: PixiScreen,
     classVO: ScreenVO,
     options: {

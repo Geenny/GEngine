@@ -1,4 +1,3 @@
-import Systems from "../dependencies/systems/systems/Systems";
 import ApplicationEvent from "./event/ApplicationEvent";
 import ApplicationVO from "./vo/ApplicationVO";
 import Log from "../../utils/log/Log";
@@ -8,8 +7,12 @@ import Event from "../machines/event/Event";
 import DependencyMachineEvent from "../machines/dependency/events/DependencyMachineEvent";
 import TickerMachine from "../machines/ticker/TickerMachine";
 import TickerMachineVO from "../machines/ticker/vo/TickerMachineVO";
-import Displays from "../dependencies/displays/Displays";
 import EventDispatcherVOWrapper from "../../data/vo/EventDispatcherVOWrapper";
+import StepMachineVO from "../machines/step/vo/StepMachineVO";
+import StepMachine from "../machines/step/StepMachine";
+import StepEvent from "../machines/step/events/StepEvent";
+import PlatformEvent from "../dependencies/platform/event/PlatformEvent";
+import ResourcesEvent from "../dependencies/engine/modules/modules/resource/event/ResourcesEvent";
 
 export default class Application extends EventDispatcherVOWrapper {
 
@@ -42,6 +45,11 @@ export default class Application extends EventDispatcherVOWrapper {
      */
     get dpr() { return window.devicePixelRatio || 1; }
 
+    /**
+     * Get current step from step machine
+     */
+    get step() { return this.stepMachine ? this.stepMachine.step : null; }
+
     
     //
     // INIT
@@ -53,6 +61,8 @@ export default class Application extends EventDispatcherVOWrapper {
         this.initStepMachine();
         this.initDependencyMachine();
         this.dispatchEvent( new ApplicationEvent( ApplicationEvent.INIT ) );
+
+        this.platformSubscribe();
     }
 
     _initVars() {
@@ -66,8 +76,10 @@ export default class Application extends EventDispatcherVOWrapper {
     //
 
     destroy() {
-        this.tickerMachine.destroy();
+        this.stepMachine.destroy();
         this.dependencyMachine.destroy();
+        this.tickerMachine.destroy();
+        this.platformUnsubscribe();
     }
 
 
@@ -124,6 +136,8 @@ export default class Application extends EventDispatcherVOWrapper {
 
     initStepMachine() {
         const stepMachineData = this.vo.stepMachineVO || { steps: [] };
+        stepMachineData.application = this;
+
         const stepMachineVO = new StepMachineVO( stepMachineData );
         const stepMachine = new StepMachine( stepMachineVO );
         stepMachine.init();
@@ -132,6 +146,93 @@ export default class Application extends EventDispatcherVOWrapper {
         this.stepMachine = stepMachine;
     }
     onStepMachineHandle( event ) { }
+
+
+    //
+    // PLATFORM
+    //
+
+    platformSubscribe() {
+        this.addEventListener( PlatformEvent.INIT, this._platformOnInit, this );
+        this.addEventListener( PlatformEvent.READY, this._platformOnReady, this );
+        this.addEventListener( PlatformEvent.DATA_GET, this._platformOnDataGet, this );
+    }
+    platformUnsubscribe() {
+        this.removeEventListener( PlatformEvent.INIT, this._platformOnInit );
+        this.removeEventListener( PlatformEvent.READY, this._platformOnReady );
+        this.removeEventListener( PlatformEvent.DATA_GET, this._platformOnDataGet );
+    }
+    _platformOnInit() {
+        this.loadingScreenStart();
+        this.initResourcesProgress();
+    }
+    _platformOnReady() {
+        this._platformDataGet();
+        this.platformReady = true;
+    }
+    _platformOnDataGet() {
+        // debugger;
+        // const storageData = this._remoteStorageDataAnalize( event.data );
+        // this.storageSetAll( storageData );
+        // this.soundSettingsUpdate();
+        // this.dispatchEvent( new GameEvent( GameEvent.DATA, storageData ) );
+        // this.startGameCheck();
+        // this.dataReady = true;
+    }
+    _platformReadySet() {
+        if ( !this.resourceReady || this.platformReady ) return;
+        this.Platform.loadReady();
+    }
+    _platformDataGet() {
+        if ( !this.Platform || !this.Platform.api ) return;
+        this.Platform.api.dataGet();
+    }
+    // _remoteStorageDataAnalize( storageData ) {
+    //     if ( !storageData[ GAME_DATA_NAME ] ) {
+    //         const resultData = { };
+    //         resultData[ GAME_DATA_NAME ] = GAME_DATA_DEFAULT;
+    //         resultData[ SETTINGS_NAME ] = SETTINGS_DEFAULT;
+    //         return merge( { }, resultData );
+    //     }
+    //     return storageData;
+    // }
+
+
+    //
+    // RESOURCE PROGRESS
+    //
+    initResourcesProgress() {
+        if ( !this.resources ) return;
+        this.resources.addEventListener( ResourcesEvent.PROGRESS, this.onResourcePreloadProgress, this );
+        this.resources.addEventListener( ResourcesEvent.READY, this.onResourcePreloadReady, this );
+    }
+    destroyResourceProgress() {
+        if ( !this.resources ) return;
+        this.resources.removeEventListener( ResourcesEvent.PROGRESS, this.onResourcePreloadProgress );
+        this.resources.removeEventListener( ResourcesEvent.READY, this.onResourcePreloadReady );
+    }
+    progressSet( progress ) {
+        if ( !this.Platform ) return;
+        this.Platform.api.progressSet( progress );
+    }
+    onResourcePreloadProgress( event ) {
+        if ( !event.data || event.data.name != "Preload" ) return;
+        Log.l( event.data.progress );
+        this.progressSet( event.data.progress );
+        this.dispatchEvent( new ResourcesEvent( ResourcesEvent.PROGRESS, event.target, event.data ) );
+    }
+    onResourcePreloadReady( event ) {
+        this.resourceReady = true;
+        this.destroyResourceProgress();
+        this._platformReadySet();
+        this.dispatchEvent( new ResourcesEvent( ResourcesEvent.READY, event.target, event.data ) );
+    }
+    loadingScreenStart() {
+        const step = this.stepMachine.step;
+        if ( !step ) return;
+        step.stop();
+    }
+
     
 
     //

@@ -1,8 +1,8 @@
-const webpack = require('webpack')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+const webpack = require( 'webpack' );
+const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 
-const host = 'localhost'
-const port = (process.argv[2]) || 8900
+const host = 'localhost';
+const port = ( process.argv[2] ) || 8900;
 
 module.exports = {
 	mode: 'development',
@@ -29,28 +29,20 @@ module.exports = {
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
 		new CopyWebpackPlugin([
-            { from: './src/assets', to: 'assets' }
-        ]),
+            { from: './src/assets', to: 'assets' },
+            { from: './src/assets/favicon.ico', to: 'favicon.ico' }
+		])
 	],
 	module: {
-		// loaders: [
-		// 	{
-		// 		test: /\.js$/,
-		// 		loader: 'babel-loader',
-		// 		query: {
-		// 			presets: ['es2015']
-		// 		}
-		// 	}
-		// ],
 		rules: [
-			// {
-			// 	test: /node_modules[/\\]tweenjs/,
-			// 	loader: 'babel-loader'
-			// }
-			// { test: /\.css$/, use: [ 'style-loader', 'css-loader' ] },
-			// { test: /\.less$/, use: [ 'style-loader', 'css-loader', 'postcss-loader', 'less-loader' ] },
-			// { test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/, use: [ 'file-loader' ] },
-			// { test: /\.(png|jpg|gif)$/, use: [ { loader: 'url-loader', options: { limit: 100000 } } ] }
+			{
+				test: /\.js$/,
+				exclude: /node_modules/,
+				loader: 'babel-loader',
+				query: {
+					presets: [ 'es2015', 'stage-0' ]
+				}
+			}
 		]
 	}
 }

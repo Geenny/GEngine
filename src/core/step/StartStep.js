@@ -1,84 +1,17 @@
-import Step from "../../../framework/core/machines/step/Step";
-import ApplicationEvent from "../../../framework/core/application/event/ApplicationEvent";
-import ScreenName from "../../screens/ScreenName";
-import { Text, Graphics } from "pixi.js";
-import ResourcesEvent from "../../../framework/core/dependencies/engine/modules/modules/resource/event/ResourcesEvent";
+import Step from "../machines/step/Step";
+import ScreenName from "../screens/ScreenName";
 
 export default class StartStep extends Step {
 
     onStart() {
-        if ( !this.application || !this.application.screenManager ) return;
-        const screen = this.application.screenManager.screenShowByID( ScreenName.BEGIN );
-        this.screenNode = screen.nodeByNameGet( "TextContainer" );
+        const screen = this.screenManager.screenShowByID( ScreenName.BEGIN );
+        this.screenNode = screen.nodeByNameGet( "Main" );
         this.mainContainer = this.screenNode.content;
-        this.subscribe();
-    }
-
-    startTest() {
-        const audio = new Audio( "/assets/sounds/logo_co.mp3" );
-        audio.volume = 0;
-        const promise = audio.play();
-        promise
-            .then( () => {
-                this.stop();
-            } )
-            .catch( () => {
-                this._textAdd();
-            } );
-    }
-
-    subscribe() {
-        this.application.addEventListener( ResourcesEvent.PROGRESS, this.onProgressEvent, this );
-        this.application.addEventListener( ResourcesEvent.READY, this.onReadyEvent, this );
-        this.application.addEventListener( ApplicationEvent.INTERACTION, this.onInteractionEvent, this );
-    }
-    unsubscribe() {
-        this.application.removeEventListener( ResourcesEvent.PROGRESS, this.onProgressEvent, this );
-        this.application.removeEventListener( ResourcesEvent.READY, this.onReadyEvent, this );
-        this.application.removeEventListener( ApplicationEvent.INTERACTION, this.onInteractionEvent );
-    }
-    onProgressEvent( event ) {
-        const progress = event.data && event.data.progress ? event.data.progress : 0;
-        this._progressBarUpdate( progress );
-    }
-    onReadyEvent( event ) {
-        this._progressBarRemove();
-        this.startTest();
-    }
-    onInteractionEvent( event ) {
-        if ( !this.application.resourceReady ) return;
-        this.stop();
-    }
-
-    _textAdd() {
-        if ( this.textField ) return;
-        this.textField = new Text( "Press to continue", { fill: 0x999999 } );
-        this.textField.anchor.set( 0.5 );
-        this.textField.y = -100;
-        this.mainContainer.addChild( this.textField );
-    }
-    _progressBarUpdate( progress ) {
-        if ( !this.progressBar ) {
-            this._progressBarAdd();
-        }
-        this.progressBar.clear();
-        this.progressBar.beginFill( 0x999999, 1 );
-        this.progressBar.drawRect( -150, -40, 300 * progress, 2 );
-    }
-    _progressBarAdd() {
-        if ( this.progressBar ) return;
-        this.progressBar = new Graphics();
-        this.mainContainer.addChild( this.progressBar );
-    }
-    _progressBarRemove() {
-        if ( !this.progressBar ) return;
-        this.mainContainer.removeChild( this.progressBar );
-        this.progressBar = null;
     }
 
     onStop() {
-        this._progressBarRemove();
-        this.unsubscribe();
+        // this._progressBarRemove();
+        // this.unsubscribe();
     }
 
 }

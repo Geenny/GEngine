@@ -6,11 +6,11 @@ export default class TimeSystem extends SystemAbstract {
      * Вернуть значение времени приложениия
      */
     static get time() {
-        return TimeSystem.instance.time;
+        return TimeSystem.instance ? TimeSystem.instance.time : 0;
     }
     
     static get now() {
-        return TimeSystem.instance.now;
+        return TimeSystem.instance ? TimeSystem.instance.now : 0;
     }
 
     constructor( vo ) {

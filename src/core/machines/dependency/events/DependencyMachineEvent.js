@@ -4,8 +4,8 @@ export default class DependencyMachineEvent extends Event {
 
     constructor( type, dependencyMachine = null, dependency = null ) {
         super( type );
-        this.dependencyMachine = dependencyMachine
-        this.dependency = dependency
+        this.dependencyMachine = dependencyMachine;
+        this.dependency = dependency;
     }
     
 }
