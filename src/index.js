@@ -49,10 +49,17 @@
 
 
 
-// import GEngineEntry from "./GEngineEntry";
+// import Main from "./core/main/Main";
+// import MainVO from "./core/main/MainVO";
 
-// const entry = new GEngineEntry();
-// entry.start();
+// const HTMLElement = document.getElementById('ApplicationContainer');
+
+// const CONFIG = require('./core/config/CONFIG');
+// const mainVO = new MainVO( CONFIG.MAIN.main.vo );
+// mainVO.HTMLElement = HTMLElement;
+
+// const application = new Main( mainVO );
+// application.init();
 
 
 
@@ -74,4 +81,4 @@ export { GEngineEntry, Log, ArrayUtils, MethodUtils, ObjectUtils, StringUtils, A
 // exports.StringUtils = StringUtils;
 // exports.Application = Application;
 // exports.ApplicationVO = ApplicationVO;
-// exports.ApplicationEvent = ApplicationEvent;
+
