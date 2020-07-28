@@ -1,5 +1,5 @@
 {
-  "name": "GEngine",
+  "name": "gengine",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -10,7 +10,7 @@
     "start:dev": "webpack-dev-server"
   },
   "keywords": [],
-  "author": "Geenny",
+  "author": "geenny",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.0",
