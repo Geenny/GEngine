@@ -49,24 +49,24 @@
 
 
 
-import GEngineEntry from "./GEngineEntry";
-
-const entry = new GEngineEntry();
-entry.start();
-
-
-
 // import GEngineEntry from "./GEngineEntry";
-// import Log from "./utils/log/Log";
-// import ArrayUtils from "./utils/tech/ArrayUtils";
-// import MethodUtils from "./utils/tech/MethodUtils";
-// import ObjectUtils from "./utils/tech/ObjectUtils";
-// import StringUtils from "./utils/tech/StringUtils";
-// import Application from "./core/application/Application";
-// import ApplicationVO from "./core/application/vo/ApplicationVO";
-// import ApplicationEvent from "./core/application/event/ApplicationEvent";
 
-// exports.GEngineEntry = GEngineEntry;
+// const entry = new GEngineEntry();
+// entry.start();
+
+
+
+import GEngineEntry from "./GEngineEntry";
+import Log from "./utils/log/Log";
+import ArrayUtils from "./utils/tech/ArrayUtils";
+import MethodUtils from "./utils/tech/MethodUtils";
+import ObjectUtils from "./utils/tech/ObjectUtils";
+import StringUtils from "./utils/tech/StringUtils";
+import Application from "./core/application/Application";
+import ApplicationVO from "./core/application/vo/ApplicationVO";
+import ApplicationEvent from "./core/application/event/ApplicationEvent";
+
+export { GEngineEntry, Log, ArrayUtils, MethodUtils, ObjectUtils, StringUtils, Application, ApplicationVO, ApplicationEvent };
 // exports.Log = Log;
 // exports.ArrayUtils = ArrayUtils;
 // exports.MethodUtils = MethodUtils;
