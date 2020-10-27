@@ -1,4 +1,4 @@
-import ResourceType from "../enum/ResourceEnum";
+import ResourceType from "../constants/ResourceType";
 
 const ResourceStruct = {
     ID: -1,

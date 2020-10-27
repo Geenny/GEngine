@@ -17,7 +17,7 @@ import ResourcesVO from "../core/dependencies/engine/modules/modules/resource/vo
 import PixiResource from "../core/dependencies/engine/modules/modules/resource/resources/PixiResource";
 import ScreenManager from "../core/dependencies/engine/modules/modules/screen/ScreenManager";
 import ScreenManagerVO from "../core/dependencies/engine/modules/modules/screen/vo/ScreenManagerVO";
-import { DISPLAY_SYSTEM_NAME, KEYBOARD_SYSTEM_NAME, DEVICE_SYSTEM_NAME, TIME_SYSTEM_NAME, MOUSE_SYSTEM_NAME } from "../constants/Constants";
+import { DISPLAY_SYSTEM_NAME, KEYBOARD_SYSTEM_NAME, DEVICE_SYSTEM_NAME, TIME_SYSTEM_NAME, MOUSE_SYSTEM_NAME } from "../constants/CONSTANTS";
 import DependencyIDs from "../core/dependencies/DependencyIDs";
 import DependencyName from "../core/dependencies/DependencyName";
 import TimeSystem from "../core/dependencies/systems/time/TimeSystem";

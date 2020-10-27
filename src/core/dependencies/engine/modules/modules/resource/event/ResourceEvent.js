@@ -10,6 +10,7 @@ export default class ResourceEvent extends Event {
     
 }
 
+ResourceEvent.COMPLETE = "resourceComplete";
 ResourceEvent.NONE = "resourceNone";
 ResourceEvent.LOADING = "resourceLoading";
 ResourceEvent.READY = "resourceReady";

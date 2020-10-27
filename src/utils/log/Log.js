@@ -1,9 +1,10 @@
 export default class Log {
 
     static l(... args) {
-        args.forEach(object => {
-            Log.__l(object)
-        })
+        console.log.apply( this, args );
+        // args.forEach(object => {
+        //     Log.__l(object)
+        // })
     }
 
     static error( ...args ) {

@@ -28,6 +28,11 @@ export default class Module extends EventDispatcherVOWrapper {
     init() { }
 
     //
+    // DESTROY
+    //
+    destroy() { }
+
+    //
     // RESIZE
     //
     resize( size ) {

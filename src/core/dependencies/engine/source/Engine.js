@@ -84,6 +84,7 @@ export default class Engine extends DependencyAbstract {
     }
 
     stopProcess() {
+        this.modules.destroy();
         this.unsubscribe();
         this.stopComplete();
     }

@@ -21,7 +21,7 @@ export default class ThreeJSDisplayVO extends DisplayVO {
             precision: "highp", // "highp", "mediump", "lowp"
             // alpha: false,
             premultipliedAlpha: true,
-            antialias: false,
+            antialias: true,
             stencil: true,
             preserveDrawingBuffer: false,
             powerPreference: "default", // "high-performance", "low-power", "default"

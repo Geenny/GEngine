@@ -1,5 +1,6 @@
 import EventDispatcherVOWrapper from "../../../data/vo/EventDispatcherVOWrapper";
 import TimeSystem from "../../dependencies/systems/time/TimeSystem";
+import StepVO from "./vo/StepVO";
 
 export default class Step extends EventDispatcherVOWrapper {
 
@@ -26,7 +27,12 @@ export default class Step extends EventDispatcherVOWrapper {
     get steps() { return this.vo.steps; }
     get stepNames() { return this.vo.stepNames; }
 
-    get screenManager() { return this.application.modules.screenManager; }
+    get screenManager() {
+        if ( !this.application.modules || !this.application.modules.screenManager ) {
+            debugger;
+        }
+        return this.application.modules.screenManager;
+    }
 
 
     start( parameters ) {

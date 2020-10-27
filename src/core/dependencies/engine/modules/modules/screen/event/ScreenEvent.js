@@ -22,3 +22,4 @@ ScreenEvent.SHOW_START = "screenShowStart";
 ScreenEvent.SHOW = "screenShow";
 ScreenEvent.HIDE_START = "screenHideStart";
 ScreenEvent.HIDE = "screenHide";
+ScreenEvent.ERROR = "screenError";

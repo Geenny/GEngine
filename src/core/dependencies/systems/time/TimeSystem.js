@@ -46,4 +46,8 @@ export default class TimeSystem extends SystemAbstract {
         this._starttime = this.now;
     }
 
+    stop() {
+        TimeSystem.instance = null;
+    }
+
 }

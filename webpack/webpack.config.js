@@ -10,7 +10,7 @@ module.exports = {
 		mainjs: [
 			'webpack-dev-server/client?http://' + host + ':' + port,
 			'webpack/hot/dev-server',
-			'./src/index.js'
+			'./index.js'
 		],
 	},
 	output: {

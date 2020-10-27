@@ -1,4 +1,3 @@
-import ResourceEnum from "./enum/ResourceEnum";
 import ResourceStruct from "./struct/ResourceStruct";
 import ResourceEvent from "./event/ResourceEvent";
 import ResourcesVO from "./vo/ResourcesVO";
@@ -69,6 +68,22 @@ export default class Resources extends Module {
 
 
     //
+    // DESTROY
+    //
+    destroy() {
+        while ( this._resourceLoadingList.length ) {
+            const resource = this._resourceLoadingList.shift();
+            resource.removeEventListener( Event.ANY, this._resourceHandler );
+        }
+        this._loadingProgressStop();
+        ObjectUtils.destroyList( this._resourceList );
+        ObjectUtils.destroyList( this._resourceLoadingList );
+
+        Resources.instance = null;
+    }
+
+
+    //
     // RESOURCE
     //
 
@@ -99,7 +114,7 @@ export default class Resources extends Module {
     }
 
     _resourceTypeCheck( resourceType ) {
-        return ObjectUtils.inValues( ResourceEnum, resourceType );
+        return ObjectUtils.inValues( ResourceType, resourceType );
     }
     _resourceNameCheck( resourceName ) {
         return !ArrayUtils.findAsObject( this._resourceList, "name", resourceName );
@@ -120,23 +135,23 @@ export default class Resources extends Module {
             for ( const key in FileType ) {
                 const fileType = FileType[ key ];
                 if ( resourceStruct.url.indexOf( fileType ) != resourceStruct.url.length - fileType.length ) continue;
-                resourceStruct.type = this._resourceGetTypeByFileType( fileType );
+                resourceStruct.type = this._resourceTypeByFileTypeGet( fileType );
             }
         }
         return resourceStruct;
     }
-    _resourceGetTypeByFileType( fileType ) {
+    _resourceTypeByFileTypeGet( fileType ) {
         switch( fileType ) {
             case FileType.JSON:
-                return  ResourceEnum.JSON;
+                return  ResourceType.JSON;
             
             case FileType.JPEG:
             case FileType.PNG:
-                return  ResourceEnum.IMAGE;
+                return  ResourceType.IMAGE;
             
             case FileType.MP3:
             case FileType.M4A:
-                return ResourceEnum.SOUND;
+                return ResourceType.SOUND;
         }
         return null;
     }
@@ -204,10 +219,13 @@ export default class Resources extends Module {
     //
 
     _loadAssetList() {
-        const resourceStruct = { ...ResourceStruct };
-        resourceStruct.name = "Assets";
-        resourceStruct.url = this.vo.resourceLink;
-        resourceStruct.onComplete = this._loadAssetListComplete.bind( this );
+        const resourceStruct = {
+            ...ResourceStruct,
+            name: "Assets",
+            url: this.vo.resourceLink,
+            type: ResourceType.JSON,
+            onComplete: this._loadAssetListComplete.bind( this )
+        };
         this.resourceGet( resourceStruct );
     }
     _loadAssetListComplete( content ) {

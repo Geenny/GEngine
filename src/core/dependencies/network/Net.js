@@ -1,15 +1,12 @@
 import DependencyAbstract from "../../machines/dependency/DependencyAbstract";
-import ServerStruct from "./struct/ServerStruct";
-import ObjectUtils from "../../../utils/tech/ObjectUtils";
-import AbstractLoader from "./loaders/AbstractLoader";
-import Log from "../../../utils/log/Log";
+import NetServerStruct from "./struct/NetServerStruct";
 import DependencyStates from "../../machines/dependency/states/DependencyState";
 import NetworkLoaderType from "./constants/NetworkLoaderType";
 import ArrayUtils from "../../../utils/tech/ArrayUtils";
 import ContentMapper from "../../../data/content/ContentMapper";
-import HTTPLoader from "./loaders/HTTPLoader";
-import ConnectionLoader from "./loaders/ConnectionLoader";
-import Server from "./server/Server";
+import LoaderHTTP from "./loaders/LoaderHTTP";
+import LoaderConnection from "./loaders/LoaderConnection";
+import NetServer from "./server/NetServer";
 import NetVO from "./vo/NetVO";
 
 export default class Net extends DependencyAbstract {
@@ -66,8 +63,8 @@ export default class Net extends DependencyAbstract {
     }
     _initContentMappers() {
         const mapper = { };
-        mapper[ NetworkLoaderType.HTTP ] = HTTPLoader;
-        mapper[ NetworkLoaderType.CONNECTION ] = ConnectionLoader;
+        mapper[ NetworkLoaderType.HTTP ] = LoaderHTTP;
+        mapper[ NetworkLoaderType.CONNECTION ] = LoaderConnection;
         this._loadersMapper = new ContentMapper( { ...mapper, ...this.vo.loadersMapper } );
     }
 
@@ -83,6 +80,7 @@ export default class Net extends DependencyAbstract {
      * Dependency stop
      */
     stopProcess() {
+        Net.instance = null;
         this.stopComplete();
     }
 
@@ -92,7 +90,7 @@ export default class Net extends DependencyAbstract {
     //
 
     /**
-     * Вернуть @ServerStruct из заготовленного списка. Если в options будут указаны параметры сервера
+     * Вернуть @NetServerStruct из заготовленного списка. Если в options будут указаны параметры сервера
      * который отсутствуе в списке, он будет создан на один запрос.
      * @param { Object } data Данные для отпревки на server. Данные параметр может быть задан пустым {}
      * @param { Options } options Опции для выбора загрузчика (отправщика данных)
@@ -133,12 +131,12 @@ export default class Net extends DependencyAbstract {
      * Добавить сервер по исходным данным.
      * Сервер возможно создать даже если присутствует только его тип.
      * @param { Options } serverData
-     * @return { Server }
+     * @return { NetServer }
      */
     serverAddBySourceData( serverData = {} ) {
         if ( !this._serverDataCheck( serverData ) ) return null;
 
-        const serverStruct = { ...ServerStruct, ...serverData };
+        const serverStruct = { ...NetServerStruct, ...serverData };
         serverStruct.ID = ArrayUtils.getUniqueNumericValue( "ID", this._servers );
 
         const server = this._serverCreateByStruct( serverStruct );
@@ -163,7 +161,7 @@ export default class Net extends DependencyAbstract {
     }
 
     _serverCreateByType( serverType = NetworkLoaderType.HTTP ) {
-        const serverStruct = { ...ServerStruct };
+        const serverStruct = { ...NetServerStruct };
         serverStruct.type = serverType;
         return this._serverCreateByStruct( serverStruct );
     }
@@ -171,7 +169,7 @@ export default class Net extends DependencyAbstract {
     /**
      * Возвращает сервер по его @name или @ID или по типу его @loader
      * Если не один из параметров не удовлетворяет поиски, возвращается
-     * сервер по умолчанию с @HTTPLoader .
+     * сервер по умолчанию с @LoaderHTTP .
      * @param { Object } options 
      */
     _serverDataCheck( serverData ) {
@@ -181,7 +179,7 @@ export default class Net extends DependencyAbstract {
         this._servers.push( serverStruct );
     }
     _serverCreateByStruct( serverStruct ) {
-        const server = new Server( serverStruct );
+        const server = new NetServer( serverStruct );
         server.loaderMapper = this._loadersMapper;
         this._serverAdd( server );
         return server;

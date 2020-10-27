@@ -6,6 +6,7 @@ import Struct from "../../../data/content/struct/Struct";
 import StepVO from "./vo/StepVO";
 import DependencyMachineEvent from "../dependency/events/DependencyMachineEvent";
 import DependencyName from "../../dependencies/DependencyName";
+import Log from "../../../utils/log/Log";
 
 export default class StepMachine extends EventDispatcherVOWrapper {
 
@@ -145,6 +146,7 @@ export default class StepMachine extends EventDispatcherVOWrapper {
     start( step ) {
         if ( this.step ) this.stop( this.step, -1 );
         this._step = step;
+        Log.l( "Step starting:", step.name );
         step.onStart();
         this.dispatch( new StepEvent( StepEvent.START, this, step ) );
     }
@@ -152,8 +154,7 @@ export default class StepMachine extends EventDispatcherVOWrapper {
         if ( this.step != step ) return false;
         const nextStep = this._previousStepNextGet( step, id );
         if ( !nextStep || nextStep === step ) return false;
-        step.onStop();
-        this.dispatch( new StepEvent( StepEvent.STOP, this, step ) );
+        this._stopAnyway( step );
         this._previousStep = this.step;
         this._step = null;
         if ( id >= 0 ) this._stepNext( nextStep, parameters );
@@ -168,6 +169,12 @@ export default class StepMachine extends EventDispatcherVOWrapper {
             uniquieID ++;
         }
         return uniquieID;
+    }
+    _stopAnyway( step ) {
+        if ( !step ) return;
+        step.onStop();
+        this.dispatch( new StepEvent( StepEvent.STOP, this, step ) );
+        Log.l( "Step stopped:", this.step.name );
     }
     _stepNext( nextStep, parameters ) {
         if ( this.step || !nextStep ) return;
@@ -198,6 +205,6 @@ export default class StepMachine extends EventDispatcherVOWrapper {
      */
     destroy() {
         this._listenersRemove();
-        this.stop( this.step, -1 );
+        this._stopAnyway( this.step );
     }
 }

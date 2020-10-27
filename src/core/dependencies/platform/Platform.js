@@ -1,8 +1,8 @@
 import PlatformEvent from "./event/PlatformEvent";
 import DependencyAbstract from "../../machines/dependency/DependencyAbstract";
 import PlatformVO from "./vo/PlatformVO";
-import Facebook from "./platforms/Facebook";
-import None from "./platforms/None";
+import FacebookPlatform from "./platforms/PlatformFacebook";
+import None from "./platforms/PlatformNone";
 import PlatformName from "./constants/PlatformName";
 
 export default class Platform extends DependencyAbstract {
@@ -120,7 +120,7 @@ export default class Platform extends DependencyAbstract {
     }
     
     apiClassAutoGet() {
-        if ( this.platformName === PlatformName.FB ) return Facebook;
+        if ( this.platformName === PlatformName.FB ) return FacebookPlatform;
         return None;
     }
 

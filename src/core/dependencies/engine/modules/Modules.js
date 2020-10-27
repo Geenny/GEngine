@@ -32,6 +32,19 @@ export default class Modules extends EventDispatcherVOWrapper {
     _initVars() {
         this._moduleList = [];
     }
+
+
+    //
+    // DESTROY
+    // 
+    destroy() {
+        while( this._moduleList.length ) {
+            const module = this._moduleList.shift();
+            module.destroy();
+            this.application.rootRemove( module, this.applicationRootName );
+        }
+    }
+
     
     resize( size ) {
         this.size = size;

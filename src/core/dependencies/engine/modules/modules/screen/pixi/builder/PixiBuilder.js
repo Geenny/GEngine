@@ -1,6 +1,7 @@
 import ScreenBuilder from "../../ScreenBuilder";
 import ContainerWrapper from "../nodes/ContainerWrapper";
-import NodeType from "../constants/NodeType";
+import NodeType from "../../constants/NodeType";
+import PixiNodeType from "../constants/PixiNodeType";
 import { Sprite } from "pixi.js";
 import SpriteWrapper from "../nodes/SpriteWrapper";
 import GraphicsWrapper from "../nodes/GraphicsWrapper";
@@ -122,7 +123,7 @@ export default class PixiBuilder extends ScreenBuilder {
         switch( nodeData.type ) {
 
             // CUSTOM
-            case NodeType.CUSTOM:
+            case PixiNodeType.CUSTOM:
                 const CustomClass = nodeData.class;
                 content = new CustomClass();
                 content.size = nodeData.size;
@@ -130,7 +131,7 @@ export default class PixiBuilder extends ScreenBuilder {
                 break;
 
             // CUSTOM
-            case NodeType.BUTTON:
+            case PixiNodeType.BUTTON:
                 content = new ButtonWrapper( nodeData.nodeParameters );
                 content.size = nodeData.size;
                 content.interactive = true;
@@ -139,28 +140,28 @@ export default class PixiBuilder extends ScreenBuilder {
 
             // Контейнер
             case NodeType.NODE:
-            case NodeType.CONTAINER:
+            case PixiNodeType.CONTAINER:
                 content = new ContainerWrapper();
                 content.size = nodeData.size;
                 content.parameters = nodeData.nodeParameters;
                 break;
 
             // Image
-            case NodeType.IMAGE:
+            case PixiNodeType.IMAGE:
                 content = new SpriteWrapper();
                 content.size = nodeData.size;
                 content.parameters = nodeData.nodeParameters;
                 break;
 
             // Image
-            case NodeType.IMAGE_BOUND:
+            case PixiNodeType.IMAGE_BOUND:
                 content = new SpriteBound();
                 content.size = nodeData.size;
                 content.parameters = nodeData.nodeParameters;
                 break;
 
             // Graphics
-            case NodeType.GRAPHICS:
+            case PixiNodeType.GRAPHICS:
                 content = new GraphicsWrapper();
                 content.size = nodeData.size;
                 content.parameters = nodeData.nodeParameters;

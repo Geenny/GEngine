@@ -74,6 +74,42 @@ export default class ObjectUtils {
     }
 
     /**
+     * Создать новый глубоко склонированный объект
+     * @param { object } object 
+     */
+    static cloneHard( object ) {
+
+        function cloneHardLevel( object ) {
+
+            if ( !object ) return object;
+            let result = null;
+
+            if ( Array.isArray( object ) ) {
+                result = [ ];
+                for ( let i = 0; i < object.length; i++ ) {
+                    result[ i ] = cloneHardLevel( object[ i ] );
+                }
+            } else if ( typeof object === "number" || typeof object === "boolean" || typeof object === "string" || typeof object === "function" ) {
+                result = object;
+            } else if ( typeof object === "object" ) {
+                if ( object.constructor && object.constructor.name === "Object" ) {
+                    result = { };
+                    for ( const key in object ) {
+                        result[ key ] = cloneHardLevel( object[ key ] );
+                    }
+                } else {
+                    result = object;
+                }
+            }
+
+            return result;
+
+        }
+
+        return cloneHardLevel( object );
+    }
+
+    /**
      * Посчитать количество элементов в объекте
      * @param { object } object 
      */
@@ -109,6 +145,20 @@ export default class ObjectUtils {
         }
 
         concat( target, source );
+    }
+
+
+    /**
+     * Вызвать @destroy у списка объектов
+     * @param { Array } list 
+     */
+    static destroyList( list ) {
+        if ( !Array.isArray( list ) ) return;
+        while( list.length ) {
+            const target = list.shift();
+            if ( target && target.destroy )
+                target.destroy();
+        }
     }
 
 }

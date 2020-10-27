@@ -13,3 +13,4 @@ export default class StepEvent extends Event {
 StepEvent.INIT = "stepInit";
 StepEvent.START = "stepStart";
 StepEvent.STOP = "stepStop";
+StepEvent.ERROR = "stepError";

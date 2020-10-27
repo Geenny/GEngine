@@ -11,15 +11,14 @@ import EventDispatcherVOWrapper from "../../data/vo/EventDispatcherVOWrapper";
 import StepMachineVO from "../machines/step/vo/StepMachineVO";
 import StepMachine from "../machines/step/StepMachine";
 import StepEvent from "../machines/step/events/StepEvent";
-import PlatformEvent from "../dependencies/platform/event/PlatformEvent";
-import ResourcesEvent from "../dependencies/engine/modules/modules/resource/event/ResourcesEvent";
 import ERRORS from "../../config/ERRORS";
+import { utils } from "pixi.js";
 
 export default class Application extends EventDispatcherVOWrapper {
 
     /**
      * 
-     * @param {ApplicationVO} vo 
+     * @param { ApplicationVO } vo 
      */
     constructor( vo = new ApplicationVO() ) {
 
@@ -81,6 +80,8 @@ export default class Application extends EventDispatcherVOWrapper {
 
         this.stepMachine.removeEventListener( StepEvent.ANY, this.onStepMachineHandle );
         this.dependencyMachine.removeEventListener( Event.ANY, this.onDependencyMachineEvent );
+
+        utils.clearTextureCache();
     }
 
 
@@ -230,7 +231,7 @@ export default class Application extends EventDispatcherVOWrapper {
     //
 
     /**
-     * Добавить @module объект в рута 
+     * Добавить @module объект в рут
      * @param { Object } module 
      * @param { String } rootName 
      */

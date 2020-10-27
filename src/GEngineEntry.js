@@ -1,20 +1,41 @@
 
 import Application from "./core/application/Application";
 import ApplicationVO from "./core/application/vo/ApplicationVO";
-// import CONFIG from './config/CONFIG';
+import ObjectUtils from "./utils/tech/ObjectUtils";
 
 const CONFIG = require( './config/CONFIG' );
 
 export default class GEngineEntry {
 
+    constructor( ApplicationVOConfig = null, ApplicationClass = null, ApplicationVOClass = null ) {
+
+        this.ApplicationClass = ApplicationClass;
+        this.ApplicationVOClass = ApplicationVOClass;
+        this.ApplicationVOConfig = ApplicationVOConfig;
+
+        window.ge_entry = this;
+
+    }
+
+    get applicationVO() {
+
+        const AppVOClass = this.ApplicationVOClass || ApplicationVO;
+        const AppVOConfig = ObjectUtils.cloneHard( this.ApplicationVOConfig || CONFIG );
+        // const AppVOConfig = this.ApplicationVOConfig || CONFIG;
+        const VO = new AppVOClass( AppVOConfig.MAIN.main.vo );
+
+        const HTMLElement = document.getElementById( 'ApplicationContainer' );
+        VO.HTMLElement = HTMLElement;
+
+        // debugger;
+
+        return VO;
+    }
+
     start() {
 
         if ( this.started ) return;
         this.started = true;
-        this.VO = new ApplicationVO( CONFIG.MAIN.main.vo );
-
-        const HTMLElement = document.getElementById( 'ApplicationContainer' );
-        this.VO.HTMLElement = HTMLElement;
     
         window.onload = () => {
             this.onStart();
@@ -40,19 +61,20 @@ export default class GEngineEntry {
     }
     
     applicationStart() {
-        if ( window.g_app ) return window.g_app;
+        if ( window.ge_app ) return window.ge_app;
     
-        const application = new Application( this.VO );
+        const ApplicationClass = this.ApplicationClass || Application;
+        const application = new ApplicationClass( this.applicationVO );
         application.init();
-        window.g_app = application;
+        window.ge_app = application;
     
         return application;
     }
     
     applicationRestart() {
-        if ( window.g_app ) {
-            window.g_app.destroy();
-            window.g_app = null;
+        if ( window.ge_app ) {
+            window.ge_app.destroy();
+            window.ge_app = null;
         }
     
         return this.applicationStart();

@@ -4,6 +4,7 @@ import WindowsVO from "./vo/WindowsVO";
 import StructUtils from "../../../../../../data/content/struct/StructUtils";
 import AbstractWindow from "./window/AbstractWindow";
 import WindowVO from "./vo/WindowVO";
+import ObjectUtils from "../../../../../../utils/tech/ObjectUtils";
 
 export default class Windows extends Module {
 
@@ -37,16 +38,23 @@ export default class Windows extends Module {
         this._initWindowManagerVars();
         this._initWindows();
     }
-
     _initWindowManagerVars() {
         //
     }
-
     _initWindows() {
         for ( let i = 0; i < this.windowStructList.length; i++ ) {
             const windowStruct = this.windowStructList[ i ];
             this._windowAddByStruct( windowStruct );
         }
+    }
+
+
+    //
+    // DESTROY
+    //
+
+    destroy() {
+        ObjectUtils.destroyList( this.windowList );
     }
 
 

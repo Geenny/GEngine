@@ -1,6 +1,6 @@
 import Struct from "../../data/content/struct/Struct";
 import ScreenVO from "../../core/dependencies/engine/modules/modules/screen/vo/ScreenVO";
-import NodeType from "../../core/dependencies/engine/modules/modules/screen/pixi/constants/NodeType";
+import PixiNodeType from "../dependencies/engine/modules/modules/screen/pixi/constants/PixiNodeType";
 import NodeAlignType from "../../core/dependencies/engine/modules/modules/screen/pixi/constants/NodeAlignType";
 import NodeFillType from "../../core/dependencies/engine/modules/modules/screen/pixi/constants/NodeFillType";
 import NodeSequenceType from "../../core/dependencies/engine/modules/modules/screen/pixi/constants/NodeSequenceType";
@@ -8,13 +8,13 @@ import PixiScreen from "../../core/dependencies/engine/modules/modules/screen/pi
 import ScreenName from "./ScreenName";
 
 const screenData = {
-    type: NodeType.NODE,
+    type: PixiNodeType.CONTAINER,
     name: "Main",
     sequence: NodeSequenceType.NONE,
     parameters: { },
     list: [
         {
-            type: NodeType.GRAPHICS,
+            type: PixiNodeType.GRAPHICS,
             name: "BlackBackground",
             fill: NodeFillType.FULL,
             align: NodeAlignType.TL,
@@ -46,4 +46,4 @@ export default {
         screenDefault: true,
         screenData
     }
-}
+};

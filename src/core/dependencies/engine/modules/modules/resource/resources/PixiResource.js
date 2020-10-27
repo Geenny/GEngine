@@ -1,45 +1,15 @@
 import Resource from "./Resource";
-import ResourceEnum from "../enum/ResourceEnum";
-import { Loader, Texture } from "pixi.js";
+import ResourceType from "../constants/ResourceType";
+import PixiResourceType from "../constants/PixiResourceType";
+import { Loader } from "pixi.js";
 import ResourceEvent from "../event/ResourceEvent";
-import Resources from "../Resources";
 
 export default class PixiResource extends Resource {
 
     /**
-     * Обновить параметр @texture если он доступен из @resource
-     * @param { String } resourceName 
-     * @param { Function } callback 
+     * 
+     * @param { Object } resourceStruct Объект ресурсов
      */
-    static textureByNameSet( resourceName, callback ) {
-        function onResourceHandle( event ) {
-            const resource = event.target;
-            switch ( event.type ) {
-                case ResourceEvent.COMPLETE:
-                    resourceTextureUpdate( resource );
-                    resourceUnsubscribe( resource );
-                    break;
-            }
-        }
-        function resourceTextureUpdate( resource ) {
-            callback( resource.content.texture );
-        }
-        function resourceSubscribe( resource ) {
-            resource.addEventListener( ResourceEvent.ANY, onResourceHandle );
-        }
-        function resourceUnsubscribe( resource ) {
-            resource.removeEventListener( ResourceEvent.ANY, onResourceHandle );
-        }
-
-        const resource = Resources.resourceGetByName( resourceName );
-        if ( !resource ) return;
-        if ( resource.content ) {
-            resourceTextureUpdate( resource );
-        } else {
-            resourceSubscribe( resource );
-        }
-    }
-
     constructor( resourceStruct ) {
         super( resourceStruct );
     }
@@ -48,8 +18,9 @@ export default class PixiResource extends Resource {
         const loadStartResult = super.loadStart();
         if ( loadStartResult ) return loadStartResult;
         switch( this.type ) {
-            case ResourceEnum.IMAGE:
-            //case ResourceEnum.FONT:
+            case ResourceType.IMAGE:
+            case PixiResourceType.TEXTURE:
+            //case ResourceType.FONT:
                 this._loadAsTexture();
                 return true;
         }
@@ -62,8 +33,9 @@ export default class PixiResource extends Resource {
         if ( resultContent ) return resultContent;
 
         switch( content ) {
-            case ResourceEnum.IMAGE:
-            //case ResourceEnum.FONT:
+            case ResourceType.IMAGE:
+            case PixiResourceType.TEXTURE:
+            //case ResourceType.FONT:
                 return content;
 
             default:
@@ -76,6 +48,9 @@ export default class PixiResource extends Resource {
     // LOAD
     //
 
+    //
+    // TEXTURE LOADER
+    //
     _loadAsTexture() {
         const loader = new Loader();
         loader.add( this.resourceStruct.url );
@@ -110,6 +85,7 @@ export default class PixiResource extends Resource {
         this.dispatchEvent( new ResourceEvent( ResourceEvent.ERROR, this, this.content ) );
     }
 
+    
     //
     // DESTROY
     //

@@ -1,6 +1,7 @@
-export default {
-    json: 1,
-    image: 2,
-    sound: 3,
-    font: 4
-};
+export default class ResourceType { }
+
+ResourceType.UNKNOWN = "unknown";
+ResourceType.JSON = "json";
+ResourceType.IMAGE = "image";
+ResourceType.SOUND = "sound";
+ResourceType.FONT = "font";

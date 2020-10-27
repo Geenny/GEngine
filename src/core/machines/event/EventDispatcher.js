@@ -1,5 +1,6 @@
 import Event from "./Event";
 import Log from "../../../utils/log/Log";
+import ERRORS from "../../../config/ERRORS";
 
 export default class EventDispathcer {
 
@@ -15,6 +16,9 @@ export default class EventDispathcer {
     dispatchEvent( event, isLog = false ) {
         this._dispatching = true;
         if ( !event.target ) event.target = this;
+        if ( !event.type ) {
+            throw new Error( ERRORS.E1005 );
+        }
         if ( isLog ) Log.l( event );
         this._dispatcher.forEach( target => {
             if ( this._stop ) return;

@@ -86,6 +86,18 @@ export default class ScreenManager extends Module {
 
 
     //
+    // DESTROY
+    // 
+    destroy() {
+        while( this.screenList.length ) {
+            const screen = this.screenList.shift();
+            screen.removeEventListener( ScreenEvent.ANY, this.onScreen );
+            screen.destroy();
+        }
+    }
+
+
+    //
     // RESIZE
     //
 

@@ -1,7 +1,7 @@
-export default {
-    JSON: ".json",
-    JPEG: ".jpeg",
-    PNG: ".png",
-    MP3: ".mp3",
-    M4A: ".m4a"
-};
+export default class FileType { }
+
+FileType.JSON = ".json";
+FileType.JPEG = ".jpeg";
+FileType.PNG = ".png";
+FileType.MP3 = ".mp3";
+FileType.M4A = ".m4a";

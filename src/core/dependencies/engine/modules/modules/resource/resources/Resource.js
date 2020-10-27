@@ -1,15 +1,50 @@
 import ResourceEvent from "../event/ResourceEvent";
-import ResourceEnum from "../enum/ResourceEnum";
+import ResourceType from "../constants/ResourceType";
 import LoaderEvent from "../../../../../network/loaders/events/LoaderEvent";
 import Event from "../../../../../../machines/event/Event";
 import Net from "../../../../../network/Net";
-import AbstractLoader from "../../../../../network/loaders/AbstractLoader";
+import LoaderAbstract from "../../../../../network/loaders/LoaderAbstract";
 import ResourceState from "../states/ResourceState";
 import EventDispathcer from "../../../../../../machines/event/EventDispatcher";
 import Log from "../../../../../../../utils/log/Log";
 import ERRORS from "../../../../../../../config/ERRORS";
+import Resources from "../Resources";
 
 export default class Resource extends EventDispathcer {
+
+    /**
+     * Обновить параметр @texture если он доступен из @resource
+     * @param { String } resourceName 
+     * @param { Function } callback 
+     */
+    static contentByNameSet( resourceName, callback ) {
+        function onResourceHandle( event ) {
+            const resource = event.target;
+            switch ( event.type ) {
+                case ResourceEvent.COMPLETE:
+                    resourceContentUpdate( resource );
+                    resourceUnsubscribe( resource );
+                    break;
+            }
+        }
+        function resourceContentUpdate( resource ) {
+            callback( resource.content );
+        }
+        function resourceSubscribe( resource ) {
+            resource.addEventListener( ResourceEvent.ANY, onResourceHandle );
+        }
+        function resourceUnsubscribe( resource ) {
+            resource.removeEventListener( ResourceEvent.ANY, onResourceHandle );
+        }
+
+        const resource = Resources.resourceGetByName( resourceName );
+        if ( !resource ) return;
+        if ( resource.content ) {
+            resourceContentUpdate( resource );
+        } else {
+            resourceSubscribe( resource );
+        }
+    }
 
     constructor( resourceStruct ) {
         super();
@@ -62,14 +97,14 @@ export default class Resource extends EventDispathcer {
 
     parseConntentByType( content ) {
         switch( this.type ) {
-            case ResourceEnum.JSON:
+            case ResourceType.JSON:
                 return JSON.parse( content );
             
-            case ResourceEnum.SOUND:
-            case ResourceEnum.UNKNOWN:
+            case ResourceType.SOUND:
+            case ResourceType.UNKNOWN:
                 return content;
             
-            case ResourceEnum.FONT:
+            case ResourceType.FONT:
                 return content;
             
             default:
@@ -87,16 +122,16 @@ export default class Resource extends EventDispathcer {
     //
     loadStart() {
         switch( this.type ) {
-            case ResourceEnum.UNKNOWN:
-            case ResourceEnum.JSON:
+            case ResourceType.UNKNOWN:
+            case ResourceType.JSON:
                 this._loadAsDefault();
                 return true;
             
-            case ResourceEnum.FONT:
+            case ResourceType.FONT:
                 this._loadAsFont();
                 return true;
             
-            case ResourceEnum.SOUND:
+            case ResourceType.SOUND:
                 this._loadAsSound();
                 return true;
         }
@@ -115,6 +150,16 @@ export default class Resource extends EventDispathcer {
     }
     _onLoaderError() {
         this._state = ResourceState.ERROR;
+    }
+    _onLoaderDestroy() {
+        if ( !this.loader ) return;
+        if ( this.loader instanceof Audio ) {
+            this.loader.removeEventListener( "canplaythrough", this._audioOnComplete );
+            this.loader.removeEventListener( "progress", this._audioOnProgress );
+            this.loader.removeEventListener( "error", this._audioOnError );
+        } else {
+            this.loader.removeEventListener( Event.ANY, this._onLoaderHandle );
+        }
     }
 
 
@@ -167,10 +212,15 @@ export default class Resource extends EventDispathcer {
 
         const span = document.createElement( 'span' );
         let initElementWidth = 0, iteration = 180;
-        span.style.fontFamily = this.resourceStruct.name;
+        span.style.fontFamily = 'sans-serif'; // this.resourceStruct.name;
+        // span.style.fontFamily    = 'sans-serif';
         span.style.display = "absolute";
         span.style.visibility = "hidden";
         span.style.fontSize = '150px';
+        span.style.fontVariant   = 'normal';
+        span.style.fontStyle     = 'normal';
+        span.style.fontWeight    = 'normal';
+        span.style.letterSpacing = '0';
         span.textContent = "ABCDEFGHIGKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123457890@!?.";
 
         if ( span.style.fontFamily === "" ) {
@@ -181,6 +231,7 @@ export default class Resource extends EventDispathcer {
 
         document.body.appendChild( span );
         initElementWidth = span.getBoundingClientRect().width;
+        span.style.fontFamily = this.resourceStruct.name + ', sans-serif';
 
         const intervalIndex = setInterval( () => {
             iteration--;
@@ -242,7 +293,7 @@ export default class Resource extends EventDispathcer {
             this.loader.removeEventListener( "canplaythrough", this._audioOnComplete );
             this.loader.removeEventListener( "progress", this._audioOnProgress );
             this.loader.removeEventListener( "error", this._audioOnError );
-        } else if ( this.loader instanceof AbstractLoader ) {
+        } else if ( this.loader instanceof LoaderAbstract ) {
             this.loader.removeEventListener( Event.ANY, this._onLoaderHandle, this );
         }
 

@@ -22,4 +22,4 @@ const object = {
 	}
 };
 
-module.exports = merge(common, object);
+module.exports = merge( common, object );

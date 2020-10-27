@@ -6,6 +6,7 @@ import SoundVO from "./vo/SoundVO";
 import SoundEvent from "./event/SoundEvent";
 import { SETTINGS_NAME } from "../../../../../../constants/NAMES";
 import PlatformEvent from "../../../../platform/event/PlatformEvent";
+import ObjectUtils from "../../../../../../utils/tech/ObjectUtils";
 
 export default class Sounds extends Module {
 
@@ -130,6 +131,16 @@ export default class Sounds extends Module {
             sound.volumeGlobal = this.volume;
         }
     }
+
+
+    //
+    // DESTROY
+    //
+    destroy() {
+        ObjectUtils.destroyList( this._soundList );
+        Sounds.instance = null;
+    }
+
 
     //
     // LISTENERS

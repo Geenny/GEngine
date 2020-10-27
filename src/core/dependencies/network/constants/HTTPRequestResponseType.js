@@ -1,4 +1,4 @@
-export default class HTTPRequestResponseType { constructor() {} }
+export default class HTTPRequestResponseType { }
 
 HTTPRequestResponseType.TEXT = "text";
 HTTPRequestResponseType.ARRAYBUFFER = "arraybuffer";

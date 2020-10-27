@@ -1,5 +1,6 @@
 import AbstractDisplay from "../AbstractDisplay";
 import { Application } from "pixi.js";
+import * as PIXI from "pixi.js";
 
 export default class PixiJSDisplay extends AbstractDisplay {
 
@@ -27,6 +28,7 @@ export default class PixiJSDisplay extends AbstractDisplay {
 
         this.initScene();
         this.initViewElement();
+        this.initRoot();
     }
     initScene() {
         const pixiOptions = { ...this.vo.pixiOptions };
@@ -37,7 +39,11 @@ export default class PixiJSDisplay extends AbstractDisplay {
         this.vo.canvas = this._pixi.view;
         this.viewElement = this._pixi.view;
     }
-
+    initRoot() {
+        if ( window.PIXI ) return;
+        window.PIXI = PIXI;
+        // window.$pixi = PIXI;
+    }
 
     //
     // RESIZE

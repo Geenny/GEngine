@@ -76,9 +76,9 @@ export default class DependencyMachine extends EventDispatcherVOWrapper {
     }
 
     dependencyStop( dependency ) {
-        if ( this.dependencyInList( dependency ) &&
-             dependency.isWorking )
-        {
+        const isWorking = this.isDependencyWorking( dependency );
+
+        if ( this.dependencyInList( dependency ) && isWorking ) {
             this._dependencyStop( dependency );
             this.dependencyUpdateWorkDependence();
         }

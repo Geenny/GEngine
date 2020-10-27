@@ -63,12 +63,10 @@ export default class Launcher extends DependencyAbstract {
     _platformSubscribe() {
         this.application.addEventListener( PlatformEvent.INIT, this._platformOnInit, this );
         this.application.addEventListener( PlatformEvent.READY, this._platformOnReady, this );
-        // this.addEventListener( PlatformEvent.DATA_GET, this._platformOnDataGet, this );
     }
     _platformUnsubscribe() {
         this.application.removeEventListener( PlatformEvent.INIT, this._platformOnInit );
         this.application.removeEventListener( PlatformEvent.READY, this._platformOnReady );
-        // this.removeEventListener( PlatformEvent.DATA_GET, this._platformOnDataGet );
     }
     _platformOnInit() {
         this._loadingScreenStart();
@@ -77,34 +75,17 @@ export default class Launcher extends DependencyAbstract {
     _platformOnReady() {
         this._platformUnsubscribe();
         this.platformReady = true;
-        // this._platformDataGet();
-    }
-    _platformOnDataGet() {
-        // const storageData = this._remoteStorageDataAnalize( event.data );
-        // this.storageSetAll( storageData );
-        // this.soundSettingsUpdate();
-        // this.application.dispatchEvent( new GameEvent( GameEvent.DATA, storageData ) );
-        // this.startGameCheck();
-        // this.dataReady = true;
+        this._platformDataGet();
     }
     _platformReadySet() {
         if ( !this.platform ) return;
         if ( !this.resourceReady || this.platformReady ) return;
         this.platform.loadReady();
     }
-    // _platformDataGet() {
-    //     if ( !this.platform || !this.platform.api ) return;
-    //     this.platform.api.dataGet();
-    // }
-    // _remoteStorageDataAnalize( storageData ) {
-    //     if ( !storageData[ GAME_DATA_NAME ] ) {
-    //         const resultData = { };
-    //         resultData[ GAME_DATA_NAME ] = GAME_DATA_DEFAULT;
-    //         resultData[ SETTINGS_NAME ] = SETTINGS_DEFAULT;
-    //         return merge( { }, resultData );
-    //     }
-    //     return storageData;
-    // }
+    _platformDataGet() {
+        if ( !this.platform || !this.platform.api ) return;
+        this.platform.api.dataGet();
+    }
 
 
     

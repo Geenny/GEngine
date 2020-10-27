@@ -126,7 +126,9 @@ export default class Displays extends DependencyAbstract {
     }
 
     stopProcess() {
+        this.unsubscribe();
         this.stopComplete();
+        this._htmlElementClear();
     }
 
 
@@ -154,9 +156,9 @@ export default class Displays extends DependencyAbstract {
     }
 
     _updateViewElement() {
-        if ( !this.htmlElement || !this.display || !this.display.viewElement ) return;
+        if ( !this.htmlElement || !this.display || !this.viewElement ) return;
         this._htmlElementClear();
-        this.htmlElement.appendChild( this.display.viewElement );
+        this.htmlElement.appendChild( this.viewElement );
     }
 
     _displaysCreate() {

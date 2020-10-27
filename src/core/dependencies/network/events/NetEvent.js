@@ -1,4 +1,4 @@
-import Event from "../../event/Event";
+import Event from "../../../machines/event/Event";
 
 export default class NetEvent extends Event {
 

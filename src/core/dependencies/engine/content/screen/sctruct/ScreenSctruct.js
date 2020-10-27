@@ -1,4 +1,4 @@
-import Struct from "../../../../../../data/content/structList/Struct";
+import Struct from "../../../../../../data/content/struct/Struct";
 
 const ScreenStruct = {
     ... Struct,

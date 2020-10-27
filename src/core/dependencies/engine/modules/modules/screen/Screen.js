@@ -87,6 +87,14 @@ export default class Screen extends EventDispatcherVOWrapper {
 
 
     //
+    // DESTROY
+    //
+    destroy() {
+        this.hide();
+    }
+
+
+    //
     // RESIZE
     //
     resize( size ) {

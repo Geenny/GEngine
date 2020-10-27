@@ -1,5 +1,5 @@
 import { Sprite, Texture } from "pixi.js";
-import PixiResource from "../../../resource/resources/PixiResource";
+import Resource from "../../../resource/resources/Resource";
 
 export default class SpriteWrapper extends Sprite {
     
@@ -62,7 +62,8 @@ export default class SpriteWrapper extends Sprite {
     resourceTextureUpdate( value, callback, isMain = false ) {
         const textureSet = this.textureSet.bind( this );
 
-        function update( texture ) {
+        function update( content ) {
+            const texture = content ? content.texture : null;
             if ( callback ) callback( texture );
             if ( isMain ) textureSet( texture );
         }
@@ -70,7 +71,7 @@ export default class SpriteWrapper extends Sprite {
         if ( value instanceof Texture ) {
             update( value );
         } else if ( typeof value === "string" ) {
-            PixiResource.textureByNameSet( value, update );
+            Resource.contentByNameSet( value, update );
         }
     }
 

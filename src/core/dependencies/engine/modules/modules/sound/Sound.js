@@ -177,6 +177,7 @@ export default class Sound extends EventDispatcherVOWrapper {
     destroy() {
         if ( !this.audio ) return;
         this.audio.removeEventListener( 'ended', this.onEnd );
+        if ( this.played ) this.stop();
         this.vo.audio = null;
     }
 
