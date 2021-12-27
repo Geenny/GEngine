@@ -1,6 +1,6 @@
 {
-  "name": "gengine",
-  "version": "0.3.2",
+  "name": "@twoggames/gengine",
+  "version": "0.4.0",
   "description": "GEngine",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "GEngine",
     "Game Engine"
   ],
-  "author": "geenny",
+  "author": "Geenny",
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -46,5 +46,13 @@
     "pixi.js": "^5.3.3",
     "three": "^0.120.1",
     "uglifyjs-webpack-plugin": "^2.2.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Geenny/GEngine.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Geenny/GEngine/issues"
+  },
+  "homepage": "https://github.com/Geenny/GEngine#readme"
 }
