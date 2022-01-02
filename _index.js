@@ -10,7 +10,7 @@ import ApplicationEvent from "./src/core/application/event/ApplicationEvent";
 
 // CONFIG & CONSTANTS
 import * as CONFIG from "./src/config/CONFIG";
-import ERRORS from "./src/config/ERRORS";
+import ERRORS from "./src/config/ERRORS"; 
 import SCREENS from "./src/config/SCREENS";
 import * as ButtonState from "./src/constants/ButtonState";
 import * as CONSTANTS from "./src/constants/CONSTANTS";

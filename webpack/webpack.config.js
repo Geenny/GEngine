@@ -2,7 +2,7 @@ const webpack = require( 'webpack' );
 const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 
 const host = 'localhost';
-const port = ( process.argv[2] ) || 8900;
+const port = 8900;
 
 module.exports = {
 	mode: 'development',
@@ -10,39 +10,45 @@ module.exports = {
 		mainjs: [
 			'webpack-dev-server/client?http://' + host + ':' + port,
 			'webpack/hot/dev-server',
-			'./index.js'
+			'./index.ts'
 		],
-	},
-	output: {
-		path: __dirname,
-		filename: 'bundle.js',
-		publicPath: '/'
-	},
-	resolve: {
-		alias: {
-			// tweenjs: 'tweenjs/lib/tweenjs.js'
-		}
 	},
 	externals: {
 		config: 'config'
 	},
+	output: {
+		path: __dirname,
+		filename: 'bundle.js',
+		clean: true
+	},
+	resolve: {
+		extensions: [ '.ts', '.js' ],
+	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
-		new CopyWebpackPlugin([
-            { from: './src/assets', to: 'assets' },
-            { from: './src/assets/favicon.ico', to: 'favicon.ico' }
-		])
+		new CopyWebpackPlugin({
+			patterns: [
+            	// { from: './src/assets', to: 'assets' },
+            	{ from: './src/assets/favicon.ico', to: 'favicon.ico' },
+				{ from: './index.html', to: 'index.html' }
+			]
+		})
 	],
 	module: {
 		rules: [
 			{
-				test: /\.js$/,
+				test: /\.ts?$/,
+				use: 'ts-loader',
 				exclude: /node_modules/,
-				loader: 'babel-loader',
-				query: {
-					presets: [ 'es2015', 'stage-0' ]
-				}
-			}
+			}//,
+			// {
+			// 	test: /\.js$/,
+			// 	exclude: /node_modules/,
+			// 	loader: 'babel-loader',
+			// 	query: {
+			// 		presets: [ 'es2015', 'stage-0' ]
+			// 	}
+			// }
 		]
 	}
 }
