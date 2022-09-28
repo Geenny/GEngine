@@ -3,11 +3,12 @@ export default class StringUtils {
     /**
      * Вернуть массив строк из неразрывной строки
      * @param { CanvasRenderingContext2D } context 
-     * @param { String } text 
-     * @param { Number } width 
+     * @param { string } text 
+     * @param { number } width 
+     * @return { string[] }
      */
-    static wordWrapLines( context, text, width = 0 ) {
-        let lines = [];
+    static wordWrapLines( context: CanvasRenderingContext2D, text: string, width: number = 0 ): string[] {
+        let lines: string[] = [];
 
         if ( ( context instanceof CanvasRenderingContext2D ) && width > 0 ) {
             let words = text.split(" "), line = "";
