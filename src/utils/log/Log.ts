@@ -1,13 +1,13 @@
 export default class Log {
 
-    static l(... args) {
+    public static l( ... args: any[] ) {
         console.log.apply( this, args );
         // args.forEach(object => {
         //     Log.__l(object)
         // })
     }
 
-    static error( ...args ) {
+    public static error( ... args: any[] ) {
         if ( !Array.isArray( args ) ) return;
         if ( args.length > 0 ) {
             const errorList = args[ 0 ].split( "{value}" );
@@ -19,8 +19,8 @@ export default class Log {
         }
     }
 
-    static __l(object) {
-        console.log(object)
+    private static __l( object: any ) {
+        console.log(object);
     }
 
 }

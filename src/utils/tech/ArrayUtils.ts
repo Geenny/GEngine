@@ -2,10 +2,10 @@ export default class ArrayUtils {
 
     /**
      * Проверка содержания в массиве
-     * @param { * } value значение для поиска в массиве
-     * @param { Array } list массив в котором осуществляется поиск
+     * @param { any } value значение для поиска в массиве
+     * @param { any[] } list массив в котором осуществляется поиск
      */
-    static inArray( value, list = null ) {
+    static inArray( value: any, list?: any[] ) {
         return list &&
             list.length > 0 &&
             list.indexOf( value ) != -1;
@@ -15,9 +15,9 @@ export default class ArrayUtils {
      * Вернкуть уникальное значение переменной в поле @valueName массива
      * объектов @list
      * @param { string } valueName 
-     * @param { Array } list 
+     * @param { any[] } list 
      */
-    static getUniqueNumericValue( valueName, list = null) {
+    static getUniqueNumericValue( valueName: string, list: any[] ): number {
         let value = 1;
         while( ArrayUtils.findAsObject( list, valueName, value ) )
             value ++;
@@ -28,40 +28,40 @@ export default class ArrayUtils {
      * Проверить содержится ли значение @value в массиве @list по полю-ключу
      * Ответ возвращается типом @Boolean
      * @key
-     * @param { Array } list 
+     * @param { any[] } list 
      * @param { string } key 
-     * @param { * } value 
-     * @return { Boolean }
+     * @param { any } value 
+     * @return { boolean }
      */
-    static isValueInList( list, key, value ) {
+    static isValueInList( list: any[], key: string, value: any ): boolean {
         return !!ArrayUtils.findAsObject( list, key, value );
     }
 
     /**
      * Вернуть содержащееся значение по соответствию полей @list[ @key ] и @value
-     * @param { Array } list 
-     * @param { string | Number } key 
-     * @param { * } value 
-     * @return { * }
+     * @param { any[] } list 
+     * @param { string | number } key 
+     * @param { any } value 
+     * @return {  }
      */
-    static findAsObject( list, key, value ) {
-        return list ? list.find( object => object[ key ] === value ) : null;
+    static findAsObject( list: any[], key: string, value: any ): any[] {
+        return list ? list.find( object => object[ key ] === value ) : undefined;
     }
 
     /**
      * Создать клон экземпляра массива
-     * @param { Array } array 
+     * @param { any[] } array 
      */
-    static clone( array ) {
-        return array.slice(0)
+    static clone( array: any[] ) {
+        return array.slice(0);
     }
 
     /**
      * Найти уникальный ID для списка
-     * @param { Array } list 
-     * @param { String } IDName 
+     * @param { any[] } list 
+     * @param { string } IDName 
      */
-    static uniqueIDGet( list, IDName = "ID" ) {
+    static uniqueIDGet( list: any[], IDName: string = "ID" ): number {
         let uniquieID = 1;
         for ( let i = 0; i < list.length; i++ ) {
             const step = list[ i ];

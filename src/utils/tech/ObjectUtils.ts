@@ -2,11 +2,11 @@ export default class ObjectUtils {
 
     /**
      * Добавление из @source в @object существующих параметров
-     * @param { object } object Объект для добавления
-     * @param { object } source Объект источник данных
-     * @param { Boolean } cloneObject добавлять в клон объекта
+     * @param { any } object Объект для добавления
+     * @param { any } source Объект источник данных
+     * @param { boolean } cloneObject добавлять в клон объекта
      */
-    static assignExists( object, source, cloneObject = false ) {
+    static assignExists( object: any, source: any, cloneObject: boolean = false ): any {
         if ( object ) {
             const target = cloneObject ? ObjectUtils.clone( object ) : object;
             if ( source ) {
@@ -23,39 +23,40 @@ export default class ObjectUtils {
 
     /**
      * Вернуть ключ по совпадению значения
-     * @param { object } source Простой объект
-     * @param { object } value 
+     * @param { any } source Простой объект
+     * @param { any } value 
+     * @return { string | undefined } 
      */
-    static getKeyByValue( source, value ) {
+    static getKeyByValue( source: any, value: any ): string | undefined {
         if ( source ) {
             for ( const key in source ) {
                 if ( source[ key ] != value ) continue;
                 return key;
             }
         }
-        return null;
+        return undefined;
     }
 
     /**
      * @value Содержиться в простом объекте @source
-     * @param { object } source Простой объект
-     * @param { object } value 
+     * @param { any } source Простой объект
+     * @param { any } value 
      * @return { boolean }
      */
-    static inValues( source, value ) {
+    static inValues( source: any, value: any ): boolean {
         return !!ObjectUtils.getKeyByValue( source, value );
     }
 
     /**
      * @value Содержиться в простом объекте @source
      * @param { object } source Простой объект
-     * @param { Array } values Список значений
+     * @param { any } values Список значений
      * @return { boolean }
      */
-    static allInValues( source, values ) {
+    static allInValues( source: any, values: any[] ): boolean {
         if ( Array.isArray( values ) ) {
             for ( let i = 0; i < values.length; i++ ) {
-                if ( !ObjectUtils.inValues( values[ i ] ) ) {
+                if ( !ObjectUtils.inValues( source, values[ i ] ) ) {
                     return false;
                 }
             }
@@ -66,23 +67,24 @@ export default class ObjectUtils {
 
     /**
      * Клонировать объект
-     * @param { object } object 
+     * @param { any } object 
      */
-    static clone( object ) {
+    static clone( object: any ): any {
         if ( object )
             return { ... object };
     }
 
     /**
      * Создать новый глубоко склонированный объект
-     * @param { object } object 
+     * @param { any } object
+     * @return { any } 
      */
-    static cloneHard( object ) {
+    static cloneHard( object: any ): any {
 
-        function cloneHardLevel( object ) {
+        function cloneHardLevel( object: any ): any {
 
             if ( !object ) return object;
-            let result = null;
+            let result: any;
 
             if ( Array.isArray( object ) ) {
                 result = [ ];
@@ -112,26 +114,28 @@ export default class ObjectUtils {
     /**
      * Посчитать количество элементов в объекте
      * @param { object } object 
+     * @return { number } 
      */
-    static count( object ) {
+    static count( object: any | undefined ): number {
         return object ? Object.keys( object ).length : 0;
     }
 
     /**
      * Проверить или содержатся данные в объекте
-     * @param { object } object 
+     * @param { object } object
+     * @return { boolean } 
      */
-    static noData( object ) {
+    static noData( object: any ): boolean {
         return ObjectUtils.count( object ) === 0;
     }
 
     /**
-     * 
-     * @param { Object } target 
-     * @param { Object } source 
+     * Добавить значения @source в @target объекты
+     * @param { any } target 
+     * @param { any } source 
      */
-    static concat( target, source ) {
-        function concat( target, source ) {
+    static concat( target: any, source: any ): any {
+        function concat( target: any, source: any ) {
             if ( !target || !source ) return;
             for ( const key in source ) {
                 // if ( typeof source[ key ] != typeof target[ key ]) continue;
@@ -145,6 +149,8 @@ export default class ObjectUtils {
         }
 
         concat( target, source );
+
+        return target;
     }
 
 
@@ -152,7 +158,7 @@ export default class ObjectUtils {
      * Вызвать @destroy у списка объектов
      * @param { Array } list 
      */
-    static destroyList( list ) {
+    static destroyList( list: any[] ): void  {
         if ( !Array.isArray( list ) ) return;
         while( list.length ) {
             const target = list.shift();
