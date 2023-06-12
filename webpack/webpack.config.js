@@ -29,7 +29,7 @@ module.exports = {
 		new CopyWebpackPlugin({
 			patterns: [
             	// { from: './src/assets', to: 'assets' },
-            	{ from: './src/assets/favicon.ico', to: 'favicon.ico' },
+            	{ from: './src/assets/favicon.ico', to: './favicon.ico' },
 				{ from: './index.html', to: 'index.html' }
 			]
 		})
@@ -40,15 +40,7 @@ module.exports = {
 				test: /\.ts?$/,
 				use: 'ts-loader',
 				exclude: /node_modules/,
-			}//,
-			// {
-			// 	test: /\.js$/,
-			// 	exclude: /node_modules/,
-			// 	loader: 'babel-loader',
-			// 	query: {
-			// 		presets: [ 'es2015', 'stage-0' ]
-			// 	}
-			// }
+			}
 		]
 	}
 }

@@ -11,7 +11,7 @@ const object = {
 		open: true,
 		host: host,
 		port: port,
-		hot: true,
+		// hot: true,
 		https: false,
 		// key: fs.readFileSync('./webpack/server.key'),
 		// cert: fs.readFileSync('./webpack/server.crt'),

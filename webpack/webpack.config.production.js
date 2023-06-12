@@ -1,7 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const Visualizer = require('webpack-visualizer-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const path = require('path');
 
@@ -35,9 +33,6 @@ const object = {
         // ]
     },
     plugins: [
-        new Visualizer({
-            filename: './webpack-prod-stats.html'
-        }),
         new CopyWebpackPlugin([
             { from: './src/assets', to: 'assets' }
         ]),
