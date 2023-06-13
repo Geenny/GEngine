@@ -7,7 +7,7 @@ const port = 8900;
 module.exports = {
 	mode: 'development',
 	entry: {
-		mainjs: [
+		main: [
 			'webpack-dev-server/client?http://' + host + ':' + port,
 			'webpack/hot/dev-server',
 			'./index.ts'
