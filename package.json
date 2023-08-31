@@ -1,6 +1,6 @@
 {
   "name": "gengine",
-  "version": "0.4.12",
+  "version": "0.4.13",
   "description": "GEngine",
   "main": "index.js",
   "scripts": {
@@ -28,11 +28,8 @@
   "license": "ISC",
   "dependencies": {
     "inversify": "^6.0.1",
-    "inversify-inject-decorators": "^3.1.0"
-  },
-  "engines": {
-    "node": "16.x",
-    "npm": "9.x"
+    "inversify-inject-decorators": "^3.1.0",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^11.0.0",
@@ -44,5 +41,9 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^4.15.1",
     "webpack-merge": "^5.9.0"
+  },
+  "engines": {
+    "node": "16.x",
+    "npm": "9.x"
   }
 }
