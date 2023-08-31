@@ -1,11 +1,13 @@
-// import Application from "./core/application/Application";
-// import IApplication from "./core/application/interface/IApplication";
+import "reflect-metadata";
+import { ApplicationModule } from "core/modules";
 import { InjectionMachine, InjectionModule } from "./core/machines/injection/";
-import ApplicationModule from "./core/modules/application/ApplicationModule";
+import ApplicationType from "core/modules/instances/application/types/ApplicationType";
 
 export default class Entry {
 
 	private _started: boolean = false;
+
+	protected injectionMachine: InjectionMachine;
 
 	//
 	// IMPLEMENTS
@@ -35,38 +37,17 @@ export default class Entry {
 	// DEPENDENCY INJECTION
 	//
 
-	protected injectionStart(): InjectionMachine {
+	protected injectionStart(): void {
 		const list = this.injectionListGet();
-		const injection = new InjectionMachine( list );
-		injection.init();
-		injection.start();
+		const injectionMachine = new InjectionMachine( list );
+		injectionMachine.init();
+		injectionMachine.start( ApplicationType.APPLICATION );
 
-		return injection;
+		this.injectionMachine = injectionMachine;
 	}
 
 	protected injectionListGet(): InjectionModule[] {
-		// const element: IInjectionElement = {
-		// 	name: "Application",
-		// 	type: "bind",
-		// 	symbol: Symbol.for("Application"),
-		// 	// toInterface: IApplication,
-		// 	toClass: Application
-		// };
-
-		// const element2: IInjectionElement = {
-		// 	name: "EventDispathcer",
-		// 	type: "bind",
-		// 	symbol: Symbol.for("Application"),
-		// 	// toInterface: IEventDispatcher,
-		// 	toClass: EventDispatcher
-		// }
-
 		const applicationModule = new ApplicationModule();
-
-		// const module: IInjectionModule = {
-		// 	name: "Application",
-		// 	list: [ applicationModule ]
-		// };
 
 		return [ applicationModule ];
 	}

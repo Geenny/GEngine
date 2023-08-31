@@ -1,9 +1,9 @@
-import { Container } from "inversify";
-import SelfEntity from "../../../base/VOContainer";
 import InjectionName from "../constants/InjectionName";
 import IInjectionModule from "../interface/IInjectionModule";
+import VOContainer from "../../../base/VOContainer";
+import IInjectionContainer from "../interface/IInjectionContainer";
 
-export default class InjectionModule extends SelfEntity implements IInjectionModule {
+export default class InjectionModule extends VOContainer implements IInjectionModule {
 
     private _name: string = this.constructor.name;
 
@@ -11,11 +11,11 @@ export default class InjectionModule extends SelfEntity implements IInjectionMod
 
     public containerID: string = InjectionName.MAIN;
 
-    public inject( container: Container ): boolean {
-        return this.injectElements( container );
+    public inject( containerStruct: IInjectionContainer ): boolean {
+        return this.injectElements( containerStruct );
     }
 
-    protected injectElements( container: Container ): boolean {
+    protected injectElements( containerStruct: IInjectionContainer ): boolean {
         return true;
     }
 

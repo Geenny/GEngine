@@ -1,11 +1,11 @@
+import { interfaces } from "inversify";
 import InjectionModule from "../module/InjectionModule";
-import IInjectionElement from "./IInjectionElement";
 
 export default interface IInjectionMachine {
 
     name?: string;
 
-    start(): void;
+    start( serviceIdentifier: interfaces.ServiceIdentifier<unknown> ): void;
 
     injectModule( module: InjectionModule, containerName?: string ): void;
 

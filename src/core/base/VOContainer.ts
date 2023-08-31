@@ -25,7 +25,7 @@ export default class VOContainer implements IVOContainer {
         const vo = { source };
 
         for ( let name in source ) {
-            if ( !Object.hasOwn( vo, name )) return;
+            if ( !vo.hasOwnProperty( name ) ) return;
             // @ts-ignore
             vo[ name ] = source[ name ];
         }

@@ -1,0 +1,6 @@
+{
+	"preloader": [
+		{ "type": "data", "name": "layout", "path": "/layouts/layout.json" },
+		{ "type": "data", "name": "setup", "path": "/setup/settings.json" }
+	]
+}

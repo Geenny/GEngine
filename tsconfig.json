@@ -1,15 +1,27 @@
 {
 	"compilerOptions": {
+		"baseUrl": "./",
 		"outDir": "./dist/",
 		"noImplicitAny": true,
+		"target": "es6",
 		"module": "es2022",
-		"target": "es5",
-        "lib": ["es2022"],
+		"lib": ["es2017", "dom"],
         "types": ["reflect-metadata"],
-		"allowJs": true,
 		"moduleResolution": "node",
 		"sourceMap": true,
+		"allowJs": true,
+		"allowSyntheticDefaultImports": true,
         "experimentalDecorators": true,
-        "emitDecoratorMetadata": true
-	}
+        "emitDecoratorMetadata": true,
+		"paths": {
+		  "core/*":  ["src/core/*"],
+		  "data/*":  ["src/data/*"],
+		  "utils/*":  ["src/utils/*"]
+		}
+	},
+	"files": [
+	  "src/index.ts"
+	],
+	"include": ["src"],
+	"exclude": ["node_modules"]
 }

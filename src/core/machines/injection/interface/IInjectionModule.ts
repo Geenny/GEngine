@@ -1,4 +1,4 @@
-import { Container } from "inversify";
+import IInjectionContainer from "./IInjectionContainer";
 
 export default interface IInjectionModule {
 
@@ -6,6 +6,6 @@ export default interface IInjectionModule {
 
     containerID?: string;
 
-    inject(container: Container): boolean;
+    inject( containerStruct: IInjectionContainer ): boolean;
 
 }

@@ -1,4 +1,3 @@
-import ApplicationModule from "./application/ApplicationModule";
-import * as LogStyle from "./application/log/LogStyle";
+import ApplicationModule from "./instances/application/ApplicationModule";
 
-export { ApplicationModule, LogStyle };
+export { ApplicationModule };

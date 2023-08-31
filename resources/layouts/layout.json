@@ -1,0 +1,1573 @@
+{
+    "type": "container",
+    "name": "APPLICATION",
+    "version": "gamename@1.0.0@1.0.0",
+    "options": {
+        "size": {
+            "width": "100%",
+            "height": "100%"
+        }
+    },
+    "children": [
+        {
+            "type": "container",
+            "name": "FRAME",
+            "load": "splash|+",
+            "props": {},
+            "options": {
+                "fill": "min",
+                "align": "center",
+                "visible": true,
+                "renderable": true,
+                "size": {
+                    "width": 1920,
+                    "height": 1080
+                }
+            },
+            "orientation": {
+                "landscape": {
+                    "size": {
+                        "width": 1920,
+                        "height": 1080
+                    }
+                },
+                "landscape_low": {
+                    "size": {
+                        "width": 1440,
+                        "height": 1080
+                    }
+                },
+                "landscape_large": {
+                    "size": {
+                        "width": 2376,
+                        "height": 1080
+                    }
+                },
+                "portrait": {
+                    "size": {
+                        "width": 1080,
+                        "height": 1920
+                    }
+                },
+                "portrait_low": {
+                    "size": {
+                        "width": 1080,
+                        "height": 1440
+                    }
+                },
+                "portrait_large": {
+                    "size": {
+                        "width": 1080,
+                        "height": 2376
+                    }
+                }
+            },
+            "children": [
+                {
+                    "type": "container",
+                    "name": "MAIN",
+                    "load": "main|+",
+                    "zIndex": 10,
+                    "props": {},
+                    "options": {
+                        "size": {
+                            "width": "100%",
+                            "height": "100%"
+                        }
+                    },
+                    "children": [
+                        {
+                            "type": "container",
+                            "name": "BACKGROUND",
+                            "zIndex": 0,
+                            "children": [
+                                {
+                                    "type": "container",
+                                    "name": "LIST",
+                                    "props": {},
+                                    "options": {
+                                        "fill": "min",
+                                        "align": "tc",
+                                        "direction": "row"
+                                    },
+                                    "orientation": {
+                                        "landscape_large": {
+                                            "align": "tl",
+                                            "size": {
+                                                "width": "10%",
+                                                "height": "100%"
+                                            }
+                                        },
+                                        "landscape": {
+                                            "align": "tc",
+                                            "size": {
+                                                "width": "10%",
+                                                "height": "100%"
+                                            }
+                                        },
+                                        "landscape_low": {
+                                            "align": "tr",
+                                            "size": {
+                                                "width": "10%",
+                                                "height": "100%"
+                                            }
+                                        },
+                                        "portrait_low": {
+                                            "align": "tl",
+                                            "size": {
+                                                "width": "100%",
+                                                "height": "10%"
+                                            }
+                                        },
+                                        "portrait": {
+                                            "align": "cl",
+                                            "size": {
+                                                "width": "100%",
+                                                "height": "10%"
+                                            }
+                                        },
+                                        "portrait_large": {
+                                            "align": "bl",
+                                            "size": {
+                                                "width": "100%",
+                                                "height": "10%"
+                                            }
+                                        }
+                                    },
+                                    "children": [
+                                        {
+                                            "type": "container",
+                                            "name": "AAA",
+                                            "props": {},
+                                            "options": {
+                                                "align": "tr",
+                                                "size": {
+                                                    "width": 10,
+                                                    "height": 40
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "type": "container",
+                                            "name": "BBB",
+                                            "props": {},
+                                            "options": {
+                                                "align": "tr",
+                                                "size": {
+                                                    "width": 100,
+                                                    "height": 40
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "type": "container",
+                                            "name": "CCC",
+                                            "props": {},
+                                            "options": {
+                                                "align": "tr",
+                                                "size": {
+                                                    "width": 50,
+                                                    "height": 40
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "type": "container",
+                                            "name": "DDD",
+                                            "props": {},
+                                            "options": {
+                                                "align": "tr",
+                                                "size": {
+                                                    "width": 100,
+                                                    "height": 40
+                                                }
+                                            }
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "container",
+                                    "name": "BACKGROUND_TEMP",
+                                    "zIndex": 0,
+                                    "options": {
+                                        "position": {
+                                            "x": -220,
+                                            "y": -100
+                                        },
+                                        "scale": 1.1
+                                    },
+                                    "orientation": {
+                                        "landscape_low": {
+                                            "position": {
+                                                "x": -230,
+                                                "y": 0
+                                            },
+                                            "scale": 0.85
+                                        },
+                                        "landscape": {
+                                            "position": {
+                                                "x": -220,
+                                                "y": -100
+                                            },
+                                            "scale": 1.1
+                                        },
+                                        "landscape_large": {
+                                            "position": {
+                                                "x": 50,
+                                                "y": -100
+                                            },
+                                            "scale": 1.1
+                                        },
+                                        "portrait_low": {
+                                            "position": {
+                                                "x": -250,
+                                                "y": 190
+                                            },
+                                            "scale": 0.825
+                                        },
+                                        "portrait": {
+                                            "position": {
+                                                "x": -250,
+                                                "y": 300
+                                            },
+                                            "scale": 0.825
+                                        },
+                                        "portrait_large": {
+                                            "position": {
+                                                "x": -250,
+                                                "y": 525
+                                            },
+                                            "scale": 0.825
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "container",
+                            "name": "SLOT",
+                            "zIndex": 10,
+                            "children": [
+                                {
+                                    "type": "container",
+                                    "name": "REELS_MAIN",
+                                    "options": {
+                                        "position": {
+                                            "x": -220,
+                                            "y": -100
+                                        },
+                                        "scale": 1.1
+                                    },
+                                    "orientation": {
+                                        "landscape_low": {
+                                            "position": {
+                                                "x": -230,
+                                                "y": 0
+                                            },
+                                            "scale": 0.85
+                                        },
+                                        "landscape": {
+                                            "position": {
+                                                "x": -220,
+                                                "y": -100
+                                            },
+                                            "scale": 1.1
+                                        },
+                                        "landscape_large": {
+                                            "position": {
+                                                "x": 50,
+                                                "y": -100
+                                            },
+                                            "scale": 1.1
+                                        },
+                                        "portrait_low": {
+                                            "position": {
+                                                "x": -250,
+                                                "y": 190
+                                            },
+                                            "scale": 0.825
+                                        },
+                                        "portrait": {
+                                            "position": {
+                                                "x": -250,
+                                                "y": 300
+                                            },
+                                            "scale": 0.825
+                                        },
+                                        "portrait_large": {
+                                            "position": {
+                                                "x": -250,
+                                                "y": 525
+                                            },
+                                            "scale": 0.825
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "container",
+                            "name": "OVERLAY",
+                            "zIndex": 11
+                        },
+                        {
+                            "type": "container",
+                            "name": "UI_TEMP",
+                            "zIndex": 19,
+                            "options": {
+                                "alpha": 0.1,
+                                "position": {
+                                    "x": -220,
+                                    "y": -100
+                                },
+                                "scale": 1.1
+                            },
+                            "orientation": {
+                                "landscape_low": {
+                                    "position": {
+                                        "x": -230,
+                                        "y": 0
+                                    },
+                                    "scale": 0.85
+                                },
+                                "landscape": {
+                                    "position": {
+                                        "x": -220,
+                                        "y": -100
+                                    },
+                                    "scale": 1.1
+                                },
+                                "landscape_large": {
+                                    "position": {
+                                        "x": 50,
+                                        "y": -100
+                                    },
+                                    "scale": 1.1
+                                },
+                                "portrait_low": {
+                                    "position": {
+                                        "x": -250,
+                                        "y": 190
+                                    },
+                                    "scale": 0.825
+                                },
+                                "portrait": {
+                                    "position": {
+                                        "x": -250,
+                                        "y": 300
+                                    },
+                                    "scale": 0.825
+                                },
+                                "portrait_large": {
+                                    "position": {
+                                        "x": -250,
+                                        "y": 525
+                                    },
+                                    "scale": 0.825
+                                }
+                            }
+                        },
+                        {
+                            "type": "component",
+                            "component": "ViewUI",
+                            "name": "UI",
+                            "load": "main|+",
+                            "zIndex": 20,
+                            "children": [
+                                {
+                                    "type": "button",
+                                    "name": "buttonAutoSpin",
+                                    "options": {
+                                        "anchor": 0.5,
+                                        "scale": 0.9,
+                                        "position": {
+                                            "x": "30%",
+                                            "y": "92%"
+                                        },
+                                        "content": {
+                                            "textures": {
+                                                "disable": "auto_normal.png",
+                                                "hover": "auto_hover.png",
+                                                "normal": "auto_normal.png",
+                                                "pressed": "auto_pressed.png"
+                                            }
+                                        }
+                                    },
+                                    "orientation": {
+                                        "landscape_low": {
+                                            "position": {
+                                                "x": "90%",
+                                                "y": "60%"
+                                            }
+                                        },
+                                        "landscape": {
+                                            "position": {
+                                                "x": "90%",
+                                                "y": "68%"
+                                            }
+                                        },
+                                        "landscape_large": {
+                                            "position": {
+                                                "x": "90%",
+                                                "y": "70%"
+                                            }
+                                        },
+                                        "portrait_low": {
+                                            "position": {
+                                                "x": "30%",
+                                                "y": "80%"
+                                            }
+                                        },
+                                        "portrait": {
+                                            "position": {
+                                                "x": "30%",
+                                                "y": "74%"
+                                            }
+                                        },
+                                        "portrait_large": {
+                                            "position": {
+                                                "x": "30%",
+                                                "y": "68%"
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "type": "button",
+                                    "name": "buttonMenu",
+                                    "options": {
+                                        "anchor": 0.5,
+                                        "content": {
+                                            "textures": {
+                                                "disable": "menu_normal.png",
+                                                "hover": "menu_hover.png",
+                                                "normal": "menu_normal.png",
+                                                "pressed": "menu_pressed.png"
+                                            }
+                                        }
+                                    },
+                                    "orientation": {
+                                        "landscape": {
+                                            "position": {
+                                                "x": "90%",
+                                                "y": "10%"
+                                            }
+                                        },
+                                        "portrait": {
+                                            "position": {
+                                                "x": "90%",
+                                                "y": "94%"
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "type": "button",
+                                    "name": "buttonMinus",
+                                    "options": {
+                                        "anchor": 0.5,
+                                        "scale": 0.9,
+                                        "content": {
+                                            "textures": {
+                                                "disable": "minus_normal.png",
+                                                "hover": "minus_hover.png",
+                                                "normal": "minus_normal.png",
+                                                "pressed": "minus_pressed.png"
+                                            }
+                                        }
+                                    },
+                                    "orientation": {
+                                        "landscape_low": {
+                                            "position": {
+                                                "x": "52%",
+                                                "y": "84%"
+                                            }
+                                        },
+                                        "landscape": {
+                                            "position": {
+                                                "x": "56%",
+                                                "y": "92%"
+                                            }
+                                        },
+                                        "landscape_large": {
+                                            "position": {
+                                                "x": "56%",
+                                                "y": "92%"
+                                            }
+                                        },
+                                        "portrait_low": {
+                                            "position": {
+                                                "x": "35%",
+                                                "y": "94%"
+                                            }
+                                        },
+                                        "portrait": {
+                                            "position": {
+                                                "x": "35%",
+                                                "y": "86%"
+                                            }
+                                        },
+                                        "portrait_large": {
+                                            "position": {
+                                                "x": "35%",
+                                                "y": "78%"
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "type": "button",
+                                    "name": "buttonPlus",
+                                    "options": {
+                                        "anchor": 0.5,
+                                        "scale": 0.9,
+                                        "content": {
+                                            "textures": {
+                                                "disable": "plus_normal.png",
+                                                "hover": "plus_hover.png",
+                                                "normal": "plus_normal.png",
+                                                "pressed": "plus_pressed.png"
+                                            }
+                                        }
+                                    },
+                                    "orientation": {
+                                        "landscape_low": {
+                                            "position": {
+                                                "x": "72%",
+                                                "y": "84%"
+                                            }
+                                        },
+                                        "landscape": {
+                                            "position": {
+                                                "x": "74%",
+                                                "y": "92%"
+                                            }
+                                        },
+                                        "landscape_large": {
+                                            "position": {
+                                                "x": "72%",
+                                                "y": "92%"
+                                            }
+                                        },
+                                        "portrait_low": {
+                                            "position": {
+                                                "x": "65%",
+                                                "y": "94%"
+                                            }
+                                        },
+                                        "portrait": {
+                                            "position": {
+                                                "x": "65%",
+                                                "y": "86%"
+                                            }
+                                        },
+                                        "portrait_large": {
+                                            "position": {
+                                                "x": "65%",
+                                                "y": "78%"
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "type": "button",
+                                    "name": "buttonSound",
+                                    "options": {
+                                        "anchor": 0.5,
+                                        "content": {
+                                            "textures": {
+                                                "disable": "sound_normal.png",
+                                                "hover": "sound_hover.png",
+                                                "normal": "sound_normal.png",
+                                                "pressed": "sound_pressed.png"
+                                            }
+                                        }
+                                    },
+                                    "orientation": {
+                                        "landscape": {
+                                            "position": {
+                                                "x": "84%",
+                                                "y": "10%"
+                                            }
+                                        },
+                                        "portrait": {
+                                            "position": {
+                                                "x": "10%",
+                                                "y": "94%"
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "type": "button",
+                                    "name": "buttonSpin",
+                                    "options": {
+                                        "anchor": 0.5,
+                                        "scale": 0.9,
+                                        "content": {
+                                            "textures": {
+                                                "disable": "spin_but_normal.png",
+                                                "hover": "spin_but_hover.png",
+                                                "normal": "spin_but_normal.png",
+                                                "pressed": "spin_but_pressed.png"
+                                            }
+                                        }
+                                    },
+                                    "orientation": {
+                                        "landscape_low": {
+                                            "position": {
+                                                "x": "90%",
+                                                "y": "42%"
+                                            }
+                                        },
+                                        "landscape": {
+                                            "position": {
+                                                "x": "90%",
+                                                "y": "44%"
+                                            }
+                                        },
+                                        "landscape_large": {
+                                            "position": {
+                                                "x": "90%",
+                                                "y": "46%"
+                                            }
+                                        },
+                                        "portrait_low": {
+                                            "position": {
+                                                "x": "50%",
+                                                "y": "80%"
+                                            }
+                                        },
+                                        "portrait": {
+                                            "position": {
+                                                "x": "50%",
+                                                "y": "74%"
+                                            }
+                                        },
+                                        "portrait_large": {
+                                            "position": {
+                                                "x": "50%",
+                                                "y": "68%"
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "type": "button",
+                                    "name": "buttonStop",
+                                    "options": {
+                                        "anchor": 0.5,
+                                        "scale": 0.9,
+                                        "visible": false,
+                                        "content": {
+                                            "textures": {
+                                                "disable": "stop_but_normal.png",
+                                                "hover": "stop_but_hover.png",
+                                                "normal": "stop_but_normal.png",
+                                                "pressed": "stop_but_pressed.png"
+                                            }
+                                        }
+                                    },
+                                    "orientation": {
+                                        "landscape_low": {
+                                            "position": {
+                                                "x": "90%",
+                                                "y": "42%"
+                                            }
+                                        },
+                                        "landscape": {
+                                            "position": {
+                                                "x": "90%",
+                                                "y": "44%"
+                                            }
+                                        },
+                                        "landscape_large": {
+                                            "position": {
+                                                "x": "90%",
+                                                "y": "46%"
+                                            }
+                                        },
+                                        "portrait_low": {
+                                            "position": {
+                                                "x": "50%",
+                                                "y": "80%"
+                                            }
+                                        },
+                                        "portrait": {
+                                            "position": {
+                                                "x": "50%",
+                                                "y": "74%"
+                                            }
+                                        },
+                                        "portrait_large": {
+                                            "position": {
+                                                "x": "50%",
+                                                "y": "68%"
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "type": "button",
+                                    "name": "buttonTurboSpin",
+                                    "options": {
+                                        "anchor": 0.5,
+                                        "scale": 0.9,
+                                        "content": {
+                                            "textures": {
+                                                "disable": "turbo_normal.png",
+                                                "hover": "turbo_hover.png",
+                                                "normal": "turbo_normal.png",
+                                                "pressed": "turbo_pressed.png"
+                                            }
+                                        }
+                                    },
+                                    "orientation": {
+                                        "landscape_low": {
+                                            "position": {
+                                                "x": "90%",
+                                                "y": "24%"
+                                            }
+                                        },
+                                        "landscape": {
+                                            "position": {
+                                                "x": "90%",
+                                                "y": "22%"
+                                            }
+                                        },
+                                        "landscape_large": {
+                                            "position": {
+                                                "x": "90%",
+                                                "y": "22%"
+                                            }
+                                        },
+                                        "portrait_low": {
+                                            "position": {
+                                                "x": "70%",
+                                                "y": "80%"
+                                            }
+                                        },
+                                        "portrait": {
+                                            "position": {
+                                                "x": "70%",
+                                                "y": "74%"
+                                            }
+                                        },
+                                        "portrait_large": {
+                                            "position": {
+                                                "x": "70%",
+                                                "y": "68%"
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "textBet",
+                                    "options": {
+                                        "content": {
+                                            "text": "20",
+                                            "style": {
+                                                "fontFamily": "myriad_bold",
+                                                "fontSize": 46,
+                                                "fontWeight": "900",
+                                                "fill": "0xFFFFFF"
+                                            }
+                                        },
+                                        "anchor": 0.5
+                                    },
+                                    "orientation": {
+                                        "landscape_low": {
+                                            "position": {
+                                                "x": "62%",
+                                                "y": "86%"
+                                            }
+                                        },
+                                        "landscape": {
+                                            "position": {
+                                                "x": "65%",
+                                                "y": "94%"
+                                            }
+                                        },
+                                        "landscape_large": {
+                                            "position": {
+                                                "x": "64%",
+                                                "y": "94%"
+                                            }
+                                        },
+                                        "portrait_low": {
+                                            "position": {
+                                                "x": "50%",
+                                                "y": "96%"
+                                            }
+                                        },
+                                        "portrait": {
+                                            "position": {
+                                                "x": "50%",
+                                                "y": "88%"
+                                            }
+                                        },
+                                        "portrait_large": {
+                                            "position": {
+                                                "x": "50%",
+                                                "y": "80%"
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "type": "text",
+                                    "name": "textBetLabel",
+                                    "zIndex": 0,
+                                    "options": {
+                                        "content": {
+                                            "locale": "AUTO_SPIN",
+                                            "style": {
+                                                "fontFamily": "myriad_bold",
+                                                "fontSize": 28,
+                                                "fontWeight": "500",
+                                                "fill": "0xFFFFFF"
+                                            }
+                                        },
+                                        "anchor": 0.5
+                                    },
+                                    "orientation": {
+                                        "landscape_low": {
+                                            "position": {
+                                                "x": "62%",
+                                                "y": "81%"
+                                            }
+                                        },
+                                        "landscape": {
+                                            "position": {
+                                                "x": "65%",
+                                                "y": "89%"
+                                            }
+                                        },
+                                        "landscape_large": {
+                                            "position": {
+                                                "x": "64%",
+                                                "y": "89%"
+                                            }
+                                        },
+                                        "portrait_low": {
+                                            "position": {
+                                                "x": "50%",
+                                                "y": "91%"
+                                            }
+                                        },
+                                        "portrait": {
+                                            "position": {
+                                                "x": "50%",
+                                                "y": "91%"
+                                            }
+                                        },
+                                        "portrait_large": {
+                                            "position": {
+                                                "x": "50%",
+                                                "y": "83%"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "type": "container",
+                            "name": "POPUP",
+                            "zIndex": 30
+                        },
+                        {
+                            "type": "container",
+                            "name": "FADER",
+                            "zIndex": 1000
+                        }
+                    ]
+                },
+                {
+                    "type": "component",
+                    "name": "SPLASH",
+                    "component": "ViewSplashScreen",
+                    "load": "splash|+",
+                    "zIndex": 100,
+                    "options": {
+                        "noSize": true,
+                        "size": {
+                            "width": "100%",
+                            "height": "100%"
+                        }
+                    },
+                    "children": [
+                        {
+                            "type": "sprite",
+                            "name": "splashBackgroundImage",
+                            "options": {
+                                "fill": "max",
+                                "align": "center",
+                                "content": {
+                                    "texture": "background_splash_landscape"
+                                }
+                            },
+                            "orientation": {
+                                "portrait": {
+                                    "content": {
+                                        "texture": "background_splash_portrait"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "type": "graphics",
+                            "name": "splashBackgroundGraphics",
+                            "options": {
+                                "scale": 12,
+                                "position": {
+                                    "x": "50%",
+                                    "y": "50%"
+                                },
+                                "content": {
+                                    "x": -100,
+                                    "y": -100,
+                                    "width": 200,
+                                    "height": 200,
+                                    "color": "0x000000",
+                                    "alpha": 1
+                                }
+                            }
+                        },
+                        {
+                            "type": "spine",
+                            "name": "SpineBackground",
+                            "zIndex": 1,
+                            "options": {
+                                "noSize": true,
+                                "content": {
+                                    "name": "splash_animation",
+                                    "animation": "idle_animation_bg"
+                                }
+                            },
+                            "orientation": {
+                                "landscape": {
+                                    "scale": 0.75,
+                                    "position": {
+                                        "x": "50%",
+                                        "y": "50%"
+                                    }
+                                },
+                                "portrait": {
+                                    "scale": 0.5,
+                                    "position": {
+                                        "x": "40%",
+                                        "y": "50%"
+                                    },
+                                    "content": {
+                                        "animation": "idle_animation_port"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "type": "spine",
+                            "name": "SpineDoctor",
+                            "zIndex": 1,
+                            "options": {
+                                "noSize": true,
+                                "position": {
+                                    "x": "50%",
+                                    "y": "50%"
+                                },
+                                "content": {
+                                    "name": "doctor",
+                                    "animation": "idle",
+                                    "isBreakable": false,
+                                    "timeScale": 0.5,
+                                    "random": {
+                                        "action": 0.1
+                                    }
+                                }
+                            },
+                            "orientation": {
+                                "landscape": {
+                                    "scale": {
+                                        "x": -0.4,
+                                        "y": 0.4
+                                    }
+                                },
+                                "portrait": {
+                                    "scale": {
+                                        "x": -0.22,
+                                        "y": 0.22
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "type": "spine",
+                            "name": "SpineDoctor",
+                            "zIndex": 1,
+                            "options": {
+                                "noSize": true,
+                                "position": {
+                                    "x": "50%",
+                                    "y": "50%"
+                                },
+                                "content": {
+                                    "name": "doctor",
+                                    "animation": "idle",
+                                    "isBreakable": false,
+                                    "timeScale": 5,
+                                    "random": {
+                                        "action": 0.1
+                                    }
+                                }
+                            },
+                            "orientation": {
+                                "landscape": {
+                                    "scale": {
+                                        "x": -0.5,
+                                        "y": 0.5
+                                    }
+                                },
+                                "portrait": {
+                                    "scale": {
+                                        "x": -0.3,
+                                        "y": 0.3
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "type": "spine",
+                            "name": "SpineDoctor",
+                            "zIndex": 1,
+                            "options": {
+                                "noSize": true,
+                                "position": {
+                                    "x": "50%",
+                                    "y": "50%"
+                                },
+                                "content": {
+                                    "name": "doctor",
+                                    "animation": "idle",
+                                    "isBreakable": false,
+                                    "timeScale": 1,
+                                    "random": {
+                                        "action": 0.3
+                                    }
+                                }
+                            },
+                            "orientation": {
+                                "landscape": {
+                                    "scale": {
+                                        "x": -0.6,
+                                        "y": 0.6
+                                    }
+                                },
+                                "portrait": {
+                                    "scale": {
+                                        "x": -0.4,
+                                        "y": 0.4
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "type": "spine",
+                            "name": "SpineDoctor",
+                            "zIndex": 1,
+                            "options": {
+                                "noSize": true,
+                                "position": {
+                                    "x": "50%",
+                                    "y": "50%"
+                                },
+                                "content": {
+                                    "name": "doctor",
+                                    "animation": "idle",
+                                    "isBreakable": false,
+                                    "timeScale": 2.5,
+                                    "random": {
+                                        "action": 0.5
+                                    }
+                                }
+                            },
+                            "orientation": {
+                                "landscape": {
+                                    "scale": {
+                                        "x": -0.7,
+                                        "y": 0.7
+                                    }
+                                },
+                                "portrait": {
+                                    "scale": {
+                                        "x": -0.5,
+                                        "y": 0.5
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "type": "spine",
+                            "name": "SpineDoctor",
+                            "zIndex": 1,
+                            "options": {
+                                "noSize": true,
+                                "position": {
+                                    "x": "50%",
+                                    "y": "50%"
+                                },
+                                "content": {
+                                    "name": "doctor",
+                                    "animation": "idle",
+                                    "isBreakable": false,
+                                    "timeScale": 1,
+                                    "random": {
+                                        "action": 0.1
+                                    }
+                                }
+                            },
+                            "orientation": {
+                                "landscape": {
+                                    "scale": 0.4
+                                },
+                                "portrait": {
+                                    "scale": 0.22
+                                }
+                            }
+                        },
+                        {
+                            "type": "spine",
+                            "name": "SpineDoctor",
+                            "zIndex": 1,
+                            "options": {
+                                "noSize": true,
+                                "position": {
+                                    "x": "50%",
+                                    "y": "50%"
+                                },
+                                "content": {
+                                    "name": "doctor",
+                                    "animation": "idle",
+                                    "isBreakable": false,
+                                    "timeScale": 1.5,
+                                    "random": {
+                                        "action": 0.1
+                                    }
+                                }
+                            },
+                            "orientation": {
+                                "landscape": {
+                                    "scale": 0.5
+                                },
+                                "portrait": {
+                                    "scale": 0.3
+                                }
+                            }
+                        },
+                        {
+                            "type": "spine",
+                            "name": "SpineDoctor",
+                            "zIndex": 1,
+                            "options": {
+                                "noSize": true,
+                                "position": {
+                                    "x": "50%",
+                                    "y": "50%"
+                                },
+                                "content": {
+                                    "name": "doctor",
+                                    "animation": "idle",
+                                    "isBreakable": false,
+                                    "timeScale": 2,
+                                    "random": {
+                                        "action": 0.3
+                                    }
+                                }
+                            },
+                            "orientation": {
+                                "landscape": {
+                                    "scale": 0.6
+                                },
+                                "portrait": {
+                                    "scale": 0.4
+                                }
+                            }
+                        },
+                        {
+                            "type": "spine",
+                            "name": "SpineDoctor",
+                            "zIndex": 1,
+                            "options": {
+                                "noSize": true,
+                                "position": {
+                                    "x": "50%",
+                                    "y": "50%"
+                                },
+                                "content": {
+                                    "name": "doctor",
+                                    "animation": "idle",
+                                    "isBreakable": false,
+                                    "timeScale": 3,
+                                    "random": {
+                                        "action": 0.5
+                                    }
+                                }
+                            },
+                            "orientation": {
+                                "landscape": {
+                                    "scale": 0.7
+                                },
+                                "portrait": {
+                                    "scale": 0.5
+                                }
+                            }
+                        },
+                        {
+                            "type": "textbitmap",
+                            "name": "BitmapText1",
+                            "zIndex": 2,
+                            "options": {
+                                "align": "tc",
+                                "fill": "min",
+                                "content": {
+                                    "text": "123456789",
+                                    "style": {
+                                        "fontName": "bitmap_1",
+                                        "fontSize": 246
+                                    }
+                                }
+                            },
+                            "orientation": {
+                                "landscape_low": {
+                                    "content": {
+                                        "text": "1357924680"
+                                    }
+                                },
+                                "landscape_large": {
+                                    "content": {
+                                        "text": "0987654321"
+                                    }
+                                },
+                                "portrait_low": {
+                                    "align": "tc",
+                                    "content": {
+                                        "text": "0864297531"
+                                    }
+                                },
+                                "portrait": {
+                                    "align": "tc",
+                                    "content": {
+                                        "text": "1029384765"
+                                    }
+                                },
+                                "portrait_large": {
+                                    "align": "tc",
+                                    "content": {
+                                        "text": "0453798128"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "type": "textbitmap",
+                            "name": "BitmapText1",
+                            "zIndex": 2,
+                            "options": {
+                                "align": "tc",
+                                "fill": "min",
+                                "position": {
+                                    "y": "24%"
+                                },
+                                "content": {
+                                    "text": "123456789",
+                                    "style": {
+                                        "fontName": "bitmap_2",
+                                        "fontSize": 116
+                                    }
+                                }
+                            },
+                            "orientation": {
+                                "landscape_low": {
+                                    "position": {
+                                        "y": "20%"
+                                    },
+                                    "content": {
+                                        "text": "1357924680"
+                                    }
+                                },
+                                "landscape_large": {
+                                    "position": {
+                                        "y": "24%"
+                                    },
+                                    "content": {
+                                        "text": "0987654321"
+                                    }
+                                },
+                                "portrait_low": {
+                                    "position": {
+                                        "y": "13%"
+                                    },
+                                    "content": {
+                                        "text": "0864297531"
+                                    }
+                                },
+                                "portrait": {
+                                    "align": "tc",
+                                    "position": {
+                                        "y": "10%"
+                                    },
+                                    "content": {
+                                        "text": "1029384765"
+                                    }
+                                },
+                                "portrait_large": {
+                                    "position": {
+                                        "y": "8%"
+                                    },
+                                    "content": {
+                                        "text": "0453798128"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "type": "buttonLabel",
+                            "name": "splashContinueButton",
+                            "zIndex": 3,
+                            "options": {
+                                "anchor": 0.5,
+                                "scale": 0.3,
+                                "position": {
+                                    "x": "50%",
+                                    "y": "86%"
+                                },
+                                "content": {
+                                    "state": "inactive",
+                                    "hitArea": {
+                                        "x": -500,
+                                        "y": -200,
+                                        "width": 1000,
+                                        "height": 400
+                                    },
+                                    "textures": {
+                                        "disable": "button_bg_continue_disable.png",
+                                        "hover": "button_bg_continue_hover.png",
+                                        "normal": "button_bg_continue_normal.png",
+                                        "pressed": "button_bg_continue_pressed.png",
+                                        "disable_label": "txt_continue_disable.png",
+                                        "hover_label": "txt_continue_hover.png",
+                                        "normal_label": "txt_continue_normal.png",
+                                        "pressed_label": "txt_continue_pressed.png"
+                                    }
+                                }
+                            }
+                        },
+                        {
+                            "type": "component",
+                            "name": "progressBar",
+                            "component": "ProgressBar",
+                            "zIndex": 3,
+                            "options": {
+                                "position": {
+                                    "x": "50%",
+                                    "y": "91%"
+                                }
+                            },
+                            "children": [
+                                {
+                                    "type": "graphics",
+                                    "name": "progressBackground",
+                                    "options": {
+                                        "position": {
+                                            "x": -145,
+                                            "y": 0
+                                        },
+                                        "content": {
+                                            "color": "0xEEEEEE",
+                                            "alpha": 0.05,
+                                            "width": 290,
+                                            "height": 3
+                                        }
+                                    }
+                                },
+                                {
+                                    "type": "graphics",
+                                    "name": "progressLine",
+                                    "options": {
+                                        "position": {
+                                            "x": -145,
+                                            "y": 0
+                                        },
+                                        "content": {
+                                            "color": "0xEEEEEE",
+                                            "width": 290,
+                                            "height": 3
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "container",
+                    "name": "MODAL",
+                    "load": "main|+",
+                    "zIndex": 1000000,
+                    "options": {
+                        "noSize": true,
+                        "position": {
+                            "x": "50%",
+                            "y": "50%"
+                        },
+                        "size": {
+                            "width": "100%",
+                            "height": "100%"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "type": "container",
+            "name": "PRELOADER",
+            "load": "preloader",
+            "zIndex": 10000000,
+            "props": {},
+            "options": {
+                "size": {
+                    "width": "100%",
+                    "height": "100%"
+                }
+            },
+            "children": [
+                {
+                    "type": "container",
+                    "name": "background",
+                    "zIndex": 0,
+                    "children": [
+                        {
+                            "type": "graphics",
+                            "name": "Background",
+                            "options": {
+                                "size": {
+                                    "width": "100%",
+                                    "height": "100%"
+                                },
+                                "content": {
+                                    "color": "0x111111",
+                                    "alpha": 1
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "type": "container",
+                    "name": "Progress",
+                    "zIndex": 1,
+                    "options": {},
+                    "children": [
+                        {
+                            "type": "component",
+                            "name": "preloaderBarView",
+                            "component": "ViewPreloaderScreen",
+                            "options": {
+                                "sizeable": false,
+                                "fill": "default",
+                                "position": {
+                                    "x": "50%",
+                                    "y": "80%"
+                                },
+                                "direction": "row"
+                            },
+                            "children": [
+                                {
+                                    "type": "text",
+                                    "name": "textView",
+                                    "zIndex": 0,
+                                    "options": {
+                                        "content": {
+                                            "locale": "LABEL_LOADING",
+                                            "style": {
+                                                "fontFamily": "myriad",
+                                                "fontSize": 16,
+                                                "fontWeight": "normal",
+                                                "fill": "0xEEEEEE"
+                                            }
+                                        },
+                                        "anchor": 0.5
+                                    }
+                                },
+                                {
+                                    "type": "component",
+                                    "name": "progressBar",
+                                    "component": "ProgressBar",
+                                    "zIndex": 1,
+                                    "options": {
+                                        "margin": {
+                                            "y": 3
+                                        }
+                                    },
+                                    "orientation": {
+                                        "landscape": {
+                                            "position": {
+                                                "x": -150,
+                                                "y": 0
+                                            }
+                                        },
+                                        "portrait": {
+                                            "position": {
+                                                "x": -100,
+                                                "y": 0
+                                            }
+                                        }
+                                    },
+                                    "children": [
+                                        {
+                                            "type": "graphics",
+                                            "name": "progressBackground",
+                                            "options": {
+                                                "content": {
+                                                    "color": "0xEEEEEE",
+                                                    "alpha": 0.05,
+                                                    "width": 300,
+                                                    "height": 3
+                                                }
+                                            },
+                                            "orientation": {
+                                                "portrait": {
+                                                    "content": {
+                                                        "width": 200
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "type": "graphics",
+                                            "name": "progressLine",
+                                            "options": {
+                                                "content": {
+                                                    "color": "0xEEEEEE",
+                                                    "width": 300,
+                                                    "height": 3
+                                                }
+                                            },
+                                            "orientation": {
+                                                "portrait": {
+                                                    "content": {
+                                                        "width": 200
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
