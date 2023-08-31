@@ -1,6 +1,6 @@
 {
   "name": "gengine",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "GEngine",
   "main": "index.js",
   "scripts": {
@@ -35,6 +35,8 @@
     "npm": "9.x"
   },
   "devDependencies": {
+    "copy-webpack-plugin": "^11.0.0",
+    "html-webpack-plugin": "^5.5.3",
     "standard-version": "^9.5.0",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
