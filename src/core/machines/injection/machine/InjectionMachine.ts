@@ -2,12 +2,10 @@ import { Container, interfaces } from "inversify";
 import getDecorators from "inversify-inject-decorators";
 import IInjectionMachine from "../interface/IInjectionMachine";
 import InjectionModule from "../module/InjectionModule";
-import ApplicationType from "../../../modules/instances/application/types/ApplicationType";
-import Application from "../../../modules/instances/application/application/Application";
 import InjectionName from "../constants/InjectionName";
 import IInjectionContainer from "../interface/IInjectionContainer";
-import containers from "./InjectionContainers";
 import IInjectionContainerBinds from "../interface/IInjectionContainerBinds";
+import containers from "./InjectionContainers";
 
 export default class InjectionMachine implements IInjectionMachine {
 

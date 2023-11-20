@@ -3,27 +3,25 @@ import IEventData from "./interface/IEventData";
 import IEvent from "./interface/IEvent";
 import IEventDispatcher from "./interface/IEventDispatcher";
 import Event from "./Event";
-import ApplicationType from "../types/ApplicationType";
 
 @injectable()
 export default class EventDispatcher {
 
-    @inject( ApplicationType.OPTIONS )
-    protected options: EventDispatcher;
-
+    protected _isLogged: boolean = true;
     protected _dispatcher: EventVO[] = []; 
     protected _stop: boolean = false;
     protected _dispatching: boolean = false;
 
     /**
-     * 
+     * Logging dispathed data
      */
-    public get isLogged(): boolean { return this.options.isLogged; }
+    public get isLogged(): boolean { return this._isLogged || true; }
+    public set isLogged( value: boolean ) { this._isLogged = value; }
 
     /**
      * Распространение события
-     * @param {Event} event Экземпляр @Event 
-     * @return {EventDispathcer} Текущий экземпляр @EventDispathcer
+     * @param { Event } event Экземпляр @Event 
+     * @return { EventDispathcer } Текущий экземпляр @EventDispathcer
      */
     public dispatchEvent( event: Event ): EventDispatcher {
         this._dispatching = true;
@@ -39,10 +37,10 @@ export default class EventDispatcher {
 
     /**
      * Возвращает значение наличия события по входящим параметрам
-     * @param {String} type Имя события
-     * @param {Function} handler Метод для проверки привязки события непосредственно
+     * @param { String } type Имя события
+     * @param  {Function } handler Метод для проверки привязки события непосредственно
      *    к этому метода
-     * @return {Boolean}
+     * @return { Boolean }
      */
     public hasEventListener( type: string, handler: Function | undefined = undefined ): boolean {
         this._dispatcher.forEach( target => {
@@ -56,11 +54,11 @@ export default class EventDispatcher {
 
     /**
      * Добавление события по имени события и методу возврата
-     * @param {String} type Имя события
-     * @param {Fucntion} handler Метод возврата события
-     * @param {EventDispatcher} context Место вызова события
-     * @param {Boolean} useCapture 
-     * @param {Number} priority 
+     * @param { String } type Имя события
+     * @param { Fucntion } handler Метод возврата события
+     * @param { EventDispatcher } context Место вызова события
+     * @param { Boolean } useCapture 
+     * @param { Number } priority 
      */
     public addEventListener(
         type: string,
@@ -88,8 +86,8 @@ export default class EventDispatcher {
 
     /**
      * Удаление события
-     * @param {String} type Имя события
-     * @param {Fucntion} handler Метод возврата события
+     * @param { String } type Имя события
+     * @param { Fucntion } handler Метод возврата события
      */
     public removeEventListener( type: string, handler?: Function ): EventDispatcher | undefined {
         if ( !type ) return undefined;

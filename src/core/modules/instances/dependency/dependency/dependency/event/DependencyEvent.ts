@@ -1,4 +1,4 @@
-import Event from "../../../event/Event";
+import Event from "core/machines/event/Event";
 import Dependency from "../Dependency";
 
 export default class DependencyEvent extends Event {

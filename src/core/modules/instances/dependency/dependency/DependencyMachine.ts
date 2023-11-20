@@ -2,12 +2,12 @@ import { injectable, inject } from "inversify";
 import IWork from "data/worker/IWork";
 import Log from "utils/log/Log";
 import VOContainer from "core/base/VOContainer";
-import ApplicationOptions from "../options/ApplicationOptions";
-import ApplicationType from "../types/ApplicationType";
 import Dependency from "./dependency/Dependency";
 import IDependency from "./interface/IDependency";
 import IDependencyMachine from "./interface/IDependencyMachine";
 import IDependencyStruct from "./interface/IDependencyStruct";
+import ApplicationOptions from "../../application/options/ApplicationOptions";
+import { ApplicationType } from "../../application/types/types";
 
 @injectable()
 export default class DependencyMachine extends VOContainer implements IDependencyMachine {

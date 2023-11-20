@@ -1,7 +1,7 @@
 import "reflect-metadata";
-import { ApplicationModule } from "core/modules";
+import { ApplicationModule, DispatcherModule, DependencyModule } from "core/modules";
 import { InjectionMachine, InjectionModule } from "./core/machines/injection/";
-import ApplicationType from "core/modules/instances/application/types/ApplicationType";
+import { ApplicationType } from "core/modules/instances/application/types/types";
 
 export default class Entry {
 
@@ -48,8 +48,10 @@ export default class Entry {
 
 	protected injectionListGet(): InjectionModule[] {
 		const applicationModule = new ApplicationModule();
+		const dispatcherModule = new DispatcherModule();
+		const dependencyModule = new DependencyModule();
 
-		return [ applicationModule ];
+		return [ dispatcherModule, applicationModule, dependencyModule ];
 	}
 
 

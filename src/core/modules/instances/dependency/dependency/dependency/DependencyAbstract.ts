@@ -1,17 +1,17 @@
 import { injectable, inject } from "inversify";
 import VOContainer from "core/base/VOContainer";
 import Log from "utils/log/Log";
-import EventDispatcher from "../../event/EventDispatcher";
-import ApplicationType from "../../types/ApplicationType";
 import DependencyEvent from "./event/DependencyEvent";
 import IDependency from "../interface/IDependency";
 import IVODependency from "../interface/IVODependency";
+import EventDispatcher from "core/machines/event/EventDispatcher";
 import { DependencyState } from "./state/DependencyState";
+import { DispatcherType } from "core/modules/instances/dispatcher/types/types";
 
 @injectable()
 export default abstract class DependencyAbstract extends VOContainer implements IDependency {
 
-    @inject( ApplicationType.DISPATCHER )
+    @inject( DispatcherType.DISPATCHER )
     protected dispatcher: EventDispatcher;
 
     private _isWorking: boolean = false;
