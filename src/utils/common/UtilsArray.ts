@@ -1,12 +1,12 @@
 import Utils from "../Utils";
 
-export default class UtilArray extends Utils {
+export default class UtilsArray extends Utils {
 
-    private static _instance: UtilArray;
+    private static _instance: UtilsArray;
 
-    static get instance(): UtilArray {
-        if ( !UtilArray._instance ) UtilArray._instance = new UtilArray();
-        return UtilArray._instance;
+    static get instance(): UtilsArray {
+        if ( !UtilsArray._instance ) UtilsArray._instance = new UtilsArray();
+        return UtilsArray._instance;
     }
 
     static findByParameterName( list: any[], name: string, parameter: any ): any | undefined {

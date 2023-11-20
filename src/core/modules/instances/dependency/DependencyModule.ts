@@ -1,3 +1,4 @@
+import { decorate, inject } from "inversify";
 import InjectionModule from "../../../machines/injection/module/InjectionModule";
 import IDependencyMachine from "./dependency/interface/IDependencyMachine";
 import DependencyMachine from "./dependency/DependencyMachine";

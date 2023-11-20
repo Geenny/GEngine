@@ -3,16 +3,10 @@ const CopyWebpackPlugin = require( 'copy-webpack-plugin' );
 const HTMLWebpackPlugin = require( 'html-webpack-plugin' );
 
 module.exports = {
-	mode: 'development',
-	entry: "./src/index.ts",
 	externals: {
 		config: 'config'
 	},
-	output: {
-		path: __dirname,
-		filename: 'bundle.js',
-		clean: true
-	},
+    entry: "./src/index.ts",
 	resolve: {
 		extensions: [ '.ts', '.js' ],
         fallback: {

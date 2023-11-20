@@ -6,7 +6,6 @@ import ApplicationOptions from "./options/ApplicationOptions";
 import { IInjectionContainer } from "core/machines/injection";
 import { ApplicationType } from "./types/types";
 
-
 export default class ApplicationModule extends InjectionModule {
 
     protected injectElements( containerStruct: IInjectionContainer ): boolean {
