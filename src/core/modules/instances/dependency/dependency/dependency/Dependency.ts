@@ -4,11 +4,13 @@ import DependencyAbstract from "./DependencyAbstract";
 @injectable()
 export default class Dependency extends DependencyAbstract {
 
-    protected startProcess(): void {
+    protected processStart(): void {
+        super.processStart();
         this.startComplete();
     }
 
-    protected stopProcess(): void {
+    protected processStop(): void {
+        super.processStop();
         this.stopComplete();
     }
 

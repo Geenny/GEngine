@@ -8,6 +8,7 @@
 		"lib": ["es2017", "dom"],
         "types": ["reflect-metadata"],
 		"moduleResolution": "node",
+		"resolveJsonModule": true,
 		"sourceMap": true,
 		"allowJs": true,
 		"allowSyntheticDefaultImports": true,
@@ -19,6 +20,9 @@
 		  "utils/*":  ["src/utils/*"]
 		}
 	},
+	"files": [
+	  "src/index.ts"
+	],
 	"include": ["src"],
 	"exclude": ["node_modules"]
 }

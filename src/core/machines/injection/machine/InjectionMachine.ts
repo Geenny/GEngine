@@ -48,7 +48,7 @@ export default class InjectionMachine implements IInjectionMachine {
     protected containerByIDGet( containerID: string | undefined ) {
         if ( !containerID ) containerID = InjectionName.MAIN;
 
-        const container = this.containerByIDFind(containerID) || this.containerByIDCreate( containerID );
+        const container = this.containerByIDFind( containerID ) || this.containerByIDCreate( containerID );
         
         return container;
     }

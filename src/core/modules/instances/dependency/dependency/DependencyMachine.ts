@@ -1,13 +1,15 @@
-import { injectable, inject } from "inversify";
+import { injectable, inject, named } from "inversify";
 import IWork from "data/worker/IWork";
 import Log from "utils/log/Log";
-import VOContainer from "core/base/VOContainer";
+import VOContainer from "../../../construction/vo/VOContainer";
 import Dependency from "./dependency/Dependency";
 import IDependency from "./interface/IDependency";
 import IDependencyMachine from "./interface/IDependencyMachine";
 import IDependencyStruct from "./interface/IDependencyStruct";
 import ApplicationOptions from "../../application/options/ApplicationOptions";
+import IVO from "../../../construction/vo/interface/IVO";
 import { ApplicationType } from "../../application/types/types";
+import { ViewObjectType } from "../../config/types/types";
 
 @injectable()
 export default class DependencyMachine extends VOContainer implements IDependencyMachine {
@@ -19,21 +21,25 @@ export default class DependencyMachine extends VOContainer implements IDependenc
 
     protected dependencyStructList: IDependencyStruct[] = [];
 
-    init(): void { }
+
+    //
+    // PROCESS
+    //
+
+    protected processStart(): void {
+        this.startAll();
+    }
+
+    protected processStop(): void {
+
+    }
 
 
     //
     // DEPENDENCY
     //
-
     
     public startAll(): void { }
-
-    public start( dependecyName: string ): void {
-        // verify
-    }
-
-    public stop(): void { }
 
 
     public dependencyStart( name: string ): boolean {
@@ -54,7 +60,7 @@ export default class DependencyMachine extends VOContainer implements IDependenc
         const DependencyClass = struct.vo.class;
         const dependency: Dependency = new DependencyClass();
 
-        dependency.voBySourceSet( struct.vo );
+        // dependency.voBySourceSet( struct.vo );
 
         return dependency;
     }

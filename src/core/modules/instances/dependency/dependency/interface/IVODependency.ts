@@ -1,4 +1,4 @@
-import IVO from "data/VO/IVO";
+import IVO from "core/modules/construction/vo/interface/IVO";
 import Dependency from "../dependency/Dependency";
 
 export default interface IVODependency extends IVO {

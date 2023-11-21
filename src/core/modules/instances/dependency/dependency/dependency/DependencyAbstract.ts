@@ -1,12 +1,11 @@
 import { injectable, inject } from "inversify";
-import VOContainer from "core/base/VOContainer";
 import Log from "utils/log/Log";
+import VOContainer from "core/modules/construction/vo/VOContainer";
 import DependencyEvent from "./event/DependencyEvent";
 import IDependency from "../interface/IDependency";
-import IVODependency from "../interface/IVODependency";
 import EventDispatcher from "core/machines/event/EventDispatcher";
-import { DependencyState } from "./state/DependencyState";
 import { DispatcherType } from "core/modules/instances/dispatcher/types/types";
+import { WorkState } from "core/modules/construction/worker/state/WorkState";
 
 @injectable()
 export default abstract class DependencyAbstract extends VOContainer implements IDependency {
@@ -14,60 +13,21 @@ export default abstract class DependencyAbstract extends VOContainer implements 
     @inject( DispatcherType.DISPATCHER )
     protected dispatcher: EventDispatcher;
 
-    private _isWorking: boolean = false;
-    private _state: number = DependencyState.STOPPED;
-
-    public get ID(): number { return this.vo.id; }
+    public get ID(): number { return this.vo.ID; }
 
     public get name(): string { return this.vo.name || this.constructor.name; }
 
-    public get isWorking(): boolean { return this._isWorking; }
+    public get isWorking(): boolean { return this.state === WorkState.WORK; }
 
-    public get vo(): IVODependency { return this.vo; }
-
-    public get state(): number { return this._state || DependencyState.STOPPED }
-    public set state( value: number ) {
-        this._state = value;
-        this._isWorking = value === DependencyState.WORKING;
+    protected processStart(): void {
+        this.messageStart();
+        this.dispatchStart();
     }
 
-    public start(): void {
-        if ( this.state === DependencyState.STOPPED ) {
-            this.state = DependencyState.STARTING;
-
-            this.messageStart();
-            this.dispatchStart();
-            this.startProcess();
-        } else {
-            Log.w( `DEPENDENCY: ${ this.name } an't be start right now!` );
-        }
+    protected processStop(): void {
+        this.messageStop();
+        this.dispatchStop();
     }
-
-    public stop(): void {
-        if ( this.state === DependencyState.WORKING || 
-            this.state === DependencyState.STARTING )
-        {
-            this.stopProcess();
-        }
-
-    }
-
-    protected progress(): void {
-        if ( this.state !== DependencyState.STARTING ) return;
-        this.progressProcess();
-        this.dispatchProgress();
-    }
-
-
-    //
-    // PROCESS
-    //
-
-    protected startProcess(): void { }
-
-    protected progressProcess(): void { }
-
-    protected stopProcess(): void { }
 
 
     //
@@ -75,12 +35,12 @@ export default abstract class DependencyAbstract extends VOContainer implements 
     //
 
     protected startComplete(): void {
-        this.state = DependencyState.WORKING;
+        this.state = WorkState.WORK;
         this.messageWorking();
     }
 
     protected stopComplete(): void {
-        this.state = DependencyState.STOPPED;
+        this.state = WorkState.INIT;
         this.messageStop();
         this.dispatchStop();
     }
@@ -91,16 +51,16 @@ export default abstract class DependencyAbstract extends VOContainer implements 
     //
 
     protected dispatchStart(): void {
-        this.dispatcher.dispatchEvent( new DependencyEvent( DependencyEvent.START ) );
+        this.dispatchEvent( new DependencyEvent( DependencyEvent.START ) );
     }
     protected dispatchProgress(): void {
-        this.dispatcher.dispatchEvent( new DependencyEvent( DependencyEvent.PROGRESS ) );
+        this.dispatchEvent( new DependencyEvent( DependencyEvent.PROGRESS ) );
     }
     protected dispatchWorking(): void {
-        this.dispatcher.dispatchEvent( new DependencyEvent( DependencyEvent.WORKING ) );
+        this.dispatchEvent( new DependencyEvent( DependencyEvent.WORKING ) );
     }
     protected dispatchStop(): void {
-        this.dispatcher.dispatchEvent( new DependencyEvent( DependencyEvent.STOP ) );
+        this.dispatchEvent( new DependencyEvent( DependencyEvent.STOP ) );
     }
 
 

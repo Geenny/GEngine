@@ -1,12 +1,7 @@
-import IWork from "data/worker/IWork";
-import { StateName } from "data/types/types";
+import IVOContainer from "core/modules/construction/vo/interface/IVOContainer";
 
-export default interface IDependency extends IWork {
+export default interface IDependency extends IVOContainer {
 
-    readonly ID: number;
-
-    readonly name: string;
-
-    state: number;
+    readonly isWorking: boolean;
 
 }

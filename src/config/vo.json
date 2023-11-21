@@ -1,0 +1,18 @@
+{
+	"Application": {
+		"ID": 1,
+		"parameters": { }
+	},
+	"DependencyMachine": {
+		"ID": 2,
+		"parameters": {
+			"dependencyList": [
+
+			]
+		}
+	},
+	"Net": {
+		"ID": 3,
+		"parameters": { }
+	}
+}

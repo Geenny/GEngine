@@ -8,7 +8,7 @@ export default class DependencyEvent extends Event {
     public static WORKING: string = "DEPENDENCY.WORKING";
     public static STOP: string = "DEPENDENCY.STOP";
 
-    constructor( type: string, public dependency?: Dependency) {
+    constructor( type: string, public dependency?: Dependency ) {
         super( type );
     }
 
