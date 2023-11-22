@@ -1,17 +1,26 @@
 import { injectable, inject } from "inversify";
 import DependencyAbstract from "./DependencyAbstract";
+import Log from "utils/log/Log";
 
 @injectable()
 export default class Dependency extends DependencyAbstract {
 
-    protected processStart(): void {
-        super.processStart();
-        this.startComplete();
+    protected async onStart(): Promise<void> {
+        super.onStart();
+    }
+    protected async onStop(): Promise<void> {
+        super.onStop();
     }
 
-    protected processStop(): void {
-        super.processStop();
-        this.stopComplete();
+    //
+    // READY
+    //
+
+    protected onStartReady(): void {
+        Log.m( `DEPENDENCY: Started ${ this.name }!!!` );
+    }
+    protected onStopReady(): void {
+        Log.m( `DEPENDENCY: Stopped ${ this.name }!!!` );
     }
 
 }

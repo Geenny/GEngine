@@ -1,5 +1,5 @@
 import Event from "core/machines/event/Event";
-import { WorkState } from "../state/WorkState";
+import { WorkState } from "../state/state";
 
 export default class WorkEvent extends Event {
 

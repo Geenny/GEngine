@@ -1,5 +1,5 @@
 import Utils from "../Utils";
-import { STYLE_LAYOUT, STYLE_RESOURCE, STYLE_SERVER, STYLE_STATE, STYLE_SYSTEM, STYLE_LOADER, STYLE_RESIZE, STYLE_APPLICATION } from "./LogStyles";
+import { STYLE_LAYOUT, STYLE_RESOURCE, STYLE_SERVER, STYLE_STATE, STYLE_SYSTEM, STYLE_LOADER, STYLE_RESIZE, STYLE_APPLICATION, STYLE_DEPENDENCY } from "./LogStyles";
 
 export default class Log extends Utils {
 
@@ -59,8 +59,8 @@ export default class Log extends Utils {
 	protected static styleGet( STYLE_NAME: string ): any {
 		switch ( STYLE_NAME ) {
 			case "APPLICATION": return STYLE_APPLICATION;
-			case "DEPENDENCY_MACHINE": return STYLE_APPLICATION;
-			case "DEPENDENCY": return STYLE_APPLICATION;
+			case "DEPENDENCY_MACHINE": return STYLE_DEPENDENCY;
+			case "DEPENDENCY": return STYLE_DEPENDENCY;
 			case "SYSTEM": return STYLE_SYSTEM;
 			case "LAYOUT": return STYLE_LAYOUT;
 			case "STATE": return STYLE_STATE;

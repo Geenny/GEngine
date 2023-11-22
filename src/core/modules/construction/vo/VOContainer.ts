@@ -4,7 +4,7 @@ import IVOContainer from "./interface/IVOContainer";
 import IIdentifier from "../identifier/interface/IIdentifier";
 import VO from "./VO";
 import VOCollector from "../../instances/config/viewObjectCollector/VOCollector";
-import Work from "../worker/Work";
+import Work from "../work/Work";
 import { ViewObjectType } from "../../instances/config/types/types";
 
 @injectable()
@@ -13,7 +13,7 @@ export default class VOContainer extends Work implements IVOContainer, IIdentifi
     @inject( ViewObjectType.VO_COLLECTOR )
     protected voCollector: VOCollector;
 
-    private _vo: IVO;
+    protected voSource: IVO;
 
     public get ID(): number { return this.vo?.ID || 0; }
 
@@ -24,14 +24,13 @@ export default class VOContainer extends Work implements IVOContainer, IIdentifi
     // INIT
     //
 
-    protected processInit(): void {
+    protected async onInit(): Promise<void> {
         this.initVOValues();
-        this.readyInit();
     }
 
     protected initVOValues(): void {
         const source = this.voCollector.dataByNameGet( this.constructor.name );
-        this._vo = new VO( source );
+        this.voSource = new VO( source );
     }
 
 
@@ -39,11 +38,11 @@ export default class VOContainer extends Work implements IVOContainer, IIdentifi
     // VO
     //
 
-    public get vo(): IVO { return this._vo || this.voDefaultGet(); }
+    public get vo(): IVO { return this.voSource || this.voDefaultGet(); }
 
     protected voDefaultGet(): IVO {
-        if ( !this._vo ) this._vo = new VO();
-        return this._vo;
+        if ( !this.voSource ) this.voSource = new VO();
+        return this.voSource;
     }
 
 }

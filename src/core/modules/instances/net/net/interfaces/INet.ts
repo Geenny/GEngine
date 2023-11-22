@@ -1,7 +1,7 @@
-import IEventDispatcher from "core/machines/event/interface/IEventDispatcher";
+import IDependency from "core/modules/instances/dependency/dependency/interface/IDependency";
 
-export default interface INet {
+export default interface INet extends IDependency {
 
-    eventDispatcher: IEventDispatcher;
-
+    server: any;
+    
 }

@@ -5,13 +5,14 @@ import DependencyEvent from "./event/DependencyEvent";
 import IDependency from "../interface/IDependency";
 import EventDispatcher from "core/machines/event/EventDispatcher";
 import { DispatcherType } from "core/modules/instances/dispatcher/types/types";
-import { WorkState } from "core/modules/construction/worker/state/WorkState";
+import { WorkState } from "core/modules/construction/work/state/state";
+import IEventDispatcher from "core/machines/event/interface/IEventDispatcher";
 
 @injectable()
 export default abstract class DependencyAbstract extends VOContainer implements IDependency {
 
     @inject( DispatcherType.DISPATCHER )
-    protected dispatcher: EventDispatcher;
+    dispatcher: IEventDispatcher;
 
     public get ID(): number { return this.vo.ID; }
 

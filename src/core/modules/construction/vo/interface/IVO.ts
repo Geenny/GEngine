@@ -6,6 +6,8 @@ export default interface IVO {
 
     readonly name: string;
 
+    readonly options: any;
+
     source: ObjectListAny;
 
     nameSet( name: string ): void;

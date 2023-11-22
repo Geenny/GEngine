@@ -1,5 +1,4 @@
-import { injectable, inject, named } from "inversify";
-import IWork from "data/worker/IWork";
+import { injectable, inject, interfaces } from "inversify";
 import Log from "utils/log/Log";
 import VOContainer from "../../../construction/vo/VOContainer";
 import Dependency from "./dependency/Dependency";
@@ -7,9 +6,11 @@ import IDependency from "./interface/IDependency";
 import IDependencyMachine from "./interface/IDependencyMachine";
 import IDependencyStruct from "./interface/IDependencyStruct";
 import ApplicationOptions from "../../application/options/ApplicationOptions";
-import IVO from "../../../construction/vo/interface/IVO";
 import { ApplicationType } from "../../application/types/types";
 import { ViewObjectType } from "../../config/types/types";
+import { DependencyType } from "../types/types";
+import IVODependency from "./interface/IVODependency";
+import IVODependencyMachine from "./interface/IVODependencyMachine";
 
 @injectable()
 export default class DependencyMachine extends VOContainer implements IDependencyMachine {
@@ -17,34 +18,64 @@ export default class DependencyMachine extends VOContainer implements IDependenc
     @inject( ApplicationType.OPTIONS )
     protected options: ApplicationOptions;
 
+    // @inject( DependencyType.DEPENDENCY )
+    // protected dependencyFactory: ( identifier: interfaces.ServiceIdentifier<IDependency> ) => IDependency;
+
+    @inject( DependencyType.DEPENDENCY_NAMED_FACTORY )
+    protected dependencyNameFactory: ( dependencyName: string ) => IDependency;
+
+    protected voSource: IVODependencyMachine;
+
     protected dependencyList: IDependency[] = [];
 
     protected dependencyStructList: IDependencyStruct[] = [];
+
+    protected get dependencySourceList(): any[] { return this.vo?.dependencyList; }
+
+    public get vo(): IVODependencyMachine { return this.voSource; }
 
 
     //
     // PROCESS
     //
 
-    protected processStart(): void {
-        this.startAll();
+    protected async onInit(): Promise<void> {
+        await super.onInit();
+        this.dependencyInit();
     }
 
-    protected processStop(): void {
-
+    protected async onStart(): Promise<void> {
+        await this.startAll();
+    }
+    protected async onStop(): Promise<void> {
+        // this.startAll();
+        debugger;
     }
 
 
     //
     // DEPENDENCY
     //
+
+    protected dependencyInit(): void {
+        if ( !this.dependencySourceList ) return;
+        this.dependencySourceList.forEach( dependencyData => {
+            const dependency = this.dependencyNameFactory( dependencyData.name );
+            this.dependencyList.push( dependency );
+        } );
+    }
     
-    public startAll(): void { }
+    public async startAll(): Promise<void> {
+        this.dependencyList.forEach( dependency => {
+            dependency.init();
+            dependency.start();
+        } );
+    }
 
 
     public dependencyStart( name: string ): boolean {
         const dependency: IDependency = this.dependencyGet( name );
-        dependency && dependency.start();
+        // dependency && dependency.start();
         return !!dependency;
     }
 
@@ -57,12 +88,13 @@ export default class DependencyMachine extends VOContainer implements IDependenc
     }
 
     protected dependencyCreate( struct: IDependencyStruct ): IDependency | undefined {
-        const DependencyClass = struct.vo.class;
-        const dependency: Dependency = new DependencyClass();
+        // const DependencyClass = struct.vo.class;
+        // const dependency: Dependency = new DependencyClass();
 
         // dependency.voBySourceSet( struct.vo );
 
-        return dependency;
+        // return dependency;
+        return undefined;
     }
 
     protected dependencyStructFind( name: string ): IDependencyStruct | undefined {

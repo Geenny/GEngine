@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { ViewObjectModule, ApplicationModule, DispatcherModule, DependencyModule, NetModule } from "core/modules";
+import { ViewObjectModule, ApplicationModule, DispatcherModule, DependencyModule, NetModule, PlatformModule } from "core/modules";
 import { InjectionMachine, InjectionModule } from "../core/machines/injection";
 import { ApplicationType } from "core/modules/instances/application/types/types";
 
@@ -52,8 +52,9 @@ export default class Entry {
 		const dispatcherModule = new DispatcherModule();
 		const dependencyModule = new DependencyModule();
 		const netModule = new NetModule();
+		const platformModule = new PlatformModule();
 
-		return [ viewObjectModule, dispatcherModule, applicationModule, dependencyModule, netModule ];
+		return [ viewObjectModule, dispatcherModule, applicationModule, dependencyModule, netModule, platformModule ];
 	}
 
 

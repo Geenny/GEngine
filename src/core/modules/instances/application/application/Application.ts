@@ -23,12 +23,47 @@ export default class Application extends VOContainer implements IApplication {
     @inject( DependencyType.DEPENDENCY_MACHINE )
     public dependencyMachine: DependencyMachine;
 
-    protected processInit(): void {
-        this.dependencyMachine.init();
-        
-        Log.m( "APPLICATION: Init!!!" );
 
-        this.readyInit();
+    //
+    // INIT
+    //
+
+    protected async onInit(): Promise<void> {
+        await this.dependencyMachine.init();
     }
+
+    protected onInitReady(): void {
+        Log.m( "APPLICATION: Init!!!" );
+    }
+
+
+    //
+    // START
+    //
+
+    protected async onStart(): Promise<void> {
+        await this.dependencyMachine.start();
+    }
+
+    protected onStartReady(): void {
+        Log.m( "APPLICATION: Started!!!" );
+    }
+
+    protected onStopReady(): void {
+        Log.m( "APPLICATION: Stop!!!" );
+    }
+
+    protected onPauseReady(): void {
+        Log.m( "APPLICATION: Pause!!!" );
+    }
+
+    protected onResumeReady(): void {
+        Log.m( "APPLICATION: Resume!!!" );
+    }
+
+    protected onDestroyReady(): void {
+        Log.m( "APPLICATION: Destroy!!!" );
+    }
+
 
 }

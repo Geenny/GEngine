@@ -6,6 +6,7 @@ import InjectionName from "../constants/InjectionName";
 import IInjectionContainer from "../interface/IInjectionContainer";
 import IInjectionContainerBinds from "../interface/IInjectionContainerBinds";
 import containers from "./InjectionContainers";
+import IWork from "core/modules/construction/work/interface/IWork";
 
 export default class InjectionMachine implements IInjectionMachine {
 
@@ -32,8 +33,9 @@ export default class InjectionMachine implements IInjectionMachine {
     // TEMP
     public start( serviceIdentifier: interfaces.ServiceIdentifier<unknown> ): void {
         const containerStruct = this.containerByIDGet( InjectionName.MAIN );
-        const startInstance: any = containerStruct.container.get( serviceIdentifier );
+        const startInstance: IWork = containerStruct.container.get( serviceIdentifier ) as IWork;
         startInstance.init();
+        startInstance.start();
     }
 
 

@@ -10,6 +10,7 @@ export default class VO implements IVO {
 
     public ID: number;
     public name: string;
+    public options: any;
 
 	public get source(): ObjectListAny { return this._source; };
 	public set source( data: ObjectListAny ) {

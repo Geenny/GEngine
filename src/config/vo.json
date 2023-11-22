@@ -1,18 +1,38 @@
 {
 	"Application": {
 		"ID": 1,
-		"parameters": { }
+		"options": { }
 	},
 	"DependencyMachine": {
 		"ID": 2,
-		"parameters": {
-			"dependencyList": [
-
-			]
-		}
+		"dependencyList": [
+			{
+				"ID": 1,
+				"name": "Net",
+				"dependent": [],
+				"parameters": { }
+			},
+			{
+				"ID": 2,
+				"name": "Platform",
+				"dependent": [ 1 ],
+				"parameters": { }
+			}
+		],
+		"options": { }
 	},
 	"Net": {
 		"ID": 3,
-		"parameters": { }
+		"options": {
+			"server": {
+				"host": "abc",
+				"port": false,
+				"method": "HTTP"
+			}
+		}
+	},
+	"Platform": {
+		"ID": 4,
+		"options": { }
 	}
 }
