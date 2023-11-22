@@ -1,10 +1,10 @@
 {
   "name": "gengine",
-  "version": "0.4.42",
+  "version": "0.4.43",
   "description": "GEngine",
   "main": "index.js",
   "scripts": {
-    "start": "npm run version-patch && webpack-dev-server --config ./webpack/webpack.config.development.js",
+    "start": "npm run version-patch && webpack-dev-server --open --config ./webpack/webpack.config.development.js",
     "start2": "node entry.js config=./webpack/webpack.config.development.js",
     "start:dev": "webpack-dev-server",
     "build": "webpack --config webpack/webpack.config.production.js",
