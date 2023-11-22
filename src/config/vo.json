@@ -9,14 +9,27 @@
 			{
 				"ID": 1,
 				"name": "Net",
-				"dependent": [],
-				"parameters": { }
+				"dependent": []
 			},
 			{
 				"ID": 2,
+				"name": "Renderer",
+				"dependent": []
+			},
+			{
+				"ID": 3,
+				"name": "User",
+				"dependent": [ 1 ]
+			},
+			{
+				"ID": 4,
 				"name": "Platform",
-				"dependent": [ 1 ],
-				"parameters": { }
+				"dependent": [ 1 ]
+			},
+			{
+				"ID": 5,
+				"name": "SystemMachine",
+				"dependent": [ 1 ]
 			}
 		],
 		"options": { }
@@ -33,6 +46,18 @@
 	},
 	"Platform": {
 		"ID": 4,
+		"options": { }
+	},
+	"User": {
+		"ID": 5,
+		"options": { }
+	},
+	"Renderer": {
+		"ID": 6,
+		"options": { }
+	},
+	"SystemMachine": {
+		"ID": 7,
 		"options": { }
 	}
 }

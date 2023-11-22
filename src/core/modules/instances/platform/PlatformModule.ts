@@ -1,10 +1,8 @@
 import InjectionModule from "../../../machines/injection/module/InjectionModule";
-import IPlatform from "./platform/interface/IPlatform";
 import Platform from "./platform/Platform";
-import { IInjectionContainer } from "core/machines/injection";
-import { PlatformType } from "./types/types";
-import { DependencyType } from "../dependency/types/types";
 import IDependency from "../dependency/dependency/interface/IDependency";
+import { IInjectionContainer } from "core/machines/injection";
+import { DependencyType } from "../dependency/types/types";
 
 export default class PlatformModule extends InjectionModule {
 
@@ -12,7 +10,7 @@ export default class PlatformModule extends InjectionModule {
 
         const { bind } = containerStruct;
 
-        bind<IDependency>( DependencyType.DEPENDENCY ).to( Platform ).whenTargetNamed( "Platform" );
+        bind<IDependency>( DependencyType.DEPENDENCY ).to( Platform ).inSingletonScope().whenTargetNamed( "Platform" );
 
         return true;
     }
