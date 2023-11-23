@@ -1,7 +1,8 @@
+import IEventDispatcher from "core/machines/event/interface/IEventDispatcher";
 import Work from "../Work";
 import { WorkState } from "../state/state";
 
-export default interface IWork {
+export default interface IWork extends IEventDispatcher {
 
 	readonly isStarted: boolean;
 	

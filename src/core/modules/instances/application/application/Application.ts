@@ -45,6 +45,23 @@ export default class Application extends VOContainer implements IApplication {
         await this.dependencyMachine.start();
     }
 
+    protected async onPause(): Promise<void> {
+        await this.dependencyMachine.pause();
+    }
+
+    protected async onResume(): Promise<void> {
+        await this.dependencyMachine.resume();
+    }
+
+    protected async onStop(): Promise<void> {
+        await this.dependencyMachine.stop();
+    }
+
+
+    //
+    // READY
+    //
+
     protected onStartReady(): void {
         Log.m( "APPLICATION: Started!!!" );
     }

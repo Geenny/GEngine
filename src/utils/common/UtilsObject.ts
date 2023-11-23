@@ -161,4 +161,29 @@ export default class UtilsObject extends Utils {
         return target;
     }
 
+
+    static convertToSingleList( data: any, keyName?: string ): any[] {
+        function toList( data: any ) {
+            let list: any[] = [];
+
+            Object.keys( data ).forEach( key => {
+                const source = data[ key ];
+                if ( keyName ) source[ keyName ] = key;
+
+                list.push( source );
+
+                if ( UtilsObject.count( source.children ) > 0 ) {
+                    const children = toList( source.children );
+                    source.children = children;
+                    list = list.concat( children );
+                }
+                    
+            });
+
+            return list;
+        }
+
+        return data ? toList( data ) : [];
+    }
+
 }

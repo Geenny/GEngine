@@ -16,11 +16,11 @@ export default class Dependency extends DependencyAbstract {
     // READY
     //
 
-    protected onStartReady(): void {
-        Log.m( `DEPENDENCY: Started ${ this.name }!!!` );
-    }
-    protected onStopReady(): void {
-        Log.m( `DEPENDENCY: Stopped ${ this.name }!!!` );
-    }
+    // protected onStartReady(): void {
+    //     Log.m( `DEPENDENCY: Started ${ this.name }!!!` );
+    // }
+    // protected onStopReady(): void {
+    //     Log.m( `DEPENDENCY: Stopped ${ this.name }!!!` );
+    // }
 
 }

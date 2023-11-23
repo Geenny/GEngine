@@ -2,15 +2,26 @@ import { injectable, inject } from "inversify";
 import * as VODATA from "../../../../../config/vo.json";
 import IVOCollector from "./interface/IVOCollector";
 import { ObjectListAny } from "data/types/commonTypes";
+import UtilsObject from "utils/common/UtilsObject";
 
 @injectable()
 export default class VOCollector implements IVOCollector {
 
+    private _list: ObjectListAny[];
+
+    get data(): ObjectListAny { return VODATA || { }; }
+
+    get list(): ObjectListAny[] { return this._list; }
+
     dataByNameGet( name: string ): ObjectListAny {
-        const DATA: ObjectListAny = VODATA || {};
-        const source = DATA[ name ];
-        source.name = name;
+        this.listCreate();
+        const source = this.list.find( data => data.name === name );
         return source || { };
+    }
+
+    protected listCreate(): void {
+        if ( this.list ) return;
+        this._list = UtilsObject.convertToSingleList( this.data, "name" );
     }
 
 }

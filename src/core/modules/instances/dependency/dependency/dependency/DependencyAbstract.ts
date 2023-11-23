@@ -3,10 +3,10 @@ import Log from "utils/log/Log";
 import VOContainer from "core/modules/construction/vo/VOContainer";
 import DependencyEvent from "./event/DependencyEvent";
 import IDependency from "../interface/IDependency";
-import EventDispatcher from "core/machines/event/EventDispatcher";
+import IVODependency from "../interface/IVODependency";
+import IEventDispatcher from "core/machines/event/interface/IEventDispatcher";
 import { DispatcherType } from "core/modules/instances/dispatcher/types/types";
 import { WorkState } from "core/modules/construction/work/state/state";
-import IEventDispatcher from "core/machines/event/interface/IEventDispatcher";
 
 @injectable()
 export default abstract class DependencyAbstract extends VOContainer implements IDependency {
@@ -14,11 +14,15 @@ export default abstract class DependencyAbstract extends VOContainer implements 
     @inject( DispatcherType.DISPATCHER )
     dispatcher: IEventDispatcher;
 
+    protected voSource: IVODependency;
+
     public get ID(): number { return this.vo.ID; }
 
     public get name(): string { return this.vo.name || this.constructor.name; }
 
     public get isWorking(): boolean { return this.state === WorkState.WORK; }
+
+    public get vo(): IVODependency { return this.voSource; }
 
     protected processStart(): void {
         this.messageStart();

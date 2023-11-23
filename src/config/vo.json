@@ -5,59 +5,35 @@
 	},
 	"DependencyMachine": {
 		"ID": 2,
-		"dependencyList": [
-			{
+		"children": {
+			"Net": {
 				"ID": 1,
-				"name": "Net",
+				"options": {
+					"server": {
+						"host": "abc",
+						"port": false,
+						"method": "HTTP"
+					}
+				},
 				"dependent": []
 			},
-			{
+			"Renderer": {
 				"ID": 2,
-				"name": "Renderer",
 				"dependent": []
 			},
-			{
+			"User": {
 				"ID": 3,
-				"name": "User",
 				"dependent": [ 1 ]
 			},
-			{
+			"Platform": {
 				"ID": 4,
-				"name": "Platform",
 				"dependent": [ 1 ]
 			},
-			{
+			"SystemMachine": {
 				"ID": 5,
-				"name": "SystemMachine",
 				"dependent": [ 1 ]
 			}
-		],
-		"options": { }
-	},
-	"Net": {
-		"ID": 3,
-		"options": {
-			"server": {
-				"host": "abc",
-				"port": false,
-				"method": "HTTP"
-			}
-		}
-	},
-	"Platform": {
-		"ID": 4,
-		"options": { }
-	},
-	"User": {
-		"ID": 5,
-		"options": { }
-	},
-	"Renderer": {
-		"ID": 6,
-		"options": { }
-	},
-	"SystemMachine": {
-		"ID": 7,
+		},
 		"options": { }
 	}
 }
