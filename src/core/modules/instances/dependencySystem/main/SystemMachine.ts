@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import Dependency from "../../dependency/dependency/dependency/Dependency";
+import Dependency from "../../dependency/dependency/Dependency";
 import ISystemMachine from "./interface/ISystemMachine";
 
 @injectable()

@@ -1,8 +1,8 @@
 import { interfaces } from "inversify";
 import InjectionModule from "../../../machines/injection/module/InjectionModule";
-import IDependencyMachine from "./dependency/interface/IDependencyMachine";
+import IDependencyMachine from "./main/interface/IDependencyMachine";
 import IDependency from "./dependency/interface/IDependency";
-import DependencyMachine from "./dependency/DependencyMachine";
+import DependencyMachine from "./main/DependencyMachine";
 import { IInjectionContainer } from "core/machines/injection";
 import { DependencyType } from "./types/types";
 

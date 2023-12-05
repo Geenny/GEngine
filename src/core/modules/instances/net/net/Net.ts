@@ -1,6 +1,6 @@
 import { injectable, inject, named } from "inversify";
 import INet from "./interfaces/INet";
-import Dependency from "../../dependency/dependency/dependency/Dependency";
+import Dependency from "../../dependency/dependency/Dependency";
 import IVO from "../../../construction/vo/interface/IVO";
 import { DispatcherType } from "../../dispatcher/types/types";
 import { ViewObjectType } from "../../config/types/types";

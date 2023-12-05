@@ -1,5 +1,5 @@
 import { injectable } from "inversify";
-import Dependency from "../../dependency/dependency/dependency/Dependency";
+import Dependency from "../../dependency/dependency/Dependency";
 import IPlatform from "./interface/IPlatform";
 import { PlatformNameEnum } from "./enum/PlatformNameEnum";
 import { PlatformName } from "../types/types";

@@ -1,19 +1,19 @@
 import { injectable, inject, interfaces } from "inversify";
 import Log from "utils/log/Log";
 import VOContainer from "../../../construction/vo/VOContainer";
-import Dependency from "./dependency/Dependency";
-import IDependency from "./interface/IDependency";
+import Dependency from "../dependency/Dependency";
+import IDependency from "../dependency/interface/IDependency";
 import IDependencyMachine from "./interface/IDependencyMachine";
-import IDependencyStruct from "./interface/IDependencyStruct";
+import IDependencyStruct from "../dependency/interface/IDependencyStruct";
 import ApplicationOptions from "../../application/options/ApplicationOptions";
 import { ApplicationType } from "../../application/types/types";
 import { ViewObjectType } from "../../config/types/types";
 import { DependencyType } from "../types/types";
-import IVODependency from "./interface/IVODependency";
+import IVODependency from "../dependency/interface/IVODependency";
 import IVODependencyMachine from "./interface/IVODependencyMachine";
 import { WorkState } from "core/modules/construction/work/state/state";
 import Event from "core/machines/event/Event";
-import DependencyEvent from "./dependency/event/DependencyEvent";
+import DependencyEvent from "../dependency/event/DependencyEvent";
 import WorkEvent from "core/modules/construction/work/event/WorkEvent";
 import Work from "core/modules/construction/work/Work";
 

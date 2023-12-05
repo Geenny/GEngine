@@ -3,13 +3,11 @@ import IApplication from "./interface/IApplication";
 import Log from "utils/log/Log";
 import EventDispatcher from "core/machines/event/EventDispatcher";
 import ApplicationOptions from "../options/ApplicationOptions";
-import DependencyMachine from "../../dependency/dependency/DependencyMachine";
+import DependencyMachine from "../../dependency/main/DependencyMachine";
 import { ApplicationType } from "../types/types";
 import { DispatcherType } from "../../dispatcher/types/types";
 import { DependencyType } from "../../dependency/types/types";
 import VOContainer from "../../../construction/vo/VOContainer";
-import IVO from "../../../construction/vo/interface/IVO";
-import { ViewObjectType } from "../../config/types/types";
 
 @injectable()
 export default class Application extends VOContainer implements IApplication {
@@ -25,21 +23,12 @@ export default class Application extends VOContainer implements IApplication {
 
 
     //
-    // INIT
+    // PROCESS
     //
 
     protected async onInit(): Promise<void> {
         await this.dependencyMachine.init();
     }
-
-    protected onInitReady(): void {
-        Log.m( "APPLICATION: Init!!!" );
-    }
-
-
-    //
-    // START
-    //
 
     protected async onStart(): Promise<void> {
         await this.dependencyMachine.start();
@@ -62,6 +51,14 @@ export default class Application extends VOContainer implements IApplication {
     // READY
     //
 
+    protected onInitReady(): void {
+        Log.m( "APPLICATION: Init!!!" );
+    }
+
+    protected onDestroyReady(): void {
+        Log.m( "APPLICATION: Destroy!!!" );
+    }
+
     protected onStartReady(): void {
         Log.m( "APPLICATION: Started!!!" );
     }
@@ -76,10 +73,6 @@ export default class Application extends VOContainer implements IApplication {
 
     protected onResumeReady(): void {
         Log.m( "APPLICATION: Resume!!!" );
-    }
-
-    protected onDestroyReady(): void {
-        Log.m( "APPLICATION: Destroy!!!" );
     }
 
 
