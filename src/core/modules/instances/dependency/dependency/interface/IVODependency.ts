@@ -1,6 +1,6 @@
-import IVO from "core/modules/construction/vo/interface/IVO";
+import IVOSubscriptionContainer from "core/modules/construction/subscription/interface/IVOSubscriptionContainer";
 
-export default interface IVODependency extends IVO {
+export default interface IVODependency extends IVOSubscriptionContainer {
 
     readonly dependent: number[];
 

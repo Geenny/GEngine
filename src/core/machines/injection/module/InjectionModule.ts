@@ -1,9 +1,8 @@
 import InjectionName from "../constants/InjectionName";
 import IInjectionModule from "../interface/IInjectionModule";
-import VOContainer from "../../../base/VOContainer";
 import IInjectionContainer from "../interface/IInjectionContainer";
 
-export default class InjectionModule extends VOContainer implements IInjectionModule {
+export default class InjectionModule implements IInjectionModule {
 
     private _name: string = this.constructor.name;
 

@@ -7,12 +7,10 @@ import IVODependency from "./interface/IVODependency";
 import IEventDispatcher from "core/machines/event/interface/IEventDispatcher";
 import { DispatcherType } from "core/modules/instances/dispatcher/types/types";
 import { WorkState } from "core/modules/construction/work/state/state";
+import SubscriptionContainer from "core/modules/construction/subscription/SubscriptionContainer";
 
 @injectable()
-export default abstract class DependencyAbstract extends VOContainer implements IDependency {
-
-    @inject( DispatcherType.DISPATCHER )
-    dispatcher: IEventDispatcher;
+export default abstract class DependencyAbstract extends SubscriptionContainer implements IDependency {
 
     protected voSource: IVODependency;
 

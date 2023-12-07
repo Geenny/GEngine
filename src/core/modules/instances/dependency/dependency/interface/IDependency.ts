@@ -1,8 +1,8 @@
 import IEventDispatcher from "core/machines/event/interface/IEventDispatcher";
-import IVOContainer from "core/modules/construction/vo/interface/IVOContainer";
 import IVODependency from "./IVODependency";
+import ISubscriptionContainer from "core/modules/construction/subscription/interface/ISubscriptionContainer";
 
-export default interface IDependency extends IVOContainer {
+export default interface IDependency extends ISubscriptionContainer {
 
     readonly ID: number;
 

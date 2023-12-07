@@ -4,9 +4,9 @@ import DispatcherModule from "./instances/dispatcher/DispatcherModule";
 import DependencyModule from "./instances/dependency/DependencyModule";
 import NetModule from "./instances/net/NetModule";
 import PlatformModule from "./instances/platform/PlatformModule";
-import UserModule from "./instances/dependencyUser/UserModule";
-import RendererModule from "./instances/dependencyRenderer/RendererModule";
-import SystemModule from "./instances/dependencySystem/SystemModule";
+import UserModule from "./instances/user/UserModule";
+import RendererModule from "./instances/renderer/RendererModule";
+import SystemModule from "./instances/system/SystemModule";
 
 export {
 	ViewObjectModule,

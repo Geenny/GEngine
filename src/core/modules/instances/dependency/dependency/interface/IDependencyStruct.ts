@@ -7,6 +7,8 @@ export default interface IDependencyStruct {
 
     name: string;
 
+    ready?: boolean;
+
     vo: IVODependency;
 
     dependency?: IDependency;

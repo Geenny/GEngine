@@ -1,7 +1,5 @@
-import IEventDispatcher from "core/machines/event/interface/IEventDispatcher";
+import ISubscriptionContainer from "core/modules/construction/subscription/interface/ISubscriptionContainer";
 
-export default interface IApplication {
-
-    eventDispatcher: IEventDispatcher;
+export default interface IApplication extends ISubscriptionContainer {
 
 }
