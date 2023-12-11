@@ -1,7 +1,12 @@
 import IDependency from "core/modules/instances/dependency/dependency/interface/IDependency";
+import { RequestData } from "../../types/netTypes";
+import { ObjectListAny, RecieveMethods } from "data/types/commonTypes";
+import INetRequest from "./INetRequest";
 
 export default interface INet extends IDependency {
 
     server: any;
+
+    send( data: RequestData, methods?: RecieveMethods, options?: ObjectListAny ): INetRequest;
     
 }

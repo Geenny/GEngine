@@ -1,1 +1,1 @@
-export type PromiseStruct = { resolve: Function, reject: Function, target?: unknown, promise?: Promise<unknown> };
+export type PromiseStruct = { resolve: Function, reject: Function, target?: unknown, promise?: Promise<unknown>, label?: string };

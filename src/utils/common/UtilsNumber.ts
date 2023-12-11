@@ -4,6 +4,8 @@ export default class UtilsNumber extends Utils {
 
     private static _instance: UtilsNumber;
 
+	private static _uniqueStore: any = { };
+
     static get instance(): UtilsNumber {
         if ( !UtilsNumber._instance ) UtilsNumber._instance = new UtilsNumber();
         return UtilsNumber._instance;
@@ -17,7 +19,7 @@ export default class UtilsNumber extends Utils {
 		const isNumber = UtilsNumber.isNumber( value );
 		if ( !isNumber ) return false;
 		const part = value % 1;
-		return isNumber && part < 1;
+		return isNumber && part !== 0;
 	}
 
 	static isFloatPositive( value: any ): boolean {
@@ -30,6 +32,15 @@ export default class UtilsNumber extends Utils {
 		const isNumber = UtilsNumber.isNumber( value );
 		if ( !isNumber ) return false;
 		return isNumber && value < 0;
+	}
+
+	static unique( label?: string ): number {
+		if ( !label ) label = "default";
+		if ( !UtilsNumber._uniqueStore[ label ] )
+			UtilsNumber._uniqueStore[ label ] = 0;
+		UtilsNumber._uniqueStore[ label ] += 1;
+		return UtilsNumber._uniqueStore[ label ] ;
+
 	}
 
 }

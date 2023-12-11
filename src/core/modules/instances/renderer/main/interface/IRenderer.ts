@@ -2,4 +2,12 @@ import IDependency from "core/modules/instances/dependency/dependency/interface/
 
 export default interface IRenderer extends IDependency {
 
+	readonly isView: boolean;
+
+	canvas: any;
+
+	renderer: any;
+
+	view: any;
+
 }

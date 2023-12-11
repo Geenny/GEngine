@@ -30,7 +30,7 @@ export default class DependencyMachine extends SubscriptionContainer implements 
 
     protected voSource: IVODependencyMachine;
 
-    protected promiseStructGlobal: PromiseStruct;
+    protected promiseStructWork: PromiseStruct;
 
     protected dependencyList: IDependency[] = [];
     protected dependencyProcessList: IDependency[] = [];
@@ -50,55 +50,75 @@ export default class DependencyMachine extends SubscriptionContainer implements 
 
     protected async onInit(): Promise<void> {
         await super.onInit();
-        this.dependencyInit();
+        this.dependencyCreateAll();
+        await this.dependencyInitAll();
+        this.dependencyPrepareAll();
     }
 
     protected async onStart(): Promise<void> {
         await this.startAll();
     }
+
     protected async onStop(): Promise<void> {
-        // this.startAll();
-        debugger;
+        await this.stopAll();
     }
 
 
     //
-    // DEPENDENCY
+    // DEPENDENCY CREATE
     //
 
-    protected dependencyInit(): void {
+    protected dependencyCreateAll(): void {
         if ( !this.dependencySourceList ) return;
         this.dependencySourceList.forEach( dependencyData => {
-            const dependency = this.dependencyNameFactory( dependencyData.name );
+            const dependency = this.dependencyCreate( dependencyData.name );
             this.dependencyList.push( dependency );
         } );
     }
-    
-    public async startAll(): Promise<void> {
-        this.promiseStructGlobal = this.promiseStructGlobaleCreate();
 
-        this.dependencyStartAll();
-
-        await this.promiseStructGlobal.promise;
+    protected dependencyCreate( dependencyName: string ): IDependency {
+        return this.dependencyNameFactory( dependencyName );
     }
 
-    protected dependencyStartAll(): void {
-        this.dependencyPrepareAll();
 
-        if ( this.dependencyInitedAllReadyCheck() )
-            this.dependencyInitedAllReady();
+    //
+    // DEPENDENCY INIT
+    //
+
+    protected dependencyInitAll(): Promise<unknown> {
+        const promises = this.dependencyList.map( dependency => dependency.init() );
+        return Promise.all(promises);
     }
+
+
+    //
+    // DEPENDENCY PREPARE
+    //
 
     protected dependencyPrepareAll(): void {
         this.dependencyList.forEach( dependency => this.dependencyPrepare( dependency ) );
     }
 
-    protected dependencyPrepare( dependency: IDependency ): IDependencyStruct {
-        if ( dependency.state === WorkState.NONE )
-            dependency.init();
-
+    protected dependencyPrepare( dependency: IDependency ): void {
         this.dependencySubscribe( dependency );
-        return this.dependencyStructGet( dependency );
+        this.dependencyStructGet( dependency );
+    }
+
+
+    //
+    // DEPENDENCY START
+    //
+    
+    protected async startAll(): Promise<void> {
+        await this.dependencyStartAll();
+    }
+
+    protected async dependencyStartAll(): Promise<void> {
+        this.promiseStructWork = this.promiseStructWorkCreate( WorkEvent.START );
+        
+        this.dependencyStartNext();
+
+        await this.promiseStructWork.promise;
     }
 
     protected dependencyStartNext(): void {
@@ -128,24 +148,11 @@ export default class DependencyMachine extends SubscriptionContainer implements 
     protected dependencyInited( dependency: IDependency ): void {
         const struct = this.dependencyStructList.find( struct => struct.dependency === dependency );
         if ( struct ) struct.ready = true;
-
-        if ( this.dependencyInitedAllReadyCheck() )
-            this.dependencyInitedAllReady();
-    }
-
-    protected dependencyInitedAllReadyCheck(): boolean {
-        return this.dependencyStructList.every( struct => struct.ready && struct.dependency.state !== WorkState.NONE );
-    }
-
-    protected dependencyInitedAllReady(): void {
-        this.dependencyStartNext();
     }
 
     public dependencyStart( dependency: IDependency ): Promise<Work> {
-        if ( dependency.state !== WorkState.INIT ) {
-            debugger;
+        if ( dependency.state !== WorkState.INIT )
             return;
-        }
 
         this.dependencyProcessListAdd( dependency );
 
@@ -168,12 +175,21 @@ export default class DependencyMachine extends SubscriptionContainer implements 
     }
 
     protected dependencyStartAllReady(): void {
-        if ( !this.promiseStructGlobal) {
-            debugger;
-            return;
-        }
+        if ( !this.promiseStructWork)
+            return Log.e( `DEPENDENCY_MACHINE: ${ this.name }: Critical error!!! Work promise is lost!!!` );
         
-        this.promiseStructGlobal.resolve();
+        this.promiseStructWork.resolve();
+        this.promiseStructWorkKill( WorkEvent.START );
+    }
+
+
+    //
+    // DEPENDENCY STOP
+    //
+
+    protected async stopAll(): Promise<Work[]> {
+        const promises = this.dependencyList.map( dependency => dependency.stop() );
+        return Promise.all(promises);
     }
 
 
@@ -198,8 +214,9 @@ export default class DependencyMachine extends SubscriptionContainer implements 
     // PROMISE
     //
 
-    protected promiseStructGlobaleCreate(): PromiseStruct {
+    protected promiseStructWorkCreate( label: string = undefined): PromiseStruct {
         const promiseStruct: PromiseStruct = {
+            label,
             resolve: undefined,
             reject: undefined,
             target: this
@@ -213,6 +230,13 @@ export default class DependencyMachine extends SubscriptionContainer implements 
         promiseStruct.promise = promise;
 
         return promiseStruct;
+    }
+
+    protected promiseStructWorkKill( label: string ): void {
+        if ( this.promiseStructWork?.label !== label )
+            return Log.e( `DEPENDENCY_MACHINE: ${ this.name }: Critical error!!! Work promise label are missed!!!` );
+        
+        this.promiseStructWork = undefined;
     }
 
 
@@ -255,7 +279,7 @@ export default class DependencyMachine extends SubscriptionContainer implements 
     //
 
     protected dependencyMessageStart( dependency: IDependency ): void {
-        Log.m( `DEPENDENCY: ${ dependency.ID }:${ dependency.name } started!!!` );
+        Log.m( `DEPENDENCY: ${ dependency.ID }: ${ dependency.name } started!!!` );
     }
     
 
