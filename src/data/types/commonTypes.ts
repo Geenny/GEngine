@@ -1,3 +1,5 @@
+type ID = string | number;
+
 type StateName = string;
 
 type ObjectListNumber = { [ name: string]: number };
@@ -10,4 +12,4 @@ type ObjectListPrimitive = { [ name: string]: string | number | boolean };
 
 type RecieveMethods = { onStart?: Function, onLoad?: Function, onError?: Function };
 
-export { StateName, ObjectListNumber, ObjectListString, ObjectListAny, ObjectListPrimitive, RecieveMethods };
+export { ID, StateName, ObjectListNumber, ObjectListString, ObjectListAny, ObjectListPrimitive, RecieveMethods };

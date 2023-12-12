@@ -5,8 +5,6 @@ import INetRequest from "./INetRequest";
 
 export default interface INet extends IDependency {
 
-    server: any;
-
     send( data: RequestData, methods?: RecieveMethods, options?: ObjectListAny ): INetRequest;
     
 }

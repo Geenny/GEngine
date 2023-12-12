@@ -1,5 +1,5 @@
 import { ObjectListAny } from "data/types/commonTypes";
-import { ServerData } from "../../types/netTypes";
+import { ServerOptions } from "../../types/serverTypes";
 
 export default interface INetRequest {
 
@@ -7,7 +7,7 @@ export default interface INetRequest {
 
 	data?: ObjectListAny,
 
-	serverData?: ServerData,
+	serverOptions?: ServerOptions,
 
 	priority?: number;
 

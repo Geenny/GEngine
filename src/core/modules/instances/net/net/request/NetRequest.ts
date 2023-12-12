@@ -1,5 +1,6 @@
 import { ObjectListAny, RecieveMethods } from "data/types/commonTypes";
-import { RequestData, ServerData } from "../../types/netTypes";
+import { RequestData } from "../../types/netTypes";
+import { ServerOptions } from "../../types/serverTypes";
 import UtilsNumber from "utils/common/UtilsNumber";
 
 export default class NetRequest {
@@ -14,7 +15,7 @@ export default class NetRequest {
 
 	get data(): ObjectListAny { return this.requestData.data; }
 
-	get serverData(): ServerData { return this.requestData.serverData; }
+	get serverOptions(): ServerOptions { return this.requestData.serverOptions; }
 
 	get priority(): number { return this.requestData.priority || 0; }
 

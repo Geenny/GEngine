@@ -9,11 +9,14 @@
 			"Net": {
 				"ID": 1,
 				"options": {
-					"server": {
-						"host": "abc",
-						"port": false,
-						"method": "HTTP"
-					}
+					"serverList": [
+						{
+							"name": "BaseServer",
+							"host": "abc",
+							"port": false,
+							"method": "HTTP"
+						}
+					]
 				},
 				"dependent": []
 			},

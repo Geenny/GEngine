@@ -4,8 +4,6 @@ import WorkEvent from "./event/WorkEvent";
 import PromiseProcessor from "data/promise/PromiseProcessor";
 import { WorkState } from "./state/state";
 import { WorkStatus } from "./state/status";
-import { PromiseStruct } from "data/promise/PromiseStruct";
-import { PromiseStatusStruct } from "data/promise/PromiseStatusStruct";
 
 export default class Work extends EventDispatcher implements IWork {
 
