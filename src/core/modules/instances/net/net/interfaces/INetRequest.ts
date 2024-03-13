@@ -1,4 +1,4 @@
-import { ObjectListAny } from "data/types/commonTypes";
+import { ObjectListAny } from "data/types/common";
 import { ServerOptions } from "../../types/serverTypes";
 
 export default interface INetRequest {

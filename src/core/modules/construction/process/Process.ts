@@ -1,47 +1,47 @@
 import EventDispatcher from "core/machines/event/EventDispatcher";
-import IWork from "./interface/IWork";
-import WorkEvent from "./event/WorkEvent";
+import IProcess from "./interface/IProcess";
+import ProcessEvent from "./event/ProcessEvent";
 import PromiseProcessor from "data/promise/PromiseProcessor";
-import { WorkState } from "./state/state";
-import { WorkStatus } from "./state/status";
+import { ProcessState } from "./state/state";
+import { ProcessStatus } from "./state/status";
 
-export default class Work extends EventDispatcher implements IWork {
+export default class Process extends EventDispatcher implements IProcess {
 
-	private _state: WorkState = WorkState.NONE;
+	private _state: ProcessState = ProcessState.NONE;
 
 	protected promise: PromiseProcessor = new PromiseProcessor();
 	protected promiseAwait: PromiseProcessor = new PromiseProcessor();
 
-	public get isInit(): boolean { return this.state !== WorkState.NONE; }
+	public get isInit(): boolean { return this.state !== ProcessState.NONE; }
 
-	public get isStarted(): boolean { return this.state === WorkState.WORK || this.state === WorkState.PAUSED; }
+	public get isStarted(): boolean { return this.state === ProcessState.WORK || this.state === ProcessState.PAUSED; }
 
-	public get isPaused(): boolean { return this.state === WorkState.PAUSED; }
+	public get isPaused(): boolean { return this.state === ProcessState.PAUSED; }
 
-	public get state(): WorkState { return this._state; }
-	public set state( value: WorkState ) { this._state = value; }
+	public get state(): ProcessState { return this._state; }
+	public set state( value: ProcessState ) { this._state = value; }
 
-	async init(): Promise<Work> {
+	async init(): Promise<Process> {
 		return this.processInitStart();
 	}
 
-	async destroy(): Promise<Work> {
+	async destroy(): Promise<Process> {
 		return this.processDestroyStart();
 	}
 
-	async start(): Promise<Work> {
+	async start(): Promise<Process> {
 		return this.processStartStart();
 	}
 
-	async stop(): Promise<Work> {
+	async stop(): Promise<Process> {
 		return this.processStopStart();
 	}
 
-	async pause(): Promise<Work> {
+	async pause(): Promise<Process> {
 		return this.processPauseStart();
 	}
 
-	async resume(): Promise<Work> {
+	async resume(): Promise<Process> {
 		return this.processResumeStart();
 	}
 
@@ -50,10 +50,10 @@ export default class Work extends EventDispatcher implements IWork {
 	// PROCESS START
 	//
 
-	protected async processInitStart(): Promise<Work> {
+	protected async processInitStart(): Promise<Process> {
 		const promise = this.onInitPromise();
 
-		if ( this.state !== WorkState.NONE )
+		if ( this.state !== ProcessState.NONE )
 			return Promise.resolve( this );
 
 		this.onInitStart();
@@ -66,7 +66,7 @@ export default class Work extends EventDispatcher implements IWork {
 		return promise;
 	}
 
-	protected async processDestroyStart(): Promise<Work> {
+	protected async processDestroyStart(): Promise<Process> {
 		const promise = this.onDestroyPromise();
 
 		if ( this.promise.length > 1 )
@@ -88,7 +88,7 @@ export default class Work extends EventDispatcher implements IWork {
 		return promise;
 	}
 
-	protected async processStartStart(): Promise<Work> {
+	protected async processStartStart(): Promise<Process> {
 		const promise = this.onStartPromise();
 
 		if ( this.promise.length > 1 )
@@ -107,7 +107,7 @@ export default class Work extends EventDispatcher implements IWork {
 		return promise;
 	}
 
-	protected async processStopStart(): Promise<Work> {
+	protected async processStopStart(): Promise<Process> {
 		const promise = this.onStopPromise();
 
 		if ( this.promise.length > 1 )
@@ -126,7 +126,7 @@ export default class Work extends EventDispatcher implements IWork {
 		return promise;
 	}
 
-	protected async processPauseStart(): Promise<Work> {
+	protected async processPauseStart(): Promise<Process> {
 		const promise = this.onPausePromise();
 
 		if ( this.promise.length > 1 )
@@ -145,7 +145,7 @@ export default class Work extends EventDispatcher implements IWork {
 		return promise;
 	}
 
-	protected async processResumeStart(): Promise<Work> {
+	protected async processResumeStart(): Promise<Process> {
 		const promise = this.onResumePromise();
 
 		if ( this.promise.length > 1 )
@@ -190,31 +190,31 @@ export default class Work extends EventDispatcher implements IWork {
 
 	protected awaitDestroy(): Promise<void> {
 		return new Promise<void>( ( resolve, reject ) => {
-			this.promiseAwait.add( WorkStatus.DESTROY, { resolve, reject } );
+			this.promiseAwait.add( ProcessStatus.DESTROY, { resolve, reject } );
 		});
 	}
 
 	protected awaitStart(): Promise<void> {
 		return new Promise<void>( ( resolve, reject ) => {
-			this.promiseAwait.add( WorkStatus.START, { resolve, reject } );
+			this.promiseAwait.add( ProcessStatus.START, { resolve, reject } );
 		});
 	}
 
 	protected awaitStop(): Promise<void> {
 		return new Promise<void>( ( resolve, reject ) => {
-			this.promiseAwait.add( WorkStatus.STOP, { resolve, reject } );
+			this.promiseAwait.add( ProcessStatus.STOP, { resolve, reject } );
 		});
 	}
 
 	protected awaitPause(): Promise<void> {
 		return new Promise<void>( ( resolve, reject ) => {
-			this.promiseAwait.add( WorkStatus.PAUSE, { resolve, reject } );
+			this.promiseAwait.add( ProcessStatus.PAUSE, { resolve, reject } );
 		});
 	}
 
 	protected awaitResume(): Promise<void> {
 		return new Promise<void>( ( resolve, reject ) => {
-			this.promiseAwait.add( WorkStatus.RESUME, { resolve, reject } );
+			this.promiseAwait.add( ProcessStatus.RESUME, { resolve, reject } );
 		});
 	}
 
@@ -223,34 +223,34 @@ export default class Work extends EventDispatcher implements IWork {
 	// PROMISE CREATE
 	//
 
-	protected onInitPromise(): Promise<Work> {
-		return new Promise<Work>( ( resolve, reject ) => {
-			this.promise.add( WorkStatus.INIT, { resolve, reject, target: this } );
+	protected onInitPromise(): Promise<Process> {
+		return new Promise<Process>( ( resolve, reject ) => {
+			this.promise.add( ProcessStatus.INIT, { resolve, reject, target: this } );
 		});
 	}
-	protected onDestroyPromise(): Promise<Work> {
-		return new Promise<Work>( ( resolve, reject ) => {
-			this.promise.add( WorkStatus.DESTROY, { resolve, reject, target: this } );
+	protected onDestroyPromise(): Promise<Process> {
+		return new Promise<Process>( ( resolve, reject ) => {
+			this.promise.add( ProcessStatus.DESTROY, { resolve, reject, target: this } );
 		});
 	}
-	protected onStartPromise(): Promise<Work> {
-		return new Promise<Work>( ( resolve, reject ) => {
-			this.promise.add( WorkStatus.START, { resolve, reject, target: this } );
+	protected onStartPromise(): Promise<Process> {
+		return new Promise<Process>( ( resolve, reject ) => {
+			this.promise.add( ProcessStatus.START, { resolve, reject, target: this } );
 		});
 	}
-	protected onStopPromise(): Promise<Work> {
-		return new Promise<Work>( ( resolve, reject ) => {
-			this.promise.add( WorkStatus.STOP, { resolve, reject, target: this } );
+	protected onStopPromise(): Promise<Process> {
+		return new Promise<Process>( ( resolve, reject ) => {
+			this.promise.add( ProcessStatus.STOP, { resolve, reject, target: this } );
 		});
 	}
-	protected onPausePromise(): Promise<Work> {
-		return new Promise<Work>( ( resolve, reject ) => {
-			this.promise.add( WorkStatus.PAUSE, { resolve, reject, target: this } );
+	protected onPausePromise(): Promise<Process> {
+		return new Promise<Process>( ( resolve, reject ) => {
+			this.promise.add( ProcessStatus.PAUSE, { resolve, reject, target: this } );
 		});
 	}
-	protected onResumePromise(): Promise<Work> {
-		return new Promise<Work>( ( resolve, reject ) => {
-			this.promise.add( WorkStatus.RESUME, { resolve, reject, target: this } );
+	protected onResumePromise(): Promise<Process> {
+		return new Promise<Process>( ( resolve, reject ) => {
+			this.promise.add( ProcessStatus.RESUME, { resolve, reject, target: this } );
 		});
 	}
 
@@ -259,7 +259,7 @@ export default class Work extends EventDispatcher implements IWork {
 	// PROMISE RESOLVE
 	//
 
-	protected promiseStructResolveByStatus( status: WorkStatus ): boolean {
+	protected promiseStructResolveByStatus( status: ProcessStatus ): boolean {
 		const statusStruct = this.promise.remove( status );
 		if ( !statusStruct || !statusStruct.struct ) return false;
 
@@ -268,22 +268,22 @@ export default class Work extends EventDispatcher implements IWork {
 		return true;
 	}
 	protected onInitPromiseResolve(): void {
-		this.promiseStructResolveByStatus(  WorkStatus.INIT );
+		this.promiseStructResolveByStatus(  ProcessStatus.INIT );
 	}
 	protected onDestroyPromiseResolve(): void {
-		this.promiseStructResolveByStatus(  WorkStatus.DESTROY );
+		this.promiseStructResolveByStatus(  ProcessStatus.DESTROY );
 	}
 	protected onStartPromiseResolve(): void {
-		this.promiseStructResolveByStatus(  WorkStatus.START );
+		this.promiseStructResolveByStatus(  ProcessStatus.START );
 	}
 	protected onStopPromiseResolve(): void {
-		this.promiseStructResolveByStatus(  WorkStatus.STOP );
+		this.promiseStructResolveByStatus(  ProcessStatus.STOP );
 	}
 	protected onPausePromiseResolve(): void {
-		this.promiseStructResolveByStatus(  WorkStatus.PAUSE );
+		this.promiseStructResolveByStatus(  ProcessStatus.PAUSE );
 	}
 	protected onResumePromiseResolve(): void {
-		this.promiseStructResolveByStatus(  WorkStatus.RESUME );
+		this.promiseStructResolveByStatus(  ProcessStatus.RESUME );
 	}
 
 
@@ -292,22 +292,22 @@ export default class Work extends EventDispatcher implements IWork {
 	//
 
 	protected onInitStart(): void {
-		this.dispatchEvent( new WorkEvent( WorkEvent.INIT, this.state ) );
+		this.dispatchEvent( new ProcessEvent( ProcessEvent.INIT, this.state ) );
 	}
 	protected onDestroyStart(): void {
-		this.dispatchEvent( new WorkEvent( WorkEvent.DESTROY, this.state ) );
+		this.dispatchEvent( new ProcessEvent( ProcessEvent.DESTROY, this.state ) );
 	}
 	protected onStartStart(): void {
-		this.dispatchEvent( new WorkEvent( WorkEvent.START, this.state ) );
+		this.dispatchEvent( new ProcessEvent( ProcessEvent.START, this.state ) );
 	}
 	protected onStopStart(): void {
-		this.dispatchEvent( new WorkEvent( WorkEvent.STOP, this.state ) );
+		this.dispatchEvent( new ProcessEvent( ProcessEvent.STOP, this.state ) );
 	}
 	protected onPauseStart(): void {
-		this.dispatchEvent( new WorkEvent( WorkEvent.PAUSE, this.state ) );
+		this.dispatchEvent( new ProcessEvent( ProcessEvent.PAUSE, this.state ) );
 	}
 	protected onResumeStart(): void {
-		this.dispatchEvent( new WorkEvent( WorkEvent.RESUME, this.state ) );
+		this.dispatchEvent( new ProcessEvent( ProcessEvent.RESUME, this.state ) );
 	}
 
 
@@ -316,56 +316,56 @@ export default class Work extends EventDispatcher implements IWork {
 	//
 
 	protected onInitComplete(): void {
-		this.state = WorkState.INIT;
+		this.state = ProcessState.INIT;
 
 		this.onInitPromiseResolve();
 
-		this.dispatchEvent( new WorkEvent( WorkEvent.INITED, this.state ) );
+		this.dispatchEvent( new ProcessEvent( ProcessEvent.INITED, this.state ) );
 
 		this.awaitPromiseResolve();
 	}
 	protected onDestroyComplete(): void {
-		this.state = WorkState.NONE;
+		this.state = ProcessState.NONE;
 
 		this.onDestroyPromiseResolve();
 
-		this.dispatchEvent( new WorkEvent( WorkEvent.DESTROYED, this.state ) );
+		this.dispatchEvent( new ProcessEvent( ProcessEvent.DESTROYED, this.state ) );
 
 		this.awaitPromiseResolve();
 	}
 	protected onStartComplete(): void {
-		this.state = WorkState.WORK;
+		this.state = ProcessState.WORK;
 
 		this.onStartPromiseResolve();
 
-		this.dispatchEvent( new WorkEvent( WorkEvent.STARTED, this.state ) );
+		this.dispatchEvent( new ProcessEvent( ProcessEvent.STARTED, this.state ) );
 
 		this.awaitPromiseResolve();
 	}
 	protected onStopComplete(): void {
-		this.state = WorkState.INIT;
+		this.state = ProcessState.INIT;
 
 		this.onStopPromiseResolve();
 
-		this.dispatchEvent( new WorkEvent( WorkEvent.STOPPED, this.state ) );
+		this.dispatchEvent( new ProcessEvent( ProcessEvent.STOPPED, this.state ) );
 
 		this.awaitPromiseResolve();
 	}
 	protected onPauseComplete(): void {
-		this.state = WorkState.PAUSED;
+		this.state = ProcessState.PAUSED;
 
 		this.onPausePromiseResolve();
 
-		this.dispatchEvent( new WorkEvent( WorkEvent.PAUSED, this.state ) );
+		this.dispatchEvent( new ProcessEvent( ProcessEvent.PAUSED, this.state ) );
 
 		this.awaitPromiseResolve();
 	}
 	protected onResumeComplete(): void {
-		this.state = WorkState.WORK;
+		this.state = ProcessState.WORK;
 
 		this.onResumePromiseResolve();
 		
-		this.dispatchEvent( new WorkEvent( WorkEvent.RESUMED, this.state ) );
+		this.dispatchEvent( new ProcessEvent( ProcessEvent.RESUMED, this.state ) );
 
 		this.awaitPromiseResolve();
 	}

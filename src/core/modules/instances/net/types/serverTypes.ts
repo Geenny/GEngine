@@ -1,4 +1,4 @@
-import { ID } from "data/types/commonTypes";
+import { ID } from "data/types/common";
 import { ServerMethod } from "../enums/ServerMethod";
 import { ServerIPType } from "../enums/ServerIPType";
 

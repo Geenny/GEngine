@@ -1,7 +1,7 @@
 import { injectable, inject } from "inversify";
 import * as VODATA from "../../../../../config/vo.json";
 import IVOCollector from "./interface/IVOCollector";
-import { ObjectListAny } from "data/types/commonTypes";
+import { ObjectListAny } from "data/types/common";
 import UtilsObject from "utils/common/UtilsObject";
 
 @injectable()

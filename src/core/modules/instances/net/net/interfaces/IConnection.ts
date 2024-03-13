@@ -1,12 +1,12 @@
-import { ID } from "data/types/commonTypes";
+import { ID } from "data/types/common";
 import { ServerMethod } from "../../enums/ServerMethod";
 import { ServerIPType } from "../../enums/ServerIPType";
 import { ServerOptions } from "../../types/serverTypes";
 import INetRequest from "./INetRequest";
-import Work from "core/modules/construction/work/Work";
-import IWork from "core/modules/construction/work/interface/IWork";
+import Process from "core/modules/construction/process/Process";
+import IProcess from "core/modules/construction/process/interface/IProcess";
 
-export default interface IConnection extends IWork {
+export default interface IConnection extends IProcess {
 
 	readonly isDefault: boolean;
 

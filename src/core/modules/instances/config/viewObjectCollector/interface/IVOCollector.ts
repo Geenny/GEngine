@@ -1,4 +1,4 @@
-import { ObjectListAny } from "data/types/commonTypes";
+import { ObjectListAny } from "data/types/common";
 
 export default interface IVOCollector {
 

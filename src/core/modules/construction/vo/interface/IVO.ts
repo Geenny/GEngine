@@ -1,8 +1,8 @@
-import { ObjectListAny } from "data/types/commonTypes";
+import { ID, ObjectListAny } from "data/types/common";
 
 export default interface IVO {
 
-    readonly ID: number;
+    readonly ID: ID;
 
     readonly name: string;
 

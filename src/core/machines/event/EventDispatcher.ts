@@ -5,7 +5,7 @@ import IEventDispatcher from "./interface/IEventDispatcher";
 import Event from "./Event";
 
 @injectable()
-export default class EventDispatcher {
+export default class EventDispatcher implements IEventDispatcher {
 
     protected _isLogged: boolean = true;
     protected _dispatcher: EventVO[] = []; 

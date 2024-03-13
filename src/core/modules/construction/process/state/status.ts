@@ -1,4 +1,4 @@
-export enum WorkStatus {
+export enum ProcessStatus {
 	INIT = "init",
 	DESTROY = "destroy",
 	START = "start",

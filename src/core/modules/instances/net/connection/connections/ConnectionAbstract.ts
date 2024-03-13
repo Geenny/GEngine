@@ -1,12 +1,12 @@
-import { ID, ObjectListPrimitive } from "data/types/commonTypes";
-import { ServerMethod } from "../enums/ServerMethod";
-import IConnection from "../net/interfaces/IConnection"
-import INetRequest from "../net/interfaces/INetRequest";
-import Work from "core/modules/construction/work/Work";
-import { ServerIPType } from "../enums/ServerIPType";
-import { ServerOptions } from "../types/serverTypes";
+import { ID, ObjectListPrimitive } from "data/types/common";
+import { ServerMethod } from "../../enums/ServerMethod";
+import IConnection from "../../net/interfaces/IConnection"
+import INetRequest from "../../net/interfaces/INetRequest";
+import Process from "core/modules/construction/process/Process";
+import { ServerIPType } from "../../enums/ServerIPType";
+import { ServerOptions } from "../../types/serverTypes";
 
-export default abstract class ConnectionAbstract extends Work implements IConnection {
+export default abstract class ConnectionAbstract extends Process implements IConnection {
 
 	private _isDefault: boolean = false;
 

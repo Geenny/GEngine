@@ -1,16 +1,16 @@
 import { injectable } from "inversify";
-import { ObjectListAny, RecieveMethods } from "data/types/commonTypes";
+import { ObjectListAny, RecieveMethods } from "data/types/common";
 import { RequestData } from "../types/netTypes";
 import { ServerOptions } from "../types/serverTypes";
 import { ServerMethod } from "../enums/ServerMethod";
 import INet from "./interfaces/INet";
 import INetRequest from "./interfaces/INetRequest";
 import Dependency from "../../dependency/dependency/Dependency";
-import Work from "core/modules/construction/work/Work";
+import Process from "core/modules/construction/process/Process";
 import NetRequest from "./request/NetRequest";
 import IConnection from "./interfaces/IConnection";
-import Connection from "../connections/Connection";
-import ConnectionHTTP from "../connections/ConnectionHTTP";
+import Connection from "../connection/connections/Connection";
+import ConnectionHTTP from "../connection/connections/ConnectionHTTP";
 import Log from "utils/log/Log";
 import { ServerIPType } from "../enums/ServerIPType";
 
@@ -144,24 +144,24 @@ export default class Net extends Dependency implements INet {
 
     }
 
-    async connectionInit(): Promise<Work[]> {
+    async connectionInit(): Promise<Process[]> {
         this.connectionCreateAll();
 
         const promises = this.connectionList.map( connection => connection.init() );
         return Promise.all( promises );
     }
 
-    async connectionDestroy(): Promise<Work[]> {
+    async connectionDestroy(): Promise<Process[]> {
         const promises = this.connectionList.map( connection => connection.destroy() );
         return Promise.all( promises );
     }
 
-    async connectionStart(): Promise<Work[]> {
+    async connectionStart(): Promise<Process[]> {
         const promises = this.connectionList.map( connection => connection.start() );
         return Promise.all( promises );
     }
 
-    async connectionStop(): Promise<Work[]> {
+    async connectionStop(): Promise<Process[]> {
         const promises = this.connectionList.map( connection => connection.stop() );
         return Promise.all( promises );
     }

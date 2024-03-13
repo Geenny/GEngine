@@ -1,14 +1,14 @@
 import { injectable } from "inversify";
 import IVO from "./interface/IVO";
 import IVOContainer from "./interface/IVOContainer";
-import { ObjectListAny } from "data/types/commonTypes";
+import { ID, ObjectListAny } from "data/types/common";
 
 @injectable()
 export default class VO implements IVO {
 
     private _source: ObjectListAny;
 
-    public ID: number;
+    public ID: ID;
     public name: string;
     public options: any;
 

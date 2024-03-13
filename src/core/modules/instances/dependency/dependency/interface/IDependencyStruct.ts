@@ -1,9 +1,10 @@
+import { ID } from "data/types/common";
 import IDependency from "./IDependency";
 import IVODependency from "./IVODependency";
 
 export default interface IDependencyStruct {
 
-    ID: number;
+    ID: ID;
 
     name: string;
 

@@ -1,3 +1,5 @@
+import { ID, ObjectListAny } from "data/types/common";
+
 const DependencyType = {
     DEPENDENCY_MACHINE: Symbol.for( "DependencyMachine" ),
     DEPENDENCY: Symbol.for( "Dependency" ),
@@ -5,4 +7,6 @@ const DependencyType = {
     DEPENDENCY_NAMED_FACTORY: Symbol.for( "DependencyNamedFactory" ),
 }
 
-export { DependencyType };
+type ObjectListDependency = { ID: ID, name: string, dependent: ID[], options: ObjectListAny }
+
+export { DependencyType, ObjectListDependency };

@@ -1,23 +1,20 @@
 import { injectable, inject, interfaces } from "inversify";
 import Log from "utils/log/Log";
 import SubscriptionContainer from "core/modules/construction/subscription/SubscriptionContainer";
-import Dependency from "../dependency/Dependency";
 import IDependency from "../dependency/interface/IDependency";
 import IDependencyMachine from "./interface/IDependencyMachine";
 import IDependencyStruct from "../dependency/interface/IDependencyStruct";
 import ApplicationOptions from "../../application/options/ApplicationOptions";
 import { ApplicationType } from "../../application/types/types";
-import { ViewObjectType } from "../../config/types/types";
 import { DependencyType } from "../types/types";
-import IVODependency from "../dependency/interface/IVODependency";
 import IVODependencyMachine from "./interface/IVODependencyMachine";
-import { WorkState } from "core/modules/construction/work/state/state";
+import { ProcessState } from "core/modules/construction/process/state/state";
 import Event from "core/machines/event/Event";
-import DependencyEvent from "../dependency/event/DependencyEvent";
-import WorkEvent from "core/modules/construction/work/event/WorkEvent";
-import Work from "core/modules/construction/work/Work";
+import ProcessEvent from "core/modules/construction/process/event/ProcessEvent";
+import Process from "core/modules/construction/process/Process";
 import { PromiseStruct } from "data/promise/PromiseStruct";
 import { SubscriptionStruct } from "data/subscription/SubscribeStruct";
+import { ID } from "data/types/common";
 
 @injectable()
 export default class DependencyMachine extends SubscriptionContainer implements IDependencyMachine {
@@ -30,7 +27,7 @@ export default class DependencyMachine extends SubscriptionContainer implements 
 
     protected voSource: IVODependencyMachine;
 
-    protected promiseStructWork: PromiseStruct;
+    protected promiseStructProcess: PromiseStruct;
 
     protected dependencyList: IDependency[] = [];
     protected dependencyProcessList: IDependency[] = [];
@@ -108,26 +105,26 @@ export default class DependencyMachine extends SubscriptionContainer implements 
     //
     // DEPENDENCY START
     //
-    
+
     protected async startAll(): Promise<void> {
         await this.dependencyStartAll();
     }
 
     protected async dependencyStartAll(): Promise<void> {
-        this.promiseStructWork = this.promiseStructWorkCreate( WorkEvent.START );
+        this.promiseStructProcess = this.promiseStructProcessCreate( ProcessEvent.START );
         
         this.dependencyStartNext();
 
-        await this.promiseStructWork.promise;
+        await this.promiseStructProcess.promise;
     }
 
     protected dependencyStartNext(): void {
         const readyIDs = this.dependencyStructList
-            .filter( struct => struct.dependency.state === WorkState.WORK )
+            .filter( struct => struct.dependency.state === ProcessState.WORK )
             .map( struct => struct.dependency.ID );
         
         const startList = this.dependencyStructList
-            .filter( struct => struct.dependency.state === WorkState.INIT )
+            .filter( struct => struct.dependency.state === ProcessState.INIT )
             .filter( struct => !this.dependencyProcessList.includes( struct.dependency ) )
             .filter( struct => this.isDependentEnough( struct.dependency, readyIDs ) );
 
@@ -138,7 +135,7 @@ export default class DependencyMachine extends SubscriptionContainer implements 
         }
     }
 
-    protected isDependentEnough( dependency: IDependency, readyIDs: number[] ): boolean {
+    protected isDependentEnough( dependency: IDependency, readyIDs: ID[] ): boolean {
         if ( !dependency.vo.dependent || !Array.isArray( dependency.vo.dependent ) || dependency.vo.dependent.length === 0 )
             return true;
 
@@ -150,8 +147,8 @@ export default class DependencyMachine extends SubscriptionContainer implements 
         if ( struct ) struct.ready = true;
     }
 
-    public dependencyStart( dependency: IDependency ): Promise<Work> {
-        if ( dependency.state !== WorkState.INIT )
+    public dependencyStart( dependency: IDependency ): Promise<Process> {
+        if ( dependency.state !== ProcessState.INIT )
             return;
 
         this.dependencyProcessListAdd( dependency );
@@ -175,11 +172,11 @@ export default class DependencyMachine extends SubscriptionContainer implements 
     }
 
     protected dependencyStartAllReady(): void {
-        if ( !this.promiseStructWork)
-            return Log.e( `DEPENDENCY_MACHINE: ${ this.name }: Critical error!!! Work promise is lost!!!` );
+        if ( !this.promiseStructProcess)
+            return Log.e( `DEPENDENCY_MACHINE: ${ this.name }: Critical error!!! Process promise is lost!!!` );
         
-        this.promiseStructWork.resolve();
-        this.promiseStructWorkKill( WorkEvent.START );
+        this.promiseStructProcess.resolve();
+        this.promiseStructProcessKill( ProcessEvent.START );
     }
 
 
@@ -187,7 +184,7 @@ export default class DependencyMachine extends SubscriptionContainer implements 
     // DEPENDENCY STOP
     //
 
-    protected async stopAll(): Promise<Work[]> {
+    protected async stopAll(): Promise<Process[]> {
         const promises = this.dependencyList.map( dependency => dependency.stop() );
         return Promise.all(promises);
     }
@@ -214,7 +211,7 @@ export default class DependencyMachine extends SubscriptionContainer implements 
     // PROMISE
     //
 
-    protected promiseStructWorkCreate( label: string = undefined): PromiseStruct {
+    protected promiseStructProcessCreate( label: string = undefined): PromiseStruct {
         const promiseStruct: PromiseStruct = {
             label,
             resolve: undefined,
@@ -232,11 +229,11 @@ export default class DependencyMachine extends SubscriptionContainer implements 
         return promiseStruct;
     }
 
-    protected promiseStructWorkKill( label: string ): void {
-        if ( this.promiseStructWork?.label !== label )
-            return Log.e( `DEPENDENCY_MACHINE: ${ this.name }: Critical error!!! Work promise label are missed!!!` );
+    protected promiseStructProcessKill( label: string ): void {
+        if ( this.promiseStructProcess?.label !== label )
+            return Log.e( `DEPENDENCY_MACHINE: ${ this.name }: Critical error!!! Process promise label are missed!!!` );
         
-        this.promiseStructWork = undefined;
+        this.promiseStructProcess = undefined;
     }
 
 
@@ -250,12 +247,13 @@ export default class DependencyMachine extends SubscriptionContainer implements 
         const subscription = { any: this.onDependencyEventAny.bind( this ) }
         dependency.addEventListener( Event.ANY, subscription.any );
     }
-    protected onDependencyEventAny( event: WorkEvent ): void {
+
+    protected onDependencyEventAny( event: ProcessEvent ): void {
         // @ts-ignore
         const dependency = this.dependencyList.find( dependency => dependency === event.target );
         switch( event.type ) {
-            case WorkEvent.INITED: this.eventDependencyInited( dependency ); break;
-            case WorkEvent.STARTED: this.eventDependencyStarted( dependency ); break;
+            case ProcessEvent.INITED: this.eventDependencyInited( dependency ); break;
+            case ProcessEvent.STARTED: this.eventDependencyStarted( dependency ); break;
         }
     }
 

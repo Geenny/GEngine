@@ -1,4 +1,4 @@
-import { ObjectListAny, RecieveMethods } from "data/types/commonTypes";
+import { ID, ObjectListAny, RecieveMethods } from "data/types/common";
 import { RequestData } from "../../types/netTypes";
 import { ServerOptions } from "../../types/serverTypes";
 import UtilsNumber from "utils/common/UtilsNumber";
@@ -9,7 +9,7 @@ export default class NetRequest {
 	protected receiveMethods: RecieveMethods;
 	protected options: ObjectListAny;
 
-	readonly ID: number;
+	readonly ID: ID;
 
 	get type(): string { return this.requestData.type || "none"; }
 

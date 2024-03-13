@@ -10,6 +10,17 @@ type ObjectListAny = { [ name: string]: any };
 
 type ObjectListPrimitive = { [ name: string]: string | number | boolean };
 
+type ObjectListMethod = { [ name: string]: Function };
+
 type RecieveMethods = { onStart?: Function, onLoad?: Function, onError?: Function };
 
-export { ID, StateName, ObjectListNumber, ObjectListString, ObjectListAny, ObjectListPrimitive, RecieveMethods };
+export {
+	ID,
+	StateName,
+	ObjectListNumber,
+	ObjectListString,
+	ObjectListAny,
+	ObjectListPrimitive,
+	ObjectListMethod,
+	RecieveMethods
+};
