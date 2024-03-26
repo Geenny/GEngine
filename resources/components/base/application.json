@@ -1,0 +1,8 @@
+{
+	"type": "container",
+	"name": "APPLICATION",
+	"version": "gamename@1.0.0@1.0.0",
+	"options": {
+		"size": { "width": "100%", "height": "100%" }
+	}
+}

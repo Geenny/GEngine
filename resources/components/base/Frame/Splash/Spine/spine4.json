@@ -1,0 +1,26 @@
+{
+    "type": "spine",
+    "name": "SpineDoctor",
+	"zIndex": 1,
+    "options": {
+		"noSize": true,
+		"position": { "x": "50%", "y": "50%" },
+		"content": {
+			"name": "doctor",
+			"animation": "idle",
+			"isBreakable": false,
+			"timeScale": 1,
+			"random": {
+				"action": 0.3
+			}
+		}
+    },
+	"orientation": {
+		"landscape": {
+			"scale": { "x": -0.6, "y": 0.6 }
+		},
+		"portrait": {
+			"scale": { "x": -0.4, "y": 0.4 }
+		}
+	}
+}

@@ -1,0 +1,10 @@
+{
+	"type": "container",
+	"name": "PRELOADER",
+	"load": "preloader",
+	"zIndex": 10000000,
+	"props": { },
+	"options": {
+		"size": { "width": "100%", "height": "100%" }
+	}
+}

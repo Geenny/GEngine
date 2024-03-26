@@ -8,7 +8,11 @@ import {
 	PlatformModule,
 	UserModule,
 	RendererModule,
-	SystemModule
+	SystemModule,
+	LoaderManagerModule,
+	ResourcesModule,
+	LayoutModule,
+	SoundModule
 } from "core/modules";
 
 export const moduleList: typeof InjectionModule[] = [
@@ -20,5 +24,9 @@ export const moduleList: typeof InjectionModule[] = [
 	SystemModule,
 	PlatformModule,
 	UserModule,
-	RendererModule
+	RendererModule,
+	LoaderManagerModule,
+	ResourcesModule,
+	LayoutModule,
+	SoundModule
 ];

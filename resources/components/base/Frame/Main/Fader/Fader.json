@@ -1,0 +1,5 @@
+{
+    "type": "container",
+    "name": "FADER",
+    "zIndex": 1000
+}

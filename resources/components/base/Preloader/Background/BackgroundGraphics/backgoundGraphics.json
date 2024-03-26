@@ -1,0 +1,11 @@
+{
+	"type": "graphics",
+	"name": "Background",
+	"options": {
+		"size": { "width": "100%", "height": "100%" },
+		"content": {
+			"color": "0x111111",
+			"alpha": 1
+		}
+	}
+}

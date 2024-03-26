@@ -1,0 +1,36 @@
+{
+	"type": "button",
+	"name": "buttonTurboSpin",
+	"options": {
+		"anchor": 0.5,
+		"scale": 0.9,
+		"content": {
+			"textures": {
+				"disable": "turbo_normal.png",
+				"hover": "turbo_hover.png",
+				"normal": "turbo_normal.png",
+				"pressed": "turbo_pressed.png"
+			}
+		}
+    },
+	"orientation": {
+		"landscape_low": {
+			"position": { "x": "90%", "y": "24%" }
+		},
+		"landscape": {
+			"position": { "x": "90%", "y": "22%" }
+		},
+		"landscape_large": {
+			"position": { "x": "90%", "y": "22%" }
+		},
+		"portrait_low": {
+			"position": { "x": "70%", "y": "80%" }
+		},
+		"portrait": {
+			"position": { "x": "70%", "y": "74%" }
+		},
+		"portrait_large": {
+			"position": { "x": "70%", "y": "68%" }
+		}
+	}
+}

@@ -1,0 +1,6 @@
+{
+	"type": "container",
+	"name": "SLOT",
+	"zIndex": 10,
+	"children": []
+}

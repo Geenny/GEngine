@@ -1,0 +1,10 @@
+{
+	"type": "container",
+	"name": "MAIN",
+	"load": "main|+",
+	"zIndex": 10,
+	"props": { },
+	"options": {
+		"size": { "width": "100%", "height": "100%" }
+	}
+}

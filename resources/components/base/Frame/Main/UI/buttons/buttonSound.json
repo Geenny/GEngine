@@ -1,0 +1,23 @@
+{
+	"type": "button",
+	"name": "buttonSound",
+	"options": {
+		"anchor": 0.5,
+		"content": {
+			"textures": {
+				"disable": "sound_normal.png",
+				"hover": "sound_hover.png",
+				"normal": "sound_normal.png",
+				"pressed": "sound_pressed.png"
+			}
+		}
+    },
+	"orientation": {
+		"landscape": {
+			"position": { "x": "84%", "y": "10%" }
+		},
+		"portrait": {
+			"position": { "x": "10%", "y": "94%" }
+		}
+	}
+}

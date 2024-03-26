@@ -1,0 +1,36 @@
+{
+	"type": "text",
+	"name": "textBet",
+	"options": {
+		"content": {
+			"text": "20",
+			"style": {
+				"fontFamily": "myriad_bold",
+				"fontSize": 46,
+				"fontWeight": "900",
+				"fill": "0xFFFFFF"
+			}
+		},
+		"anchor": 0.5
+	},
+	"orientation": {
+		"landscape_low": {
+			"position": { "x": "62%", "y": "86%" }
+		},
+		"landscape": {
+			"position": { "x": "65%", "y": "94%" }
+		},
+		"landscape_large": {
+			"position": { "x": "64%", "y": "94%" }
+		},
+		"portrait_low": {
+			"position": { "x": "50%", "y": "96%" }
+		},
+		"portrait": {
+			"position": { "x": "50%", "y": "88%" }
+		},
+		"portrait_large": {
+			"position": { "x": "50%", "y": "80%" }
+		}
+	}
+}

@@ -1,0 +1,11 @@
+{
+    "type": "component",
+    "name": "SPLASH",
+	"component": "ViewSplashScreen",
+	"load": "splash|+",
+    "zIndex": 100,
+    "options": {
+        "noSize": true,
+        "size": { "width": "100%", "height": "100%" }
+    }
+}

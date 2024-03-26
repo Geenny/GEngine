@@ -1,0 +1,5 @@
+{
+    "type": "container",
+    "name": "POPUP",
+    "zIndex": 30
+}

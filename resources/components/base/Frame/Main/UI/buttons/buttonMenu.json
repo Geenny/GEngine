@@ -1,0 +1,23 @@
+{
+	"type": "button",
+	"name": "buttonMenu",
+	"options": {
+		"anchor": 0.5,
+		"content": {
+			"textures": {
+				"disable": "menu_normal.png",
+				"hover": "menu_hover.png",
+				"normal": "menu_normal.png",
+				"pressed": "menu_pressed.png"
+			}
+		}
+    },
+	"orientation": {
+		"landscape": {
+			"position": { "x": "90%", "y": "10%" }
+		},
+		"portrait": {
+			"position": { "x": "90%", "y": "94%" }
+		}
+	}
+}

@@ -1,0 +1,56 @@
+{
+	"type": "component",
+	"name": "progressBar",
+	"component": "ProgressBar",
+	"zIndex": 1,
+	"options": {
+		"margin": { "y": 3 }
+	},
+	"orientation": {
+		"landscape": {
+			"position": { "x": -150, "y": 0 }
+		},
+		"portrait": {
+			"position": { "x": -100, "y": 0 }
+		}
+	},
+	"children": [
+		{
+			"type": "graphics",
+			"name": "progressBackground",
+			"options": {
+				"content": {
+					"color": "0xEEEEEE",
+					"alpha": 0.05,
+					"width": 300,
+					"height": 3
+				}
+			},
+			"orientation": {
+				"portrait": {
+					"content": {
+						"width": 200
+					}
+				}
+			}
+		},
+		{
+			"type": "graphics",
+			"name": "progressLine",
+			"options": {
+				"content": {
+					"color": "0xEEEEEE",
+					"width": 300,
+					"height": 3
+				}
+			},
+			"orientation": {
+				"portrait": {
+					"content": {
+						"width": 200
+					}
+				}
+			}
+		}
+	]
+}

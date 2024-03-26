@@ -1,0 +1,34 @@
+{
+	"type": "container",
+	"name": "REELS_MAIN",
+	"options": {
+		"position": { "x": -220, "y": -100 },
+		"scale": 1.1
+	},
+	"orientation": {
+		"landscape_low": {
+			"position": { "x": -230, "y": 0 },
+			"scale": 0.85
+		},
+		"landscape": {
+			"position": { "x": -220, "y": -100 },
+			"scale": 1.1
+		},
+		"landscape_large": {
+			"position": { "x": 50, "y": -100 },
+			"scale": 1.1
+		},
+		"portrait_low": {
+			"position": { "x": -250, "y": 190 },
+			"scale": 0.825
+		},
+		"portrait": {
+			"position": { "x": -250, "y": 300 },
+			"scale": 0.825
+		},
+		"portrait_large": {
+			"position": { "x": -250, "y": 525 },
+			"scale": 0.825
+		}
+	}
+}

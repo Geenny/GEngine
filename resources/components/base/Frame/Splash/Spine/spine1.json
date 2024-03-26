@@ -1,0 +1,25 @@
+{
+    "type": "spine",
+    "name": "SpineBackground",
+	"zIndex": 1,
+    "options": {
+		"noSize": true,
+		"content": {
+			"name": "splash_animation",
+			"animation": "idle_animation_bg"
+		}
+    },
+	"orientation": {
+		"landscape": {
+			"scale": 0.75,
+			"position": { "x": "50%", "y": "50%" }
+		},
+		"portrait": {
+			"scale": 0.5,
+			"position": { "x": "40%", "y": "50%" },
+			"content": {
+				"animation": "idle_animation_port"
+			}
+		}
+	}
+}

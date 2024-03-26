@@ -1,0 +1,37 @@
+{
+	"type": "button",
+	"name": "buttonAutoSpin",
+	"options": {
+		"anchor": 0.5,
+		"scale": 0.9,
+		"position": { "x": "30%", "y": "92%" },
+		"content": {
+			"textures": {
+				"disable": "auto_normal.png",
+				"hover": "auto_hover.png",
+				"normal": "auto_normal.png",
+				"pressed": "auto_pressed.png"
+			}
+		}
+    },
+	"orientation": {
+		"landscape_low": {
+			"position": { "x": "90%", "y": "60%" }
+		},
+		"landscape": {
+			"position": { "x": "90%", "y": "68%" }
+		},
+		"landscape_large": {
+			"position": { "x": "90%", "y": "70%" }
+		},
+		"portrait_low": {
+			"position": { "x": "30%", "y": "80%" }
+		},
+		"portrait": {
+			"position": { "x": "30%", "y": "74%" }
+		},
+		"portrait_large": {
+			"position": { "x": "30%", "y": "68%" }
+		}
+	}
+}

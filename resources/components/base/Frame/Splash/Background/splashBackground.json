@@ -1,0 +1,18 @@
+{
+    "type": "sprite",
+    "name": "splashBackgroundImage",
+    "options": {
+        "fill": "max",
+		"align": "center",
+		"content": {
+			"texture": "background_splash_landscape"
+		}
+    },
+	"orientation": {
+		"portrait": {
+			"content": {
+				"texture": "background_splash_portrait"
+			}
+		}
+	}
+}

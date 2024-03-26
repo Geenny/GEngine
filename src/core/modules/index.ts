@@ -7,6 +7,10 @@ import PlatformModule from "./instances/platform/PlatformModule";
 import UserModule from "./instances/user/UserModule";
 import RendererModule from "./instances/renderer/RendererModule";
 import SystemModule from "./instances/system/SystemModule";
+import LoaderManagerModule from "./instances/loader/LoaderManagerModule";
+import ResourcesModule from "./instances/resources/ResourcesModule";
+import LayoutModule from "./instances/layout/LayoutModule";
+import SoundModule from "./instances/sound/SoundModule";
 
 export {
 	ViewObjectModule,
@@ -17,5 +21,9 @@ export {
 	PlatformModule,
 	UserModule,
 	RendererModule,
-	SystemModule
+	SystemModule,
+	LoaderManagerModule,
+	ResourcesModule,
+	LayoutModule,
+	SoundModule
 };

@@ -1,0 +1,37 @@
+{
+	"type": "button",
+	"name": "buttonStop",
+	"options": {
+		"anchor": 0.5,
+		"scale": 0.9,
+		"visible": false,
+		"content": {
+			"textures": {
+				"disable": "stop_but_normal.png",
+				"hover": "stop_but_hover.png",
+				"normal": "stop_but_normal.png",
+				"pressed": "stop_but_pressed.png"
+			}
+		}
+    },
+	"orientation": {
+		"landscape_low": {
+			"position": { "x": "90%", "y": "42%" }
+		},
+		"landscape": {
+			"position": { "x": "90%", "y": "44%" }
+		},
+		"landscape_large": {
+			"position": { "x": "90%", "y": "46%" }
+		},
+		"portrait_low": {
+			"position": { "x": "50%", "y": "80%" }
+		},
+		"portrait": {
+			"position": { "x": "50%", "y": "74%" }
+		},
+		"portrait_large": {
+			"position": { "x": "50%", "y": "68%" }
+		}
+	}
+}

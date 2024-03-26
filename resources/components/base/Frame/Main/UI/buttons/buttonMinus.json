@@ -1,0 +1,36 @@
+{
+	"type": "button",
+	"name": "buttonMinus",
+	"options": {
+		"anchor": 0.5,
+		"scale": 0.9,
+		"content": {
+			"textures": {
+				"disable": "minus_normal.png",
+				"hover": "minus_hover.png",
+				"normal": "minus_normal.png",
+				"pressed": "minus_pressed.png"
+			}
+		}
+    },
+	"orientation": {
+		"landscape_low": {
+			"position": { "x": "52%", "y": "84%" }
+		},
+		"landscape": {
+			"position": { "x": "56%", "y": "92%" }
+		},
+		"landscape_large": {
+			"position": { "x": "56%", "y": "92%" }
+		},
+		"portrait_low": {
+			"position": { "x": "35%", "y": "94%" }
+		},
+		"portrait": {
+			"position": { "x": "35%", "y": "86%" }
+		},
+		"portrait_large": {
+			"position": { "x": "35%", "y": "78%" }
+		}
+	}
+}

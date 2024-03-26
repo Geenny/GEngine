@@ -1,0 +1,37 @@
+{
+	"type": "text",
+	"name": "textBetLabel",
+	"zIndex": 0,
+	"options": {
+		"content": {
+			"locale": "AUTO_SPIN",
+			"style": {
+				"fontFamily": "myriad_bold",
+				"fontSize": 28,
+				"fontWeight": "500",
+				"fill": "0xFFFFFF"
+			}
+		},
+		"anchor": 0.5
+	},
+	"orientation": {
+		"landscape_low": {
+			"position": { "x": "62%", "y": "81%" }
+		},
+		"landscape": {
+			"position": { "x": "65%", "y": "89%" }
+		},
+		"landscape_large": {
+			"position": { "x": "64%", "y": "89%" }
+		},
+		"portrait_low": {
+			"position": { "x": "50%", "y": "91%" }
+		},
+		"portrait": {
+			"position": { "x": "50%", "y": "91%" }
+		},
+		"portrait_large": {
+			"position": { "x": "50%", "y": "83%" }
+		}
+	}
+}

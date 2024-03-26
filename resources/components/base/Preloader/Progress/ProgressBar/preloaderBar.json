@@ -1,0 +1,11 @@
+{
+	"type": "component",
+	"name": "preloaderBarView",
+	"component": "ViewPreloaderScreen",
+	"options": {
+		"sizeable": false,
+		"fill": "default",
+		"position": { "x": "50%", "y": "80%" },
+		"direction": "row"
+	}
+}

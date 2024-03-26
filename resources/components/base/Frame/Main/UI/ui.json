@@ -1,0 +1,7 @@
+{
+	"type": "component",
+	"component": "ViewUI",
+	"name": "UI",
+	"load": "main|+",
+	"zIndex": 20
+}

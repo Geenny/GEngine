@@ -53,7 +53,7 @@ export default class VOCollector implements IVOCollector {
     protected dataAsException( name: NAME ): ObjectListAny {
         Log.w( `SYSTEM: Not find VO data: ${ name }` );
 
-        return { name, dependency: [] }
+        return { name, dependent: [] }
     }
 
 }

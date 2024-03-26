@@ -3,6 +3,7 @@
 		"options": { }
 	},
 	"DependencyMachine": {
+		"options": { },
 		"children": {
 			"Net": {
 				"options": {
@@ -17,9 +18,6 @@
 				},
 				"dependent": []
 			},
-			"Renderer": {
-				"dependent": []
-			},
 			"User": {
 				"dependent": [ "Net" ]
 			},
@@ -28,8 +26,28 @@
 			},
 			"SystemMachine": {
 				"dependent": [ "Net" ]
+			},
+			"LoaderManager": {
+				"dependent": [ "Net" ],
+				"chldrn": {
+					"LoaderData": { },
+					"LoaderFont": { },
+					"LoaderSound": { },
+					"LoaderImage": { }
+				}
+			},
+			"Resources": {
+				"dependent": [ "LoaderManager" ]
+			},
+			"Renderer": {
+				"dependent": [ "Resources", "Layout" ]
+			},
+			"Sounds": {
+				"dependent": [ "Resources" ]
+			},
+			"Layout": {
+				"dependent": [ "Resources" ]
 			}
-		},
-		"options": { }
+		}
 	}
 }

@@ -1,0 +1,50 @@
+{
+    "type": "textbitmap",
+    "name": "BitmapText1",
+	"zIndex": 2,
+    "options": {
+		"align": "tc",
+		"fill": "min",
+		"position": { "y": "24%" },
+		"content": {
+			"text": "123456789",
+			"style": {
+				"fontName": "bitmap_2",
+				"fontSize": 116
+			}
+		}
+    },
+	"orientation": {
+		"landscape_low": {
+			"position": { "y": "20%" },
+			"content": {
+				"text": "1357924680"
+			}
+		},
+		"landscape_large": {
+			"position": { "y": "24%" },
+			"content": {
+				"text": "0987654321"
+			}
+		},
+		"portrait_low": {
+			"position": { "y": "13%" },
+			"content": {
+				"text": "0864297531"
+			}
+		},
+		"portrait": {
+			"align": "tc",
+			"position": { "y": "10%" },
+			"content": {
+				"text": "1029384765"
+			}
+		},
+		"portrait_large": {
+			"position": { "y": "8%" },
+			"content": {
+				"text": "0453798128"
+			}
+		}
+	}
+}

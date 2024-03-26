@@ -1,0 +1,17 @@
+{
+	"type": "text",
+	"name": "textView",
+	"zIndex": 0,
+	"options": {
+		"content": {
+			"locale": "LABEL_LOADING",
+			"style": {
+				"fontFamily": "myriad",
+				"fontSize": 16,
+				"fontWeight": "normal",
+				"fill": "0xEEEEEE"
+			}
+		},
+		"anchor": 0.5
+	}
+}

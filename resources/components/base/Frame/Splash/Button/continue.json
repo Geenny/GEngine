@@ -1,0 +1,24 @@
+{
+    "type": "buttonLabel",
+    "name": "splashContinueButton",
+	"zIndex": 3,
+    "options": {
+		"anchor": 0.5,
+		"scale": 0.3,
+		"position": { "x": "50%", "y": "86%" },
+		"content": {
+			"state": "inactive",
+			"hitArea": { "x": -500, "y": -200, "width": 1000, "height": 400 },
+			"textures": {
+				"disable": "button_bg_continue_disable.png",
+				"hover": "button_bg_continue_hover.png",
+				"normal": "button_bg_continue_normal.png",
+				"pressed": "button_bg_continue_pressed.png",
+				"disable_label": "txt_continue_disable.png",
+				"hover_label": "txt_continue_hover.png",
+				"normal_label": "txt_continue_normal.png",
+				"pressed_label": "txt_continue_pressed.png"
+			}
+		}
+    }
+}

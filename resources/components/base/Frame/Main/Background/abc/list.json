@@ -1,0 +1,36 @@
+{
+	"type": "container",
+	"name": "LIST",
+	"props": { },
+	"options": {
+		"fill": "min",
+		"align": "tc",
+		"direction": "row"
+	},
+	"orientation": {
+		"landscape_large": {
+			"align": "tl",
+			"size": { "width": "10%", "height": "100%" }
+		},
+		"landscape": {
+			"align": "tc",
+			"size": { "width": "10%", "height": "100%" }
+		},
+		"landscape_low": {
+			"align": "tr",
+			"size": { "width": "10%", "height": "100%" }
+		},
+		"portrait_low": {
+			"align": "tl",
+			"size": { "width": "100%", "height": "10%" }
+		},
+		"portrait": {
+			"align": "cl",
+			"size": { "width": "100%", "height": "10%" }
+		},
+		"portrait_large": {
+			"align": "bl",
+			"size": { "width": "100%", "height": "10%" }
+		}
+	}
+}

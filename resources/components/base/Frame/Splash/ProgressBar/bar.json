@@ -1,0 +1,36 @@
+{
+	"type": "component",
+	"name": "progressBar",
+	"component": "ProgressBar",
+	"zIndex": 3,
+	"options": {
+		"position": { "x": "50%", "y": "91%" }
+	},
+	"children": [
+		{
+			"type": "graphics",
+			"name": "progressBackground",
+			"options": {
+				"position": { "x": -145, "y": 0 },
+				"content": {
+					"color": "0xEEEEEE",
+					"alpha": 0.05,
+					"width": 290,
+					"height": 3
+				}
+			}
+		},
+		{
+			"type": "graphics",
+			"name": "progressLine",
+			"options": {
+				"position": { "x": -145, "y": 0 },
+				"content": {
+					"color": "0xEEEEEE",
+					"width": 290,
+					"height": 3
+				}
+			}
+		}
+	]
+}

@@ -1,0 +1,33 @@
+{
+	"type": "container",
+	"name": "FRAME",
+	"load": "splash|+",
+	"props": { },
+	"options": {
+		"fill": "min",
+		"align": "center",
+		"visible": true,
+		"renderable": true,
+		"size": { "width": 1920, "height": 1080 }
+	},
+	"orientation": {
+		"landscape": {
+			"size": { "width": 1920, "height": 1080 }
+		},
+		"landscape_low": {
+			"size": { "width": 1440, "height": 1080 }
+		},
+		"landscape_large": {
+			"size": { "width": 2376, "height": 1080 }
+		},
+		"portrait": {
+			"size": { "width": 1080, "height": 1920 }
+		},
+		"portrait_low": {
+			"size": { "width": 1080, "height": 1440 }
+		},
+		"portrait_large": {
+			"size": { "width": 1080, "height": 2376 }
+		}
+	}
+}

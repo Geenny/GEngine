@@ -1,0 +1,46 @@
+{
+    "type": "textbitmap",
+    "name": "BitmapText1",
+	"zIndex": 2,
+    "options": {
+		"align": "tc",
+		"fill": "min",
+		"content": {
+			"text": "123456789",
+			"style": {
+				"fontName": "bitmap_1",
+				"fontSize": 246
+			}
+		}
+    },
+	"orientation": {
+		"landscape_low": {
+			"content": {
+				"text": "1357924680"
+			}
+		},
+		"landscape_large": {
+			"content": {
+				"text": "0987654321"
+			}
+		},
+		"portrait_low": {
+			"align": "tc",
+			"content": {
+				"text": "0864297531"
+			}
+		},
+		"portrait": {
+			"align": "tc",
+			"content": {
+				"text": "1029384765"
+			}
+		},
+		"portrait_large": {
+			"align": "tc",
+			"content": {
+				"text": "0453798128"
+			}
+		}
+	}
+}

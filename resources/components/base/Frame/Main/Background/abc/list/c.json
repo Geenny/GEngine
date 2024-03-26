@@ -1,0 +1,9 @@
+{
+	"type": "container",
+	"name": "CCC",
+	"props": { },
+	"options": {
+		"align": "tr",
+		"size": { "width": 50, "height": 40 }
+	}
+}

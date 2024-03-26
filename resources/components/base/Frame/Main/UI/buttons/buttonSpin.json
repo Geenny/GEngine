@@ -1,0 +1,36 @@
+{
+	"type": "button",
+	"name": "buttonSpin",
+	"options": {
+		"anchor": 0.5,
+		"scale": 0.9,
+		"content": {
+			"textures": {
+				"disable": "spin_but_normal.png",
+				"hover": "spin_but_hover.png",
+				"normal": "spin_but_normal.png",
+				"pressed": "spin_but_pressed.png"
+			}
+		}
+    },
+	"orientation": {
+		"landscape_low": {
+			"position": { "x": "90%", "y": "42%" }
+		},
+		"landscape": {
+			"position": { "x": "90%", "y": "44%" }
+		},
+		"landscape_large": {
+			"position": { "x": "90%", "y": "46%" }
+		},
+		"portrait_low": {
+			"position": { "x": "50%", "y": "80%" }
+		},
+		"portrait": {
+			"position": { "x": "50%", "y": "74%" }
+		},
+		"portrait_large": {
+			"position": { "x": "50%", "y": "68%" }
+		}
+	}
+}

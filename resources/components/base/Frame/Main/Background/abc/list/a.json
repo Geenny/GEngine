@@ -1,0 +1,9 @@
+{
+	"type": "container",
+	"name": "AAA",
+	"props": { },
+	"options": {
+		"align": "tr",
+		"size": { "width": 10, "height": 40 }
+	}
+}
