@@ -5,8 +5,8 @@ import IRenderer from "./interface/IRenderer";
 @injectable()
 export default class Renderer extends Dependency implements IRenderer {
 
-	protected HTMLElementName: string = "ApplicationContainer";
-	protected HTMLInfoElementName: string = "InfoContainer";
+	protected HTMLElementName: string = "renderer";
+	protected HTMLInfoElementName: string = "overlay";
 
 	public HTMLInfoElement: HTMLElement;
 

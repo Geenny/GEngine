@@ -1,7 +1,7 @@
 import { ID, ObjectListPrimitive } from "data/types/common";
 import { ServerMethod } from "../../enums/ServerMethod";
-import IConnection from "../../net/interfaces/IConnection"
-import INetRequest from "../../net/interfaces/INetRequest";
+import IConnection from "../../main/interfaces/IConnection"
+import INetRequest from "../../main/interfaces/INetRequest";
 import Process from "core/modules/construction/process/Process";
 import { ServerIPType } from "../../enums/ServerIPType";
 import { ServerOptions } from "../../types/serverTypes";

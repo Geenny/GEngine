@@ -1,5 +1,7 @@
 type ID = string | number;
 
+type NAME = string;
+
 type StateName = string;
 
 type ObjectListNumber = { [ name: string]: number };
@@ -16,6 +18,7 @@ type RecieveMethods = { onStart?: Function, onLoad?: Function, onError?: Functio
 
 export {
 	ID,
+	NAME,
 	StateName,
 	ObjectListNumber,
 	ObjectListString,

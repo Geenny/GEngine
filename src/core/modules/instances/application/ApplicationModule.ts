@@ -1,7 +1,7 @@
 import InjectionModule from "../../../machines/injection/module/InjectionModule";
-import IApplication from "./application/interface/IApplication";
+import IApplication from "./main/interface/IApplication";
 import IApplicationOptions from "./options/interface/IApplicationOptions";
-import Application from "./application/Application";
+import Application from "./main/Application";
 import ApplicationOptions from "./options/ApplicationOptions";
 import { IInjectionContainer } from "core/machines/injection";
 import { ApplicationType } from "./types/types";

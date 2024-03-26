@@ -1,27 +1,59 @@
 import { injectable, inject } from "inversify";
 import * as VODATA from "../../../../../config/vo.json";
 import IVOCollector from "./interface/IVOCollector";
-import { ObjectListAny } from "data/types/common";
-import UtilsObject from "utils/common/UtilsObject";
+import { NAME, ObjectListAny } from "data/types/common";
+import { UtilsNumber, UtilsObject } from "utils/common";
+import { Log } from "utils/log";
+
+const UNIQUE_VO: string = "vo";
 
 @injectable()
 export default class VOCollector implements IVOCollector {
 
     private _list: ObjectListAny[];
 
-    get data(): ObjectListAny { return VODATA || { }; }
-
     get list(): ObjectListAny[] { return this._list; }
 
-    dataByNameGet( name: string ): ObjectListAny {
-        this.listCreate();
-        const source = this.list.find( data => data.name === name );
+    get data(): ObjectListAny { return VODATA || { }; }
+
+    dataByNameGet( name: NAME ): ObjectListAny {
+        if ( !this.list ) this.listCreate();
+
+        let source = this.list.find( data => data.name === name );
+
+        if ( !source ) source = this.dataAsException( name );
+
         return source || { };
     }
 
     protected listCreate(): void {
         if ( this.list ) return;
-        this._list = UtilsObject.convertToSingleList( this.data, "name" );
+
+        const list = this.listToSingleListDefine( this.data );
+        this.listUniqueIDCreate( list );
+
+        this._list = list;
+    }
+
+    protected listToSingleListDefine( data: ObjectListAny ): ObjectListAny[] {
+        return UtilsObject.convertToSingleList( data, "name" );
+    }
+
+    protected listUniqueIDCreate( list: ObjectListAny[] ): void {
+        list.forEach( child => {
+            child.ID = UtilsNumber.unique( UNIQUE_VO );
+        } );
+    }
+
+
+    //
+    // EXCEPTION DATA
+    //
+
+    protected dataAsException( name: NAME ): ObjectListAny {
+        Log.w( `SYSTEM: Not find VO data: ${ name }` );
+
+        return { name, dependency: [] }
     }
 
 }

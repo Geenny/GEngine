@@ -1,13 +1,10 @@
 {
 	"Application": {
-		"ID": 1,
 		"options": { }
 	},
 	"DependencyMachine": {
-		"ID": 2,
 		"children": {
 			"Net": {
-				"ID": 1,
 				"options": {
 					"serverList": [
 						{
@@ -21,20 +18,16 @@
 				"dependent": []
 			},
 			"Renderer": {
-				"ID": 2,
 				"dependent": []
 			},
 			"User": {
-				"ID": 3,
-				"dependent": [ 1 ]
+				"dependent": [ "Net" ]
 			},
 			"Platform": {
-				"ID": 4,
-				"dependent": [ 1 ]
+				"dependent": [ "Net" ]
 			},
 			"SystemMachine": {
-				"ID": 5,
-				"dependent": [ 1 ]
+				"dependent": [ "Net" ]
 			}
 		},
 		"options": { }

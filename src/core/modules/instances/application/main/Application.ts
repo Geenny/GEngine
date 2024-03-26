@@ -1,12 +1,11 @@
 import { injectable, inject, named } from "inversify";
 import IApplication from "./interface/IApplication";
 import SubscriptionContainer from "core/modules/construction/subscription/SubscriptionContainer";
-import Log from "utils/log/Log";
 import ApplicationOptions from "../options/ApplicationOptions";
 import DependencyMachine from "../../dependency/main/DependencyMachine";
 import { ApplicationType } from "../types/types";
-import { DispatcherType } from "../../dispatcher/types/types";
 import { DependencyType } from "../../dependency/types/types";
+import { Log } from "utils/log";
 
 @injectable()
 export default class Application extends SubscriptionContainer implements IApplication {

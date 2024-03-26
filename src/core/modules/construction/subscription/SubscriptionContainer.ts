@@ -33,7 +33,7 @@ export default class SubscriptionContainer extends VOContainer implements ISubsc
 	protected async onInit(): Promise<void> {
 		await super.onInit();
 
-		this.initSubscriptions();
+		this.subscriptionsInit();
 
 		return Promise.resolve();
 	}
@@ -48,14 +48,14 @@ export default class SubscriptionContainer extends VOContainer implements ISubsc
 
 
 	//
-	// 
+	// SUBSCRIPTIONS
 	//
 
 	protected inSubscriptionList( target: any ): boolean {
 		return target && this._subscriptionList.some( subscription => subscription.name === target.name );
 	}
 
-	protected initSubscriptions(): void {
+	protected subscriptionsInit(): void {
 		if ( !this.vo?.subscriptions ) return;
 
 		this.subscriptionsCreate();
@@ -64,7 +64,20 @@ export default class SubscriptionContainer extends VOContainer implements ISubsc
 
 	protected subscriptionsCreate(): void {
 		if ( !Array.isArray( this.vo.subscriptions ) ) return;
-		this.vo.subscriptions.forEach( name => this._subscriptionList.push( { name } ) );
+		this.vo.subscriptions.forEach( name => {
+			const subscription = this.subscriptionCreate( name );
+			this.subscriptionAdd( subscription );
+		} );
+	}
+
+	protected subscriptionCreate( name: string ): ISubscription {
+		const subscription = { name };
+		return subscription;
+	}
+
+	protected subscriptionAdd( subscription: ISubscription ): void {
+		if ( this._subscriptionList.some( child => child.name === subscription.name ) )
+		this._subscriptionList.push( subscription );
 	}
 
 

@@ -1,7 +1,9 @@
 import { ID, ObjectListAny, RecieveMethods } from "data/types/common";
 import { RequestData } from "../../types/netTypes";
 import { ServerOptions } from "../../types/serverTypes";
-import UtilsNumber from "utils/common/UtilsNumber";
+import { UtilsNumber } from "utils/common";
+
+const UNIQUE_REQUEST: string = "request"
 
 export default class NetRequest {
 
@@ -24,7 +26,7 @@ export default class NetRequest {
 		this.methodsSet( methods );
 		this.optionsSet( options );
 
-		this.ID = UtilsNumber.unique( "request" );
+		this.ID = UtilsNumber.unique( UNIQUE_REQUEST );
 	}
 
 	protected requestDataSet( requestData: RequestData ): void {

@@ -38,9 +38,7 @@ export default class UtilsNumber extends Utils {
 		if ( !label ) label = "default";
 		if ( !UtilsNumber._uniqueStore[ label ] )
 			UtilsNumber._uniqueStore[ label ] = 0;
-		UtilsNumber._uniqueStore[ label ] += 1;
-		return UtilsNumber._uniqueStore[ label ] ;
-
+		return ++ UtilsNumber._uniqueStore[ label ] ;
 	}
 
 }

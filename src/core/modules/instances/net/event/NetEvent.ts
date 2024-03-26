@@ -1,5 +1,5 @@
 import Event from "core/machines/event/Event";
-import INetRequest from "../net/interfaces/INetRequest";
+import INetRequest from "../main/interfaces/INetRequest";
 
 export default class NetEvent extends Event {
 

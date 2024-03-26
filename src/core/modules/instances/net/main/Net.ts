@@ -11,16 +11,24 @@ import NetRequest from "./request/NetRequest";
 import IConnection from "./interfaces/IConnection";
 import Connection from "../connection/connections/Connection";
 import ConnectionHTTP from "../connection/connections/ConnectionHTTP";
-import Log from "utils/log/Log";
 import { ServerIPType } from "../enums/ServerIPType";
+import { Log } from "utils/log";
 
 @injectable()
 export default class Net extends Dependency implements INet {
+
+    //
+    // STATIC
+    //
 
     protected static instance: INet;
 
     public static send( data: RequestData, methods?: RecieveMethods, options?: ObjectListAny ): INetRequest {
         return Net.instance.send( data, methods, options );
+    }
+
+    protected instanceInit(): void {
+        Net.instance = this;
     }
 
 	protected serverOptionsList: ServerOptions[] = [];
@@ -29,7 +37,7 @@ export default class Net extends Dependency implements INet {
 
     constructor() {
         super();
-        Net.instance = this;
+        this.instanceInit();
     }
 
 

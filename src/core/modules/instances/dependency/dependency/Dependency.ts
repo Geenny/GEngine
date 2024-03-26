@@ -1,6 +1,6 @@
 import { injectable, inject } from "inversify";
 import DependencyAbstract from "./DependencyAbstract";
-import Log from "utils/log/Log";
+import { Log } from "utils/log";
 
 @injectable()
 export default class Dependency extends DependencyAbstract {

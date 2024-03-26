@@ -1,5 +1,5 @@
 import InjectionModule from "../../../machines/injection/module/InjectionModule";
-import Net from "./net/Net";
+import Net from "./main/Net";
 import { IInjectionContainer } from "core/machines/injection";
 import { DependencyType } from "../dependency/types/types";
 import IDependency from "../dependency/dependency/interface/IDependency";

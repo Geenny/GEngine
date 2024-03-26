@@ -1,5 +1,4 @@
 import { injectable, inject, interfaces } from "inversify";
-import Log from "utils/log/Log";
 import SubscriptionContainer from "core/modules/construction/subscription/SubscriptionContainer";
 import IDependency from "../dependency/interface/IDependency";
 import IDependencyMachine from "./interface/IDependencyMachine";
@@ -15,6 +14,7 @@ import Process from "core/modules/construction/process/Process";
 import { PromiseStruct } from "data/promise/PromiseStruct";
 import { SubscriptionStruct } from "data/subscription/SubscribeStruct";
 import { ID } from "data/types/common";
+import { Log } from "utils/log";
 
 @injectable()
 export default class DependencyMachine extends SubscriptionContainer implements IDependencyMachine {
@@ -119,14 +119,14 @@ export default class DependencyMachine extends SubscriptionContainer implements 
     }
 
     protected dependencyStartNext(): void {
-        const readyIDs = this.dependencyStructList
+        const readyNames = this.dependencyStructList
             .filter( struct => struct.dependency.state === ProcessState.WORK )
-            .map( struct => struct.dependency.ID );
+            .map( struct => struct.dependency.name );
         
         const startList = this.dependencyStructList
             .filter( struct => struct.dependency.state === ProcessState.INIT )
             .filter( struct => !this.dependencyProcessList.includes( struct.dependency ) )
-            .filter( struct => this.isDependentEnough( struct.dependency, readyIDs ) );
+            .filter( struct => this.isDependentEnough( struct.dependency, readyNames ) );
 
         if ( startList.length || this.dependencyProcessList.length ) {
             startList.forEach( struct => this.dependencyStart( struct.dependency ) );
@@ -135,11 +135,11 @@ export default class DependencyMachine extends SubscriptionContainer implements 
         }
     }
 
-    protected isDependentEnough( dependency: IDependency, readyIDs: ID[] ): boolean {
+    protected isDependentEnough( dependency: IDependency, readyNames: ID[] ): boolean {
         if ( !dependency.vo.dependent || !Array.isArray( dependency.vo.dependent ) || dependency.vo.dependent.length === 0 )
             return true;
 
-        return dependency.vo.dependent.every( value => readyIDs.includes( value ) );
+        return dependency.vo.dependent.every( value => readyNames.includes( value ) );
     }
 
     protected dependencyInited( dependency: IDependency ): void {
