@@ -3,14 +3,13 @@
   "version": "0.4.61",
   "description": "GEngine",
   "main": "index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "start": "npm run version-patch && webpack-dev-server --open --config ./webpack/webpack.config.development.js",
-    "start2": "node entry.js config=./webpack/webpack.config.development.js",
-    "start:dev": "webpack-dev-server",
-    "build": "webpack --config webpack/webpack.config.production.js",
-    "components": "gulp components --gulpfile gulp/components.js",
-    "version-minor": "standard-version --skip.changelog -- --release-as minor",
-    "version-patch": "standard-version --skip.changelog -- --release-as patch"
+    "version-patch": "standard-version --skip.changelog -- --release-as patch",
+    "build": "npm run version-patch && webpack --mode production --config ./webpack/webpack.config.production.js",
+    "dev": "webpack serve --mode development --config ./webpack/webpack.config.development.js",
+    "dev-open": "webpack serve --mode development --config ./webpack/webpack.config.development.js --open",
+    "test": "jest"
   },
   "keywords": [
     "GEngine",
@@ -27,25 +26,29 @@
   "author": "Geenny",
   "license": "MIT",
   "dependencies": {
-    "axios": "^1.6.2",
-    "inversify": "^6.0.1",
+    "axios": "^1.13.2",
+    "inversify": "^7.10.8",
     "inversify-inject-decorators": "^3.1.0",
     "mobile-device-detect": "^0.4.3",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.2.2",
+    "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "copy-webpack-plugin": "^11.0.0",
-    "html-webpack-plugin": "^5.5.3",
+    "@types/jest": "^30.0.0",
+    "copy-webpack-plugin": "^13.0.1",
+    "html-webpack-plugin": "^5.6.5",
+    "jest": "^30.2.0",
     "standard-version": "^9.5.0",
-    "ts-loader": "^9.4.4",
-    "typescript": "^5.2.2",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^4.15.1",
-    "webpack-merge": "^5.9.0"
+    "ts-jest": "^29.4.6",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.3",
+    "webpack": "^5.104.1",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2",
+    "webpack-merge": "^6.0.1"
   },
   "engines": {
-    "node": "16.x",
-    "npm": "9.x"
+    "node": ">=20.0.0",
+    "npm": ">=7.0.0"
   }
 }
